@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>GitHub Pages Hexo 静态博客教程</title>
+    <url>/2020/07/19/blog/</url>
+    <content><![CDATA[<h4 id="1、环境准备"><a href="#1、环境准备" class="headerlink" title="1、环境准备"></a>1、环境准备</h4><p>​    Node.js</p>
+<p>​    Git</p>
+<p>​    GitHub</p>
+<p>​            GitHub账号注册-&gt; New respository  -&gt; &lt;你的GitHub用户名&gt;.github.io访问</p>
+<p>2、安装Hexo</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#确保node和npm已经安装成功。</span><br><span class="line"></span><br><span class="line">Timor@DESKTOP-TIQGVT5 MINGW64 ~&#x2F;Desktop</span><br><span class="line">$ node -v</span><br><span class="line">v12.14.0</span><br><span class="line"></span><br><span class="line">Timor@DESKTOP-TIQGVT5 MINGW64 ~&#x2F;Desktop</span><br><span class="line">$ npm -v</span><br><span class="line">6.13.7</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 定位到博客存放的位置</span><br><span class="line"></span><br><span class="line">cd  D:\</span><br><span class="line"></span><br><span class="line">#执行npm 命令进行全局安装Hexo</span><br><span class="line">npm install hexo-cli -g</span><br><span class="line"></span><br><span class="line">#初始化Hexo博客(此时会在当前目录下创建名为Blog的文件夹)</span><br><span class="line">hexo init Blog</span><br><span class="line"></span><br><span class="line">#进入Blog文件夹</span><br><span class="line"></span><br><span class="line">cd Blog</span><br><span class="line"></span><br><span class="line"># 通过Blog目录下的package.json进一步安装依赖，之后会产生一个node_modules文件夹</span><br><span class="line">npm install</span><br><span class="line"></span><br><span class="line">#启动Hexo 本地服务</span><br><span class="line"></span><br><span class="line">hexo s</span><br><span class="line"></span><br><span class="line">#启动成功</span><br><span class="line">D:\Blog&gt;hexo s</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http:&#x2F;&#x2F;localhost:4000 . Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2020/07/19/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
