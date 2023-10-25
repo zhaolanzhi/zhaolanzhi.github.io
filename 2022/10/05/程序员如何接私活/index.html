@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>程序员如何接私活 | 攻城狮</title>
+  <meta name="keywords" content=" java ">
+  <meta name="description" content="程序员如何接私活 | 攻城狮">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="安装好Oracle数据库后​	首先进入oracle用户:  1su - oracle  编辑oracle脚本12345678vim $ORACLE_HOME&#x2F;bin&#x2F;dbstartvim $ORACLE_HOME&#x2F;bin&#x2F;dbshutORACLE_HOME_LISTNER&#x3D;$1修改为：ORACLE_HOME_LISTNER&#x3D;$ORACLE_HOME保存退出   Linux启动时自动启动Oralce">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS7 Oracle 11g R2 设置开机自启动方法">
+<meta property="og:url" content="http://example.com/2023/10/25/CentOS7-Oracle-11g-R2-%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="攻城狮">
+<meta property="og:description" content="安装好Oracle数据库后​	首先进入oracle用户:  1su - oracle  编辑oracle脚本12345678vim $ORACLE_HOME&#x2F;bin&#x2F;dbstartvim $ORACLE_HOME&#x2F;bin&#x2F;dbshutORACLE_HOME_LISTNER&#x3D;$1修改为：ORACLE_HOME_LISTNER&#x3D;$ORACLE_HOME保存退出   Linux启动时自动启动Oralce">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/10/25/CentOS7-Oracle-11g-R2-%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%96%B9%E6%B3%95/image-20231025160424243-1698221069958-1.png">
+<meta property="og:image" content="http://example.com/2023/10/25/CentOS7-Oracle-11g-R2-%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%96%B9%E6%B3%95/image-20231025161105929-1698221469192-3-1698221470777-5.png">
+<meta property="article:published_time" content="2023-10-25T07:59:44.000Z">
+<meta property="article:modified_time" content="2023-10-25T08:26:20.462Z">
+<meta property="article:author" content="ITRunner">
+<meta property="article:tag" content="oracle">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/10/25/CentOS7-Oracle-11g-R2-%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%96%B9%E6%B3%95/image-20231025160424243-1698221069958-1.png">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/sublime.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>ITRunner</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="github"
+               href="https://github.com/zhaolanzhi"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="jianshu"
+               href="http://www.jianshu.com/u/959b0f521aeb"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-jianshu"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:362535102@qq.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="qq"
+               href="http://wpa.qq.com/msgrd?v=3&uin=362535102&site=qq&menu=yes"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-qq"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(60)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="工具">
+                        
+                        工具
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="数据库">
+                        
+                        数据库
+                        <small>(7)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="运维">
+                        
+                        运维
+                        <small>(7)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="脚本">
+                        
+                        脚本
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="命令">
+                        
+                        命令
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="前端">
+                        
+                        前端
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="设计模式">
+                        
+                        设计模式
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="赚钱">
+                        
+                        赚钱
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="DevOps">
+                        
+                        DevOps
+                        <small>(6)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="docker">
+                        
+                        docker
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Docker">
+                        
+                        Docker
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="hexo">
+                        
+                        hexo
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="java">
+                        
+                        java
+                        <small>(21)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Spring">
+                        
+                        Spring
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">关于</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">友链</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="60">
+<input type="hidden" id="yelog_site_word_count" value="45.6k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="https://www.jianshu.com/u/959b0f521aeb/">Timor</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>多态</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>工厂</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>管程</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>基础</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>脚本</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>接口</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>快捷键</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>命令</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>匿名内部类</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>配置</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>设计模式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>设置</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>数据库</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>系统时间</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>异常</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>aop</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>centos</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>docker</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>git</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>hexo</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>idea</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>java</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jdk</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jenkins</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>maven</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>mybatisplus</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>mysql</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nginx</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>oracle</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>redis</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>spring</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>springboot</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>sql</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>stream</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>vue</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>windows</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Yaml</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 数据库 "
+           href="/2023/10/25/CentOS7-Oracle-11g-R2-%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%96%B9%E6%B3%95/"
+           data-tag="oracle"
+           data-author="" >
+            <span class="post-title" title="CentOS7 Oracle 11g R2 设置开机自启动方法">CentOS7 Oracle 11g R2 设置开机自启动方法</span>
+            <span class="post-date" title="2023-10-25 15:59:44">2023/10/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/10/25/%E6%9B%BF%E6%8D%A2lib%E4%B8%8B%E7%9A%84%E4%BE%9D%E8%B5%96jar%E5%8C%85/"
+           data-tag="jar"
+           data-author="" >
+            <span class="post-title" title="替换lib下的依赖jar包">替换lib下的依赖jar包</span>
+            <span class="post-date" title="2023-10-25 15:06:28">2023/10/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/%E6%8A%BD%E8%B1%A1%E7%B1%BB%EF%BC%88abstract-class%EF%BC%89%E5%92%8C%E6%8E%A5%E5%8F%A3%EF%BC%88interface%EF%BC%89%E7%9A%84%E5%8C%BA%E5%88%AB/"
+           data-tag="java"
+           data-author="" >
+            <span class="post-title" title="抽象类（abstract class）和接口（interface）的区别">抽象类（abstract class）和接口（interface）的区别</span>
+            <span class="post-date" title="2023-07-11 17:49:48">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/Springboot%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"
+           data-tag="java,springboot"
+           data-author="" >
+            <span class="post-title" title="Springboot项目启动内存占用过高问题解决方案">Springboot项目启动内存占用过高问题解决方案</span>
+            <span class="post-date" title="2023-07-11 17:45:31">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 docker "
+           href="/2023/07/11/idea-docker-springboot-%E9%83%A8%E7%BD%B2-%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95/"
+           data-tag="docker"
+           data-author="" >
+            <span class="post-title" title="idea docker springboot 部署+远程调试">idea docker springboot 部署+远程调试</span>
+            <span class="post-date" title="2023-07-11 17:42:58">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/Maven%E5%91%BD%E4%BB%A4install%E5%92%8Cpackage%E7%9A%84%E5%8C%BA%E5%88%AB/"
+           data-tag="maven"
+           data-author="" >
+            <span class="post-title" title="Maven命令install和package的区别">Maven命令install和package的区别</span>
+            <span class="post-date" title="2023-07-11 17:39:02">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 DevOps "
+           href="/2023/07/11/centos7-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8rz-sz%E5%91%BD%E4%BB%A4/"
+           data-tag="centos"
+           data-author="" >
+            <span class="post-title" title="centos7 安装使用rz/sz命令">centos7 安装使用rz/sz命令</span>
+            <span class="post-date" title="2023-07-11 17:31:40">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 命令 "
+           href="/2023/07/11/windows-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/"
+           data-tag="windows"
+           data-author="" >
+            <span class="post-title" title="windows 相关命令">windows 相关命令</span>
+            <span class="post-date" title="2023-07-11 17:29:25">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 数据库 "
+           href="/2023/07/11/MySQL%E6%9F%A5%E7%9C%8B%E8%A1%A8%E6%B3%A8%E9%87%8A%E6%88%96%E5%AD%97%E6%AE%B5%E6%B3%A8%E9%87%8A/"
+           data-tag="mysql"
+           data-author="" >
+            <span class="post-title" title="MySQL查看表注释或字段注释">MySQL查看表注释或字段注释</span>
+            <span class="post-date" title="2023-07-11 17:24:58">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/Objects-equals-a-b-%E3%80%81%E2%80%9Ca-b%E2%80%9D%E5%92%8C%E2%80%9Da-equals-b-%E2%80%9D%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/"
+           data-tag="基础"
+           data-author="" >
+            <span class="post-title" title="Objects.equals(a,b)、“a==b”和”a.equals(b)”有什么区别">Objects.equals(a,b)、“a==b”和”a.equals(b)”有什么区别</span>
+            <span class="post-date" title="2023-07-11 17:21:39">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 DevOps "
+           href="/2023/07/11/Centos-7-%E5%AE%89%E8%A3%85/"
+           data-tag="centos"
+           data-author="" >
+            <span class="post-title" title="Centos 7 安装">Centos 7 安装</span>
+            <span class="post-date" title="2023-07-11 17:18:24">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/Spring-MVC%E6%8E%A5%E6%94%B6json%E6%95%B0%E6%8D%AE%E7%9A%844%E7%A7%8D%E6%96%B9%E5%BC%8F/"
+           data-tag="java"
+           data-author="" >
+            <span class="post-title" title="Spring MVC接收json数据的4种方式">Spring MVC接收json数据的4种方式</span>
+            <span class="post-date" title="2023-07-11 17:07:59">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 Docker "
+           href="/2023/07/10/Docker-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/"
+           data-tag="docker"
+           data-author="" >
+            <span class="post-title" title="Docker 镜像加速">Docker 镜像加速</span>
+            <span class="post-date" title="2023-07-10 17:00:54">2023/07/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 DevOps "
+           href="/2023/07/10/git-ssh%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90/"
+           data-tag="git"
+           data-author="" >
+            <span class="post-title" title="git ssh密钥生成">git ssh密钥生成</span>
+            <span class="post-date" title="2023-07-10 16:48:37">2023/07/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/10/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="try、catch、finally用法总结">try、catch、finally用法总结</span>
+            <span class="post-date" title="2023-07-10 16:28:28">2023/07/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/06/01/JRebel-XRebel%E7%83%AD%E9%83%A8%E7%BD%B2%E5%8F%8A%E8%BF%9C%E7%A8%8B%E7%83%AD%E9%83%A8%E7%BD%B2/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="JRebel&amp;XRebel热部署及远程热部署">JRebel&amp;XRebel热部署及远程热部署</span>
+            <span class="post-date" title="2023-06-01 23:30:56">2023/06/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/05/05/Windows10%E7%B3%BB%E7%BB%9F%E5%BD%BB%E5%BA%95%E6%B0%B8%E4%B9%85%E5%85%B3%E9%97%AD%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="Windows10系统彻底永久关闭自动更新">Windows10系统彻底永久关闭自动更新</span>
+            <span class="post-date" title="2023-05-05 14:01:04">2023/05/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/03/27/Docker%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E9%95%9C%E5%83%8F/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="Docker导入导出镜像">Docker导入导出镜像</span>
+            <span class="post-date" title="2023-03-27 21:48:59">2023/03/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 DevOps "
+           href="/2023/03/11/Git-SSH-Key-%E7%94%9F%E6%88%90%E6%AD%A5%E9%AA%A4/"
+           data-tag="git"
+           data-author="" >
+            <span class="post-title" title="Git SSH Key 生成步骤">Git SSH Key 生成步骤</span>
+            <span class="post-date" title="2023-03-11 22:18:50">2023/03/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 工具 "
+           href="/2023/02/21/idea%E6%8F%92%E4%BB%B6%E5%A4%A7%E5%85%A8/"
+           data-tag="idea,快捷键"
+           data-author="" >
+            <span class="post-title" title="idea插件大全">idea插件大全</span>
+            <span class="post-date" title="2023-02-21 16:03:10">2023/02/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/01/27/Java-%E7%AE%A1%E7%A8%8B/"
+           data-tag="管程"
+           data-author="" >
+            <span class="post-title" title="Java 管程">Java 管程</span>
+            <span class="post-date" title="2023-01-27 07:47:21">2023/01/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/01/10/java-List%EF%BC%9CMap%EF%BC%9CString-Object%EF%BC%9E%EF%BC%9E-stream-%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/"
+           data-tag="jdk,stream"
+           data-author="" >
+            <span class="post-title" title="java List＜Map＜String,Object＞＞ stream 常用操作">java List＜Map＜String,Object＞＞ stream 常用操作</span>
+            <span class="post-date" title="2023-01-10 16:46:37">2023/01/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 DevOps "
+           href="/2023/01/04/Linux%E5%91%BD%E4%BB%A4-%E5%AE%89%E8%A3%85cenos7%E7%B3%BB%E7%BB%9FTab%E8%A1%A5%E5%85%A8%E5%8A%9F%E8%83%BD/"
+           data-tag="centos"
+           data-author="" >
+            <span class="post-title" title="Linux命令-安装cenos7系统Tab补全功能">Linux命令-安装cenos7系统Tab补全功能</span>
+            <span class="post-date" title="2023-01-04 09:57:46">2023/01/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 DevOps "
+           href="/2023/01/04/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="docker"
+           data-author="" >
+            <span class="post-title" title="Docker常用命令">Docker常用命令</span>
+            <span class="post-date" title="2023-01-04 09:36:00">2023/01/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 脚本 "
+           href="/2023/01/03/Yaml-%E8%AF%AD%E6%B3%95/"
+           data-tag="Yaml"
+           data-author="" >
+            <span class="post-title" title="Yaml 语法">Yaml 语法</span>
+            <span class="post-date" title="2023-01-03 10:31:37">2023/01/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 运维 "
+           href="/2022/12/30/nginx%E4%B9%8Blocation%E8%A7%84%E5%88%99%E8%AF%A6%E8%A7%A3/"
+           data-tag="nginx"
+           data-author="" >
+            <span class="post-title" title="nginx之location规则详解">nginx之location规则详解</span>
+            <span class="post-date" title="2022-12-30 15:37:34">2022/12/30</span>
+        </a>
+        
+        
+        <a  class="全部文章 运维 "
+           href="/2022/12/29/nginx%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2-%E5%88%86%E5%89%B2%EF%BC%8C%E6%8C%89%E5%A4%A9%E7%94%9F%E6%88%90-%E5%AE%9A%E6%9C%9F%E5%88%A0%E9%99%A4%E6%97%A5%E5%BF%97/"
+           data-tag="nginx"
+           data-author="" >
+            <span class="post-title" title="nginx日志切割/分割，按天生成&amp;定期删除日志">nginx日志切割/分割，按天生成&amp;定期删除日志</span>
+            <span class="post-date" title="2022-12-29 15:14:48">2022/12/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 前端 "
+           href="/2022/12/08/VUE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"
+           data-tag="vue"
+           data-author="" >
+            <span class="post-title" title="VUE基础知识">VUE基础知识</span>
+            <span class="post-date" title="2022-12-08 16:50:15">2022/12/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 运维 "
+           href="/2022/10/28/CentOS7%E4%B8%8B%E5%AE%89%E8%A3%85Redis/"
+           data-tag="redis"
+           data-author="" >
+            <span class="post-title" title="CentOS7下安装Redis">CentOS7下安装Redis</span>
+            <span class="post-date" title="2022-10-28 17:56:46">2022/10/28</span>
+        </a>
+        
+        
+        <a  class="全部文章 运维 "
+           href="/2022/10/28/CentOS7%E6%9F%A5%E8%AF%A2jdk%E5%AE%89%E8%A3%85%E4%BD%8D%E7%BD%AE-%E7%9B%AE%E5%BD%95/"
+           data-tag="jdk"
+           data-author="" >
+            <span class="post-title" title="CentOS7查询jdk安装位置/目录">CentOS7查询jdk安装位置/目录</span>
+            <span class="post-date" title="2022-10-28 17:50:46">2022/10/28</span>
+        </a>
+        
+        
+        <a  class="全部文章 运维 "
+           href="/2022/10/28/centos7%E5%8D%B8%E8%BD%BD%E8%87%AA%E5%B8%A6openjdk-%E5%AE%89%E8%A3%85%E8%87%AA%E5%B7%B1%E7%9A%84jdk/"
+           data-tag="jdk"
+           data-author="" >
+            <span class="post-title" title="centos7卸载自带openjdk,安装自己的jdk">centos7卸载自带openjdk,安装自己的jdk</span>
+            <span class="post-date" title="2022-10-28 17:46:16">2022/10/28</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/10/14/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/"
+           data-tag="java"
+           data-author="" >
+            <span class="post-title" title="Java基础知识点整理">Java基础知识点整理</span>
+            <span class="post-date" title="2022-10-14 09:43:40">2022/10/14</span>
+        </a>
+        
+        
+        <a  class="全部文章 数据库 "
+           href="/2022/10/11/ECS%E4%B8%ADMySQL%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2/"
+           data-tag="mysql"
+           data-author="" >
+            <span class="post-title" title="ECS中MySQL快速部署">ECS中MySQL快速部署</span>
+            <span class="post-date" title="2022-10-11 16:52:46">2022/10/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/10/09/Spring%E4%B8%ADbean%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%B3%A8%E5%85%A5%E6%96%B9%E5%BC%8F/"
+           data-tag="spring"
+           data-author="" >
+            <span class="post-title" title="Spring中bean的四种注入方式">Spring中bean的四种注入方式</span>
+            <span class="post-date" title="2022-10-09 13:48:35">2022/10/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 赚钱 "
+           href="/2022/10/05/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A6%82%E4%BD%95%E6%8E%A5%E7%A7%81%E6%B4%BB/"
+           data-tag="java"
+           data-author="" >
+            <span class="post-title" title="程序员如何接私活">程序员如何接私活</span>
+            <span class="post-date" title="2022-10-05 20:45:41">2022/10/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 Spring "
+           href="/2022/09/28/Spring%E7%9A%84AOP%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/"
+           data-tag="aop"
+           data-author="" >
+            <span class="post-title" title="Spring的AOP注解开发">Spring的AOP注解开发</span>
+            <span class="post-date" title="2022-09-28 11:03:03">2022/09/28</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/27/maven%E5%B0%86%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8A%A0%E5%85%A5%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/"
+           data-tag="maven"
+           data-author="" >
+            <span class="post-title" title="maven将第三方jar加入本地仓库">maven将第三方jar加入本地仓库</span>
+            <span class="post-date" title="2022-09-27 11:23:40">2022/09/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/26/windows-10-kill-%E8%BF%9B%E7%A8%8B/"
+           data-tag="命令"
+           data-author="" >
+            <span class="post-title" title="windows 10 kill 进程">windows 10 kill 进程</span>
+            <span class="post-date" title="2022-09-26 23:59:48">2022/09/26</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/24/Spring%E7%90%86%E8%A7%A3/"
+           data-tag="spring"
+           data-author="" >
+            <span class="post-title" title="Spring理解">Spring理解</span>
+            <span class="post-date" title="2022-09-24 17:16:41">2022/09/24</span>
+        </a>
+        
+        
+        <a  class="全部文章 数据库 "
+           href="/2022/09/21/Wiwindows10%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-MySQL8-0%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/"
+           data-tag="mysql"
+           data-author="" >
+            <span class="post-title" title="windows10操作系统 MySQL8.0远程连接">windows10操作系统 MySQL8.0远程连接</span>
+            <span class="post-date" title="2022-09-21 21:35:23">2022/09/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/18/MybatisPlus/"
+           data-tag="mybatisplus"
+           data-author="" >
+            <span class="post-title" title="MybatisPlus">MybatisPlus</span>
+            <span class="post-date" title="2022-09-18 21:07:08">2022/09/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/18/%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB/"
+           data-tag="匿名内部类"
+           data-author="" >
+            <span class="post-title" title="匿名内部类">匿名内部类</span>
+            <span class="post-date" title="2022-09-18 08:18:04">2022/09/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 数据库 "
+           href="/2022/09/13/PLSQL-Developer%E5%BF%AB%E6%8D%B7%E8%AE%BE%E7%BD%AE/"
+           data-tag="sql"
+           data-author="" >
+            <span class="post-title" title="PLSQL Developer快捷设置">PLSQL Developer快捷设置</span>
+            <span class="post-date" title="2022-09-13 16:44:52">2022/09/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 运维 "
+           href="/2022/09/09/Linux%E4%BF%AE%E6%94%B9%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4/"
+           data-tag="linux,系统时间"
+           data-author="" >
+            <span class="post-title" title="Linux修改系统时间">Linux修改系统时间</span>
+            <span class="post-date" title="2022-09-09 17:29:33">2022/09/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/09/Java%E5%9F%BA%E7%A1%80/"
+           data-tag="基础"
+           data-author="" >
+            <span class="post-title" title="Java基础">Java基础</span>
+            <span class="post-date" title="2022-09-09 14:04:57">2022/09/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/09/Java%E5%BC%82%E5%B8%B8/"
+           data-tag="异常"
+           data-author="" >
+            <span class="post-title" title="Java异常">Java异常</span>
+            <span class="post-date" title="2022-09-09 10:00:33">2022/09/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/08/Autowired%E6%B3%A8%E5%85%A5%E5%AF%B9%E8%B1%A1%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%AE%9E%E7%8E%B0%E7%B1%BB%E7%9A%84%E5%8C%BA%E5%88%AB/"
+           data-tag="spring"
+           data-author="" >
+            <span class="post-title" title="Autowired注入对象接口和实现类的区别">Autowired注入对象接口和实现类的区别</span>
+            <span class="post-date" title="2022-09-08 15:41:18">2022/09/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 运维 "
+           href="/2022/09/08/jenkins%E9%83%A8%E7%BD%B2/"
+           data-tag="jenkins"
+           data-author="" >
+            <span class="post-title" title="jenkins部署">jenkins部署</span>
+            <span class="post-date" title="2022-09-08 10:22:04">2022/09/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/04/%E6%8E%A5%E5%8F%A3/"
+           data-tag="接口"
+           data-author="" >
+            <span class="post-title" title="接口">接口</span>
+            <span class="post-date" title="2022-09-04 16:29:51">2022/09/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 设计模式 "
+           href="/2022/09/04/%E5%B7%A5%E5%8E%82%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+           data-tag="工厂"
+           data-author="" >
+            <span class="post-title" title="工厂设计模式">工厂设计模式</span>
+            <span class="post-date" title="2022-09-04 11:09:15">2022/09/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 设计模式 "
+           href="/2022/09/03/%E4%B8%83%E5%A4%A7%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/"
+           data-tag="设计模式"
+           data-author="" >
+            <span class="post-title" title="七大软件设计原则">七大软件设计原则</span>
+            <span class="post-date" title="2022-09-03 09:11:31">2022/09/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/02/Java%E5%A4%9A%E6%80%81%E7%90%86%E8%A7%A3/"
+           data-tag="多态"
+           data-author="" >
+            <span class="post-title" title="Java多态理解">Java多态理解</span>
+            <span class="post-date" title="2022-09-02 11:47:44">2022/09/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 hexo "
+           href="/2022/09/02/hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="hexo"
+           data-author="" >
+            <span class="post-title" title="hexo常用命令">hexo常用命令</span>
+            <span class="post-date" title="2022-09-02 10:30:24">2022/09/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 数据库 "
+           href="/2022/08/19/Oracle%E7%9A%84%E5%B8%B8%E7%94%A8SQL/"
+           data-tag="oracle,数据库"
+           data-author="" >
+            <span class="post-title" title="Oracle的常用SQL">Oracle的常用SQL</span>
+            <span class="post-date" title="2022-08-19 10:12:15">2022/08/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 docker "
+           href="/2022/08/19/Docker%E5%AE%89%E8%A3%85Oracle11g%E6%95%B0%E6%8D%AE%E5%BA%93/"
+           data-tag="oracle,docker"
+           data-author="" >
+            <span class="post-title" title="Docker安装Oracle11g数据库">Docker安装Oracle11g数据库</span>
+            <span class="post-date" title="2022-08-19 09:45:39">2022/08/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 命令 "
+           href="/2022/08/19/Linux%E4%B8%ADCtrl-C%E3%80%81Kill%20-9%E5%92%8CKill%20-15/"
+           data-tag="linux"
+           data-author="" >
+            <span class="post-title" title="Linux中Ctrl+C、Kill -9和Kill -15的区别">Linux中Ctrl+C、Kill -9和Kill -15的区别</span>
+            <span class="post-date" title="2022-08-19 09:31:40">2022/08/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 脚本 "
+           href="/2022/08/19/SpringBoot%E5%9C%A8CentOS7%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/"
+           data-tag="命令,脚本"
+           data-author="" >
+            <span class="post-title" title="SpringBoot在CentOS7后台运行">SpringBoot在CentOS7后台运行</span>
+            <span class="post-date" title="2022-08-19 08:57:46">2022/08/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 脚本 "
+           href="/2022/08/18/windows%E7%8E%AF%E5%A2%83%E4%B8%80%E9%94%AE%E5%90%AF%E5%8A%A8jar%E8%84%9A%E6%9C%ACbat%E6%96%87%E4%BB%B6/"
+           data-tag="脚本"
+           data-author="" >
+            <span class="post-title" title="windows环境一键启动jar脚本bat文件">windows环境一键启动jar脚本bat文件</span>
+            <span class="post-date" title="2022-08-18 22:49:55">2022/08/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 数据库 "
+           href="/2022/08/18/%E6%9F%A5%E7%9C%8Boracle%E6%95%B0%E6%8D%AE%E5%BA%93%E7%BC%96%E7%A0%81%E5%8F%8A%E4%BF%AE%E6%94%B9%E7%BC%96%E7%A0%81%E6%96%B9%E6%B3%95/"
+           data-tag="oracle,数据库"
+           data-author="" >
+            <span class="post-title" title="查看oracle数据库编码及修改编码方法">查看oracle数据库编码及修改编码方法</span>
+            <span class="post-date" title="2022-08-18 22:37:14">2022/08/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 hexo "
+           href="/2022/08/18/Hexo%E8%AE%BE%E7%BD%AE%E4%B8%8A%E4%BC%A0%E6%9C%AC%E5%9C%B0%E5%9B%BE%E7%89%87/"
+           data-tag="配置,设置"
+           data-author="" >
+            <span class="post-title" title="Hexo设置上传本地图片">Hexo设置上传本地图片</span>
+            <span class="post-date" title="2022-08-18 14:18:32">2022/08/18</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-程序员如何接私活" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">程序员如何接私活</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="赚钱">赚钱</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">java</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2023-07-10 16:28:28'>2022-10-05 20:45</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:3.3k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%92%8C%E5%AE%A2%E6%88%B7%E8%B0%88%E5%90%88%E4%BD%9C"><span class="toc-text">如何和客户谈合作</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%8A%A5%E4%BB%B7"><span class="toc-text">如何报价</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%8E%A5%E7%A7%81%E6%B4%BB%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-text">接私活需要注意事项</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E8%80%85%E8%87%AA%E8%BA%AB%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E4%BA%8B"><span class="toc-text">开发者自身要注意的事</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E9%83%A8%E5%88%86%E8%B0%88%E5%8D%95%E6%8A%80%E5%B7%A7"><span class="toc-text">部分谈单技巧</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E4%BB%B7%E6%A0%BC"><span class="toc-text">关于价格</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E7%BB%93%E8%B4%A6%E6%94%B6%E9%92%B1"><span class="toc-text">关于结账收钱</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%A4%8D%E6%9D%82%E7%A7%81%E6%B4%BB%E9%A1%B9%E7%9B%AE"><span class="toc-text">关于复杂私活项目</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="如何和客户谈合作"><a href="#如何和客户谈合作" class="headerlink" title="如何和客户谈合作"></a>如何和客户谈合作</h6><p>第一次沟通, 千万别主动谈价格, 不要让客户觉得你的眼里只有钱, 可能会失去这次合作的机会. 这次沟通, 和客户谈需求范围,比如:</p>
+<ul>
+<li><p>客户现在的业务是什么?</p>
+</li>
+<li><p>这个系统是要解决什么问题?</p>
+</li>
+<li><p>系统开发好了后给谁用?</p>
+</li>
+<li><p>客户现在的业务上的困难?</p>
+</li>
+<li><p>最晚交付期限?</p>
+<blockquote>
+<p>有客户会让你现场报价，你要拒绝掉，你可以说：“xx总，我要了解清楚你们的业务需求，才能报价，今天我了解完，最晚xxx号给你报价。”。还有更离谱的就是有些客户会直接问你2000、3000能不能做的，遇见这种情况，你就直接说做不了，很多情况下这种客户是合作不下来的，因为他们根本不懂软件，在他们的印象里软件就是电脑上的几个页面或者图片。</p>
+</blockquote>
+</li>
+</ul>
+<p>第一次沟通，就立足于需求，要收集到大概的需求，至少要确定需求范围。这样做有两个好处：</p>
+<ul>
+<li>给客户的印象是你一直关心的是他们的业务、需求，是个负责、靠谱的人。</li>
+<li>采集到大概需求，可以更好地为接下来的报价和需求设计做准备。</li>
+</ul>
+<p>在这次沟通快结束时，要和客户提出服务器甚至数据库的购买，现在买云服务器就可以了。要让客户知道这个价钱是和系统分开的。如果你不说，很多客户会以为找你做软件，做好了就能直接用的。</p>
+<h6 id="如何报价"><a href="#如何报价" class="headerlink" title="如何报价"></a>如何报价</h6><p>在和客户沟通完，了解清楚需求范围后，就要给客户进行报价了。那么如何报价呢？大家可以依次参考以下几方面。</p>
+<ol>
+<li><p>针对你掌握的需求进行功能设计和拆解，颗粒度最好精确到每个菜单级别的功能。</p>
+</li>
+<li><p>以自己的经验去估算每个功能的开发时长，单位为小时。可以参考我的公式：<strong>时长 &#x3D; 前端开发时长 + 后端开发时长 + 测试时长 + 缺陷修复时长 + buffer时长</strong>。</p>
+</li>
+<li><p>计算需求采集和需求说明书编写成本。这个我自己一般就是给编写需求说明书的酬劳乘以2。为什么乘以2，因为我自己也参与需求采集。</p>
+</li>
+<li><p>计算设计总时长，这个一般是我自己。</p>
+</li>
+<li><p>计算前端开发总时长。</p>
+</li>
+<li><p>计算后端开发总时长。</p>
+</li>
+<li><p>计算测试总时长，因为私活都不大，所以我自己这边测试有一个人就足够了。</p>
+</li>
+<li><p>有了上面的各职责和环节的总时长，乘以各自的小时单价，就得出报价。除了以上这些，你可能还有其他成本比如交通费用、开票费用，那么也得算进去。</p>
+</li>
+</ol>
+<blockquote>
+<p>团队成员小时单价怎么算？我一般是根据他们的上班薪资来计算的，</p>
+<p>公式：</p>
+<p><strong>小时单价 &#x3D; 上班月薪 * 1.5~2 &#x2F; 21.5 &#x2F; 8</strong></p>
+<p>其中，1.5是系数，因为兼职都是熬夜干活，比较辛苦，所以适当上浮点。21.5是一个月他们平均工作天数，8表示每天工作8小时。</p>
+</blockquote>
+<p><img src="/2022/10/05/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A6%82%E4%BD%95%E6%8E%A5%E7%A7%81%E6%B4%BB/image-20221005205342122.png" alt="image-20221005205342122"></p>
+<p>上图的价格加上交通成本1000，开票成本2000，最后是33960。那么你可以给客户报45000～55000，因为客户肯定要还价。</p>
+<blockquote>
+<p>看了上图，可能很多人会问，你这成本都30960啦，你赢利在哪里？需求采集、设计、后端、buffer、我都参与，这就是我的酬劳。同时，像用户管理、菜单管理、权限管理、部门管理这些通用功能，基本上不需要开发的，这也是我的盈利。</p>
+</blockquote>
+<h6 id="接私活需要注意事项"><a href="#接私活需要注意事项" class="headerlink" title="接私活需要注意事项"></a>接私活需要注意事项</h6><ol>
+<li><p><strong>没有定金不开工:</strong> 私人接活,朋友介绍等没有保障的情况,婉拒感情牌,务必说明原则,客户要缴纳20%-50%押金，不给的话大可不接。</p>
+</li>
+<li><p><strong>找有经验的甲方:</strong> 客户要能写清文档，能表达出自己的什么意思，不要到时候做的和客户说的完全不是一个东西，这就造成了很尴尬的局面。讲清楚，文档敲定后，中途另外加功能有可能要收部分费用。 有详细需求文档的项目,成功率额外的高, 连自己需求都说不清的还是别接.</p>
+</li>
+<li><p>**约定好交付标准:**哪些功能点要实现,事前要说好并记录, 这种扯皮见的多了;任何需求模糊的地方, 都将变成阻碍你顺利完成项目的坑.</p>
+</li>
+<li><p><strong>大项目谈好付款节点和比例：</strong>有的程序员兄弟接到大项目后就吭哧吭哧干，花了几个月，结果最后别人又压你价钱，这时候你的沉没成本就高了</p>
+</li>
+<li><p><strong>保护好自己代码：</strong>要源码，多加20%的费用,交付前，开发者将代码所有权都牢牢掌握在自己手中，坚决不要在对方二次付款前把代码给交出去了。</p>
+</li>
+<li><p><strong>急单一般不要接：</strong>催催催，烦死人，更何况是大多私活都是远程工作，如果不处理好会扯皮的。</p>
+</li>
+<li><p><strong>违法的活不接：</strong>涉及区块链、爬虫、逆向、棋牌游戏的一定要问清楚，不然为了一点钱去吃国家的饭，不值得。</p>
+</li>
+<li><p><strong>加需求：</strong>事先商量好的功能有bug就改，能帮忙处理的小需求就帮忙处理了，很可能你的这一个客户就是你的下一个客户。但是无止境的押着资金加需求，宁愿壮士断腕，及时止损。</p>
+</li>
+<li><p>**项目交接完成后:**，和客户讲明自己不负责维护，也可能有自己疏忽的问题，这些是自己的责任，本着良心来说这是要免费来搞的，当然如果你约定好之后说项目结束后不是自己的问题了，别人也没法说什么，但是你在他心中分量发生了变化，以后还有没有类似的私活就很难说了。</p>
+</li>
+<li><p>后期维护期间新加功能要收费，这个也要和客户说清楚。</p>
+</li>
+</ol>
+<h6 id="开发者自身要注意的事"><a href="#开发者自身要注意的事" class="headerlink" title="开发者自身要注意的事"></a>开发者自身要注意的事</h6><p>技术积累之类的都是老生常谈的话题了，类似的文章有很多，我就不发表拙见了，这里我们说点别的。</p>
+<p>0、<strong>合理作息，调理好身体；</strong>程序员接私活本身是一个比较累的活儿，一定要调整好身体和心理状态，搞钱固然重要，但是身体永远是第一位的。</p>
+<p>1、<strong>打听好公司是否允许接私活：</strong>如果在职一定要注意这一点，当下程序员接私活是一个既公开又隐私的话题，如果公司不允许就不要做，否则丢了工作划不来。</p>
+<p>2、<strong>有效社交</strong>：多和行业中一些大佬打交道，他们的资源和人脉说不定哪天就能帮你摆平不少问题。</p>
+<p>3、<strong>个人IP****的打造</strong>：可以尝试提高自己的社区知名度和影响力，社区影响力起来过后，你不接私活都会有私活来找你；同时要注意口碑的维护，处理的好的话回头客还是不少的。</p>
+<p><img src="https://pics3.baidu.com/feed/d043ad4bd11373f06795d31770c9e7f1f9ed04e5.png@f_auto?token=8485717c45be0ef6a1788f8c7178ec0e" alt="img"></p>
+<p>4、<strong>通过平台来接私活的话，选择流程完善、经验丰富的平台</strong>；不专业的平台会带来不必要的麻烦，一些成立不久或者是快要停止运行的网站可能还会连带着开发者和需求方一块儿骗，最后直接跑路。</p>
+<h6 id="部分谈单技巧"><a href="#部分谈单技巧" class="headerlink" title="部分谈单技巧"></a>部分谈单技巧</h6><p>1、当客户咨询报价时，请尽量避开这个问题：可以使用，具体报价还需根据您的需求确认，来进行回避，具体请自由发挥；</p>
+<p>2、客户跟踪：尽量留下客户的QQ或者电话等联系方式，隔日进行跟踪；</p>
+<p>3、客户优先比重：公司&gt;个人，对于个人客户，可以适当降低价格；</p>
+<p>4、客户鉴别：</p>
+<p>（1）转包公司：要价低、注重价格、这种单子也可以谈，但是尽量选择要价高的；</p>
+<p>（2）竞争对手：试探其他公司的报价和业务流程；</p>
+<p>（3）个人需求方：对于价格比较敏感；</p>
+<p>（4）公司：一般有详细的软件开发流程，对方一般是公司业务员或者助理；</p>
+<p>5、一上来就问价格的需求方：不是个人就是竞争对手或二单主（转包商）；</p>
+<p>6、尽量和客户电话聊，QQ聊是大忌。</p>
+<p>7、如果能面谈，最好面谈。</p>
+<h6 id="关于价格"><a href="#关于价格" class="headerlink" title="关于价格"></a>关于价格</h6><p>关于私活报价，个人接私活，让你报价，看需求报价吧，这真不是没吃过猪肉，还没见过猪跑就能解决的。举一个例子，一个活并不是很大，也就值4万，你报价5万，如果是外包公司(这里指的是有能力，会吹牛的)的话，至少会报价20万，这种情况肯定会有的。可是联系你的人，你报价5万他们都嫌多。还有就是一些小型的工作室或者小外包公司，报价很低，看了需求就报价2万，甚至更低，他们的套路就是先拿下项目再说，后续多弄些bug，再加钱，挣得就是这种钱。</p>
+<p>给活的这些人，大都是不懂互联网的，不懂软件的人，有时你真心和他们了解需求，报上合适的价格，他们宁愿上当报价低的，之后再加价，也不愿意和你合作，这种接私活，报价格的事，不是我们想成功就能成功的。当然联系我的人，我都是实心实意的了解，他们的需求，然后报上价格，绝对公道，但是他们总是嫌高(其实很低了)，最后不了了之。我无所谓，你们想找更便宜的去上当，没事，爱给不给。做私活多累啊，不操这种闲心，合适就做，不合适免谈。</p>
+<h6 id="关于结账收钱"><a href="#关于结账收钱" class="headerlink" title="关于结账收钱"></a>关于结账收钱</h6><p>再谈结账收钱的问题，说白了，怎么收钱，前期定金给多少，中期多少，后期结尾款多少，这里面的事复杂，不管咋样，如果客户不满意，拖欠，不结尾款的情况多了去了，这就是为啥接了私活费力不讨好的原因。下面是之前在某论坛看到一个兄弟的留言，个人感觉说的非常不错，供大家参考，谨防上当。</p>
+<p>(1)我一般6-3-1，让点步5-4-1，项目开始的时候能尽可能多的收到第一笔资金的就要多收一点，不然吃亏的是你，刚开始的时候没关系可以多和客户沟通谈价格，以前遇到过类似的事情，是3-5-2的，忙活了一阵只拿到了3，很吃亏。</p>
+<p>(2)和客户报价的时候要根据客户需求预算出来的价格的基础上再多加20%~30%，因为客户提需求的时候很多他自已都没想明白，等他看到你拿出来的原型或产品的时候，他才会有进一步的理解或想到他要的是什么，往往会提出更多的需求，那时候再谈价格往往很难谈，一般只有你让步的份，如果你太坚持很容易谈崩，所以一开始的时候要多留预算。</p>
+<p>(3)与客户谈好需求要签定合同或协议，再好的关系或朋友介绍也得签，所谓亲兄弟也要明算帐，这样双方都有保障。</p>
+<p>(4)价格谈好合同签订完不要急于编码，用原型工具做个原型作确认并作进一步调整，直到客户认可;然后做静态页面，让用户体验并继续确认;根据原型其实很容易做设计了;确定业务逻辑、代码框架、业务类;然后用假数据走通一条主线(这样速度快)，再让客户体验确定，难看一点没关系，主要确定业务操作流程是否正确，都没问题后基本可以放开做了。</p>
+<h6 id="关于复杂私活项目"><a href="#关于复杂私活项目" class="headerlink" title="关于复杂私活项目"></a>关于复杂私活项目</h6><p>现在的程序员大部分肯定不是全能，移动互联网的火爆，肯定给你私活的人，不可能只单单让你做android开发或者ios开发，基本上都是全做，甚至还需要web开发，照这么一算，你算一算，往少了说，后台需要开发吧，前端android，ios，还有UI设计，这往小了说，至少四个人吧，要是你能全做，那在下就佩服了，不是佩服你的能力和技术，而且佩服你小子活的够累的啊。这就是我所说的项目较大，复杂不单一。想想你能干吗?如果接了，你得找人吧，协调大家开发吧，讨论需求和沟通吧。</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 362535102@qq.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">赏</a>
+</p>
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2022-2022 Timor
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>喜欢就点赞,疼爱就打赏</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
