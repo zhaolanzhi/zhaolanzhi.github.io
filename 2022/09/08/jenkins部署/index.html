@@ -6,18 +6,28 @@
   <meta name="keywords" content=" jenkins ">
   <meta name="description" content="jenkins部署 | 攻城狮">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="判断集合为空(List为null或size()&#x3D;&#x3D;0) 1CollectionUtils.isEmpty(null): true  12List&lt;String&gt; list &#x3D; new ArrayList&lt;&gt;(); &#x2F;&#x2F;list.size&#x3D;0CollectionUtils.isEmpty(list): true  1234List&lt;String&amp;g">
+<meta name="description" content="PDManer元数据使用教程创建项目  连接数据库  导入数据库表        重点  一定要保存|  导出数据表">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java用CollectionUtils工具类判断集合是否为空">
-<meta property="og:url" content="http://example.com/2023/10/25/java%E7%94%A8CollectionUtils%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%88%A4%E6%96%AD%E9%9B%86%E5%90%88%E6%98%AF%E5%90%A6%E4%B8%BA%E7%A9%BA/index.html">
+<meta property="og:title" content="PDManer元数据使用教程">
+<meta property="og:url" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
 <meta property="og:site_name" content="攻城狮">
-<meta property="og:description" content="判断集合为空(List为null或size()&#x3D;&#x3D;0) 1CollectionUtils.isEmpty(null): true  12List&lt;String&gt; list &#x3D; new ArrayList&lt;&gt;(); &#x2F;&#x2F;list.size&#x3D;0CollectionUtils.isEmpty(list): true  1234List&lt;String&amp;g">
+<meta property="og:description" content="PDManer元数据使用教程创建项目  连接数据库  导入数据库表        重点  一定要保存|  导出数据表">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-10-25T09:43:51.000Z">
-<meta property="article:modified_time" content="2023-10-25T09:54:05.314Z">
+<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115151208387.png">
+<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115151606531.png">
+<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115151714660.png">
+<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115151934392.png">
+<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152132883.png">
+<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152300224.png">
+<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152412473.png">
+<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152624184.png">
+<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152900642.png">
+<meta property="article:published_time" content="2023-11-15T07:09:11.000Z">
+<meta property="article:modified_time" content="2023-11-15T07:31:37.964Z">
 <meta property="article:author" content="ITRunner">
-<meta property="article:tag" content="集合">
+<meta property="article:tag" content="db">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115151208387.png">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -139,7 +149,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(61)</small>
+                <small>(62)</small>
             
         </div>
     </li>
@@ -150,7 +160,7 @@
                     <div data-rel="工具">
                         
                         工具
-                        <small>(1)</small>
+                        <small>(2)</small>
                         
                     </div>
                     
@@ -360,8 +370,8 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="61">
-<input type="hidden" id="yelog_site_word_count" value="45.7k">
+<input type="hidden" id="yelog_site_posts_number" value="62">
+<input type="hidden" id="yelog_site_word_count" value="45.8k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -479,6 +489,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>db</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>docker</a>
             </li>
         
@@ -572,6 +586,15 @@
 
     
     <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 工具 "
+           href="/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"
+           data-tag="db"
+           data-author="" >
+            <span class="post-title" title="PDManer元数据使用教程">PDManer元数据使用教程</span>
+            <span class="post-date" title="2023-11-15 15:09:11">2023/11/15</span>
+        </a>
         
         
         <a  class="全部文章 java "

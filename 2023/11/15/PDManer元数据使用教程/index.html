@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Spring理解 | 攻城狮</title>
-  <meta name="keywords" content=" spring ">
-  <meta name="description" content="Spring理解 | 攻城狮">
+  <title>PDManer元数据使用教程 | 攻城狮</title>
+  <meta name="keywords" content=" db ">
+  <meta name="description" content="PDManer元数据使用教程 | 攻城狮">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="PDManer元数据使用教程创建项目  连接数据库  导入数据库表        重点  一定要保存|  导出数据表">
 <meta property="og:type" content="article">
@@ -1163,9 +1163,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-Spring理解" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-PDManer元数据使用教程" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Spring理解</h1>
+        <h1 class="article-title">PDManer元数据使用教程</h1>
     
     <div class="article-meta">
         
@@ -1175,7 +1175,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="java">java</a>
+            <a  data-rel="工具">工具</a>
             
         </span>
         
@@ -1183,19 +1183,19 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color2">spring</a>
+            <a class="color3">db</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2023-07-10 16:28:28'>2022-09-24 17:16</time>
+            发布时间 : <time class="date" title='最后更新: 2023-11-15 15:31:37'>2023-11-15 15:09</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:1k</span>
+        <span>字数:35</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -1214,7 +1214,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B"><span class="toc-text">PDManer元数据使用教程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="toc-text">创建项目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">连接数据库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8"><span class="toc-text">导入数据库表</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E7%82%B9-%E4%B8%80%E5%AE%9A%E8%A6%81%E4%BF%9D%E5%AD%98"><span class="toc-text">重点  一定要保存|</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E8%A1%A8"><span class="toc-text">导出数据表</span></a></li></ol></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -1230,28 +1230,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Spring的bean的实例化说白了就是创建一个bean对象, 触发实例化最常见的一个场景就是我们直接调用Spring容器的getBean方法,这个时候,Spring就会获取容器中的BeanDefinition,利用BeanDefinition中的各种属性和值去创建一个bean 出来, 这个过程就是bean的实例化.所以,相当于方法postProcessBeanFactory 给了我们一个机会, 在实例化之前修改bean的一些属性信息,因为我们根据方法postProcessBeanFactory的参数BeanFactory,就可以获取所有注册的bean的信息了.</p>
-<p>BeanFactoryPostProcessor中的方法和postProcessorBeanFactory几乎是一模一样,目的也是一样的,也就是给我们一次机会,允许我们通过参数beanFactory去获取相应的BeanDefinition并修改相应的信息.</p>
-<p>自定义BeanFactoryPostProcessor, 从使用方式上, 需要额外实现BeanFactoryPostProcessor接口.</p>
-<p>默认情况下,实现接口PriorityOrdered的优先级比实现了接口Ordered的优先级要高, 如果同时实现了PriorityOrdered接口或Ordered接口,那就看getOrder方法返回的结构哪个值更小,值更小的那个实现类优先级更高.</p>
-<p>1.首先处理参数中的BeanFactoryPostProcessors按两种类型吹了, 分别是实现了接口BeanDefinitionRegistryPostProcessor的BeanFactoryPostProcessor,以及没有实现该接口普通BeanFactoryPostProcessor,它们分别存放在集合registryProcessor和regularPostProcessors中.</p>
-<p>2.如果实现了接口BeanDefinitionRegistryPostProcessor,率先会调用BeanDefinitionRegistryPostProcessor中的方法postProcessorBeanDefinitionRegistry来注册一些BeanDefinition.</p>
-<p>3.参数中的beanFactoryPostProcessors处理完毕之后, 接着处理容器BeanFactory中的BeanFactoryPOSTProcessor,优先从容器beanFactory中获取实现了接口BeanDefinitionRegistryPostProcessor的类,并且按照以下三种类型类处理:</p>
-<p>分别是实现了接口PriorityOrdered Ordered以及这两个接口都没有是按的无序的普通类,和前面一样这三种类型的类都是实现了接口BeanDefinitionRegistryPostProcessor的,优先执行BeanDefinitionRegistryPostProcessor中的方法postProcessBeanDefinitionRegistry,注册一些自定义的BeanDefinition.</p>
-<p>4.最后会统一执行BeanDefinitionRegistryPostProcessor的父类,以及普通BeanFactoryPostProcessor类中的方法postProcessorBeanFactory,完成一些自定义的修改BeanDefinition操作.</p>
-<p>BeanFactoryPostProcessor的实现类是如何处理的</p>
-<p>处理优先级最高的,是参数中的BeanFactoryPostProcessor,其次是容器beanFactory中的BeanFactoryPostProcessor,这是第一批要处理的BeanFactoryPostProcessor.</p>
-<p>第二批要处理的是BeanFactoryPostProcessor,是BeanFactory中的中的BeanDefinitionRegistryPostProcessor,beanFactory中的BeanDefinitionRegistryPostProcessor处理会细分为三种类型来处理,分别是实现了接口PriorityOrdered,实现了接口Ordered,以及这两个接口都没有实现的无序实现类.</p>
-<p>其中,实现了接口PriorityOrdered或实现了接口Ordered的实现类,这两者是有序的,而这两个接口都没有实现的情况则是无序的.</p>
-<p>第三批要处理的BeanFactoryPostProcessor,是BeanFactory中的BeanFactoryPostProcessor,也会细分为三种类型来处理, 分别是实现了接口PriorityOrdered, 实现了接口Ordered,以及这两个接口都没有实现的无序实现类.</p>
-<p>BeaPostProcessor的注册</p>
-<p>首先, 从容器BeanFactory中,获取所有实现接口BeanPostProcessor的bean名称, 然后再按照实现PriorityOdered接口, 实现Ordered接口以及普通无序的BeanPostProcessor这三种类型, 依次从beanFactory中获取到相应的实现类,在注册到BeanFactory中.</p>
-<p>这处理以上这三种类型的BeanPostProcessor的同时, 会判断一下这些BeanPostProcessor的实现类中,是否存在同时实现接口MergedBeanDefinitionPostProcessor的类, 并及时记录到集合internalPostProcessors中. </p>
-<p>最后,会一并注册到beanFactory的BeanPostProcessor调用链的末尾,很显然Spring内部的BeanPostProcessor的优先级是最低的.</p>
-<p>Spring AOP代理的创建: Spring是如何</p>
-<p>1.如果设置了proxyTargetClass为true,也就是设置了基于类进行代理,并且此时目标类本身既不是接口类型也不是代理类时,这个狮虎机会使用cglib代理</p>
-<p>2.如果没有设置proxyTargetClass,即proxyTargetClass为false,但是此时目标类没有实现接口,此时也会使用cglib代理</p>
-<p>3.如果目标类实现了接口,并且此时没有强制设置使用cglib代理,比如proxyTargetClass为false,这个时候就会使用jdk代理.</p>
+        <h3 id="PDManer元数据使用教程"><a href="#PDManer元数据使用教程" class="headerlink" title="PDManer元数据使用教程"></a>PDManer元数据使用教程</h3><h5 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h5><img src="/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115151208387.png" alt="image-20231115151208387" style="zoom:50%;">
+
+<h5 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h5><img src="/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115151606531.png" alt="image-20231115151606531" style="zoom:50%;">
+
+<h5 id="导入数据库表"><a href="#导入数据库表" class="headerlink" title="导入数据库表"></a>导入数据库表</h5><img src="/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115151714660.png" alt="image-20231115151714660" style="zoom:50%;">
+
+<img src="/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115151934392.png" alt="image-20231115151934392" style="zoom:50%;">
+
+<img src="/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152132883.png" alt="image-20231115152132883" style="zoom:50%;">
+
+<img src="/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152300224.png" alt="image-20231115152300224" style="zoom:50%;">
+
+<h4 id="重点-一定要保存"><a href="#重点-一定要保存" class="headerlink" title="重点  一定要保存|"></a>重点  一定要保存|</h4><img src="/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152412473.png" alt="image-20231115152412473" style="zoom:50%;">
+
+<h5 id="导出数据表"><a href="#导出数据表" class="headerlink" title="导出数据表"></a>导出数据表</h5><img src="/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152624184.png" alt="image-20231115152624184" style="zoom:50%;">
+
+<img src="/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152900642.png" alt="image-20231115152900642" style="zoom:50%;">
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 362535102@qq.com </span>
