@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Java多态理解 | 攻城狮</title>
-  <meta name="keywords" content=" 多态 ">
-  <meta name="description" content="Java多态理解 | 攻城狮">
+  <title>java用CollectionUtils工具类判断集合是否为空 | 攻城狮</title>
+  <meta name="keywords" content=" 集合 ">
+  <meta name="description" content="java用CollectionUtils工具类判断集合是否为空 | 攻城狮">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="判断集合为空(List为null或size()&#x3D;&#x3D;0) 1CollectionUtils.isEmpty(null): true  12List&lt;String&gt; list &#x3D; new ArrayList&lt;&gt;(); &#x2F;&#x2F;list.size&#x3D;0CollectionUtils.isEmpty(list): true  1234List&lt;String&amp;g">
 <meta property="og:type" content="article">
@@ -1140,9 +1140,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-Java多态理解" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-java用CollectionUtils工具类判断集合是否为空" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Java多态理解</h1>
+        <h1 class="article-title">java用CollectionUtils工具类判断集合是否为空</h1>
     
     <div class="article-meta">
         
@@ -1160,19 +1160,19 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color3">多态</a>
+            <a class="color3">集合</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2023-07-10 16:28:28'>2022-09-02 11:47</time>
+            发布时间 : <time class="date" title='最后更新: 2023-10-25 17:54:05'>2023-10-25 17:43</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:673</span>
+        <span>字数:111</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -1191,7 +1191,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81"><span class="toc-text">多态</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E5%AD%98%E5%9C%A8%E7%9A%84%E4%B8%89%E4%B8%AA%E6%9D%A1%E4%BB%B6"><span class="toc-text">多态存在的三个条件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E6%88%90%E5%91%98%E7%9A%84%E8%AE%BF%E9%97%AE%E7%89%B9%E7%82%B9"><span class="toc-text">多态成员的访问特点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">多态的使用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">多态的作用</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E7%9A%84%E5%BC%8A%E7%AB%AF"><span class="toc-text">多态的弊端</span></a></li></ol></li></ol></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -1207,50 +1207,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><h5 id="多态存在的三个条件"><a href="#多态存在的三个条件" class="headerlink" title="多态存在的三个条件"></a>多态存在的三个条件</h5><ul>
-<li>继承或者实现的关系</li>
-<li>方法重写</li>
-<li>父类引用指向子类对象<ul>
-<li>upcasting 向上转型：将子类对象直接赋值给父类引用<ul>
-<li>向上转型后父类不能调用自己子类的方法</li>
-<li>父类引用或调用的是子类的方法</li>
-</ul>
-</li>
-<li>downcasting向下转型：将指向子类对象的父类引用赋值给子类引用<ul>
-<li>需要强制类型转换</li>
-<li>如果引用的是指向的子类对象，那么在向下转型的过程中是安全的， 也就是编译时不会出错的</li>
-<li>如果父类引用的对象是父类本身，那么在向下转型的过程中是不安全的，编译不会出错，但是运行时会出现java.lang.classCastException错误<ul>
-<li>通过instanceof来避免这个错误。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h5 id="多态成员的访问特点"><a href="#多态成员的访问特点" class="headerlink" title="多态成员的访问特点"></a>多态成员的访问特点</h5><ul>
-<li><p>成员变量</p>
-<ul>
-<li>编译看父类，运行看父类</li>
-</ul>
-</li>
-<li><p>成员方法</p>
-<ul>
-<li>编译看父类， 运行看子类</li>
-</ul>
-</li>
-</ul>
-<h5 id="多态的使用场景"><a href="#多态的使用场景" class="headerlink" title="多态的使用场景"></a>多态的使用场景</h5><ul>
-<li>可以作为方法的参数和返回执行进行使用，提高代码的拓展性</li>
-</ul>
-<h6 id="多态的作用"><a href="#多态的作用" class="headerlink" title="多态的作用"></a>多态的作用</h6><ul>
-<li>消除了类之间的耦合关系， 大大提高了程序的可扩展性和和维护性</li>
-</ul>
-<h5 id="多态的弊端"><a href="#多态的弊端" class="headerlink" title="多态的弊端"></a>多态的弊端</h5><ul>
-<li>没有办法访问子类的特有成员</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">public class PolymorphismTest &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Dog dog = new Dog();</span><br><span class="line">        /**</span><br><span class="line">         * 父类引用指向子类对象</span><br><span class="line">         *  upcasting 向上转型： 将子类对象直接赋值给父类引用</span><br><span class="line">         *  向上转型不需要强制类型转换</span><br><span class="line">         *  向上转型后父类不能调用自己子类的方法</span><br><span class="line">         *  父类引用或调用的是子类的方法</span><br><span class="line">         */</span><br><span class="line">        Animal animal = dog;</span><br><span class="line">        animal.eat();</span><br><span class="line">        System.out.println(&quot;animal.age:&quot;+animal.age);</span><br><span class="line">        System.out.println(&quot;dog.age:&quot;+dog.age);</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * downcasting 向下转型：将指向子类对象的父类引用赋值给子类引用</span><br><span class="line">         * 需要强制类型转换</span><br><span class="line">         * 如果引用的是指向的子类对象，那么在向下转型的过程中是安全的， 也就是编译是不会出错误的。</span><br><span class="line">         * 如果父类引用的对象是父类本身， 那么在向下转型的过程中是不全的， 编译不会出错， 但是运行时会出现java.lang.ClassCastException错误，</span><br><span class="line">         *  通过instanceof来避免这个错误</span><br><span class="line">         *</span><br><span class="line">         */</span><br><span class="line">        Dog d = (Dog)animal;</span><br><span class="line">        d.todo();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Animal &#123;</span><br><span class="line">   public int age = 2;</span><br><span class="line"></span><br><span class="line">    public void eat() &#123;</span><br><span class="line">        System.out.println(&quot;动物在吃饭&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Dog extends Animal &#123;</span><br><span class="line">  public  int age = 3;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void eat() &#123;</span><br><span class="line">        System.out.println(&quot;狗在吃肉&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void todo() &#123;</span><br><span class="line">        System.out.println(&quot;狗在看家&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class  Cat extends Animal &#123;</span><br><span class="line">  public  int age = 4;</span><br><span class="line">    @Override</span><br><span class="line">    public void eat() &#123;</span><br><span class="line">        System.out.println(&quot;猫在吃肉&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <ol>
+<li><p>判断集合为空(List为null或size()&#x3D;&#x3D;0)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CollectionUtils.isEmpty(null): true</span><br></pre></td></tr></table></figure>
 
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = new ArrayList&lt;&gt;(); //list.size=0</span><br><span class="line">CollectionUtils.isEmpty(list): true</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">	list.add(&quot;a&quot;);</span><br><span class="line">	list.add(&quot;b&quot;);</span><br><span class="line">CollectionUtils.isEmpty(list); false</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>判断集合不为空(List不为null 且size!&#x3D;0)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CollectionUtils.isNotEmpty(null): fasle</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = new ArrayList&lt;&gt;(); //list.size =0;</span><br><span class="line">CollectionUtils.isNotEmpty(list); false</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">	list.add(&quot;a&quot;);</span><br><span class="line">	list.add(&quot;b&quot;);</span><br><span class="line">CollectionUtils.isNotEmpty(list); true</span><br></pre></td></tr></table></figure></li>
+</ol>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 362535102@qq.com </span>

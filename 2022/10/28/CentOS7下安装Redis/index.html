@@ -6,21 +6,18 @@
   <meta name="keywords" content=" redis ">
   <meta name="description" content="CentOS7下安装Redis | 攻城狮">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="安装好Oracle数据库后​	首先进入oracle用户:  1su - oracle  编辑oracle脚本12345678vim $ORACLE_HOME&#x2F;bin&#x2F;dbstartvim $ORACLE_HOME&#x2F;bin&#x2F;dbshutORACLE_HOME_LISTNER&#x3D;$1修改为：ORACLE_HOME_LISTNER&#x3D;$ORACLE_HOME保存退出   Linux启动时自动启动Oralce">
+<meta name="description" content="判断集合为空(List为null或size()&#x3D;&#x3D;0) 1CollectionUtils.isEmpty(null): true  12List&lt;String&gt; list &#x3D; new ArrayList&lt;&gt;(); &#x2F;&#x2F;list.size&#x3D;0CollectionUtils.isEmpty(list): true  1234List&lt;String&amp;g">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CentOS7 Oracle 11g R2 设置开机自启动方法">
-<meta property="og:url" content="http://example.com/2023/10/25/CentOS7-Oracle-11g-R2-%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:title" content="java用CollectionUtils工具类判断集合是否为空">
+<meta property="og:url" content="http://example.com/2023/10/25/java%E7%94%A8CollectionUtils%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%88%A4%E6%96%AD%E9%9B%86%E5%90%88%E6%98%AF%E5%90%A6%E4%B8%BA%E7%A9%BA/index.html">
 <meta property="og:site_name" content="攻城狮">
-<meta property="og:description" content="安装好Oracle数据库后​	首先进入oracle用户:  1su - oracle  编辑oracle脚本12345678vim $ORACLE_HOME&#x2F;bin&#x2F;dbstartvim $ORACLE_HOME&#x2F;bin&#x2F;dbshutORACLE_HOME_LISTNER&#x3D;$1修改为：ORACLE_HOME_LISTNER&#x3D;$ORACLE_HOME保存退出   Linux启动时自动启动Oralce">
+<meta property="og:description" content="判断集合为空(List为null或size()&#x3D;&#x3D;0) 1CollectionUtils.isEmpty(null): true  12List&lt;String&gt; list &#x3D; new ArrayList&lt;&gt;(); &#x2F;&#x2F;list.size&#x3D;0CollectionUtils.isEmpty(list): true  1234List&lt;String&amp;g">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2023/10/25/CentOS7-Oracle-11g-R2-%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%96%B9%E6%B3%95/image-20231025160424243-1698221069958-1.png">
-<meta property="og:image" content="http://example.com/2023/10/25/CentOS7-Oracle-11g-R2-%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%96%B9%E6%B3%95/image-20231025161105929-1698221469192-3-1698221470777-5.png">
-<meta property="article:published_time" content="2023-10-25T07:59:44.000Z">
-<meta property="article:modified_time" content="2023-10-25T08:26:20.462Z">
+<meta property="article:published_time" content="2023-10-25T09:43:51.000Z">
+<meta property="article:modified_time" content="2023-10-25T09:54:05.314Z">
 <meta property="article:author" content="ITRunner">
-<meta property="article:tag" content="oracle">
+<meta property="article:tag" content="集合">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2023/10/25/CentOS7-Oracle-11g-R2-%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%96%B9%E6%B3%95/image-20231025160424243-1698221069958-1.png">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -142,7 +139,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(60)</small>
+                <small>(61)</small>
             
         </div>
     </li>
@@ -321,7 +318,7 @@
                     <div data-rel="java">
                         
                         java
-                        <small>(21)</small>
+                        <small>(22)</small>
                         
                     </div>
                     
@@ -363,8 +360,8 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="60">
-<input type="hidden" id="yelog_site_word_count" value="45.6k">
+<input type="hidden" id="yelog_site_posts_number" value="61">
+<input type="hidden" id="yelog_site_word_count" value="45.7k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -423,6 +420,10 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>基础</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>集合</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -571,6 +572,15 @@
 
     
     <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/10/25/java%E7%94%A8CollectionUtils%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%88%A4%E6%96%AD%E9%9B%86%E5%90%88%E6%98%AF%E5%90%A6%E4%B8%BA%E7%A9%BA/"
+           data-tag="集合"
+           data-author="" >
+            <span class="post-title" title="java用CollectionUtils工具类判断集合是否为空">java用CollectionUtils工具类判断集合是否为空</span>
+            <span class="post-date" title="2023-10-25 17:43:51">2023/10/25</span>
+        </a>
         
         
         <a  class="全部文章 数据库 "
