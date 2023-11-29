@@ -2,32 +2,22 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>攻城狮</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="攻城狮">
+  <title>Linux服务器之间传输文件命令 | 攻城狮</title>
+  <meta name="keywords" content=" linux ">
+  <meta name="description" content="Linux服务器之间传输文件命令 | 攻城狮">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="PDManer元数据使用教程创建项目  连接数据库  导入数据库表        重点  一定要保存|  导出数据表">
+<meta name="description" content="scp1、单文件scp &#x2F;home&#x2F;test.txt    root@192.168.3.100:&#x2F;home&#x2F;      #把本地的test.txt文件copy到192.168.3.100机器上的&#x2F;home目录下 scp root@192.168.3.100:&#x2F;home&#x2F;test.txt   &#x2F;home&#x2F;    #把192.168.3.100机器上的test.txt文件copy到本地的&#x2F;home">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PDManer元数据使用教程">
-<meta property="og:url" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:title" content="Linux服务器之间传输文件命令">
+<meta property="og:url" content="http://example.com/2023/11/29/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E9%97%B4%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6%E5%91%BD%E4%BB%A4/index.html">
 <meta property="og:site_name" content="攻城狮">
-<meta property="og:description" content="PDManer元数据使用教程创建项目  连接数据库  导入数据库表        重点  一定要保存|  导出数据表">
+<meta property="og:description" content="scp1、单文件scp &#x2F;home&#x2F;test.txt    root@192.168.3.100:&#x2F;home&#x2F;      #把本地的test.txt文件copy到192.168.3.100机器上的&#x2F;home目录下 scp root@192.168.3.100:&#x2F;home&#x2F;test.txt   &#x2F;home&#x2F;    #把192.168.3.100机器上的test.txt文件copy到本地的&#x2F;home">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115151208387.png">
-<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115151606531.png">
-<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115151714660.png">
-<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115151934392.png">
-<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152132883.png">
-<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152300224.png">
-<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152412473.png">
-<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152624184.png">
-<meta property="og:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115152900642.png">
-<meta property="article:published_time" content="2023-11-15T07:09:11.000Z">
-<meta property="article:modified_time" content="2023-11-15T07:44:39.727Z">
+<meta property="article:published_time" content="2023-11-29T09:06:40.000Z">
+<meta property="article:modified_time" content="2023-11-29T09:08:18.691Z">
 <meta property="article:author" content="ITRunner">
-<meta property="article:tag" content="db">
+<meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/image-20231115151208387.png">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -67,7 +57,7 @@
 
 
 <body>
-<aside class="nav mobile">
+<aside class="nav">
     <div class="nav-left">
         <a href="/"
    class="avatar_target">
@@ -149,7 +139,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(63)</small>
+                <small>(65)</small>
             
         </div>
     </li>
@@ -188,7 +178,7 @@
                     <div data-rel="运维">
                         
                         运维
-                        <small>(7)</small>
+                        <small>(8)</small>
                         
                     </div>
                     
@@ -272,35 +262,7 @@
                     <div data-rel="DevOps">
                         
                         DevOps
-                        <small>(6)</small>
-                        
-                    </div>
-                    
-                </li>
-            
-        
-    
-        
-            
-                <li>
-                    <div data-rel="docker">
-                        
-                        docker
-                        <small>(2)</small>
-                        
-                    </div>
-                    
-                </li>
-            
-        
-    
-        
-            
-                <li>
-                    <div data-rel="Docker">
-                        
-                        Docker
-                        <small>(1)</small>
+                        <small>(11)</small>
                         
                     </div>
                     
@@ -370,8 +332,8 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="63">
-<input type="hidden" id="yelog_site_word_count" value="45.8k">
+<input type="hidden" id="yelog_site_posts_number" value="65">
+<input type="hidden" id="yelog_site_word_count" value="47.9k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -592,6 +554,24 @@
     <nav id="title-list-nav">
         
         
+        <a  class="全部文章 运维 "
+           href="/2023/11/29/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E9%97%B4%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6%E5%91%BD%E4%BB%A4/"
+           data-tag="linux"
+           data-author="" >
+            <span class="post-title" title="Linux服务器之间传输文件命令">Linux服务器之间传输文件命令</span>
+            <span class="post-date" title="2023-11-29 17:06:40">2023/11/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 DevOps "
+           href="/2023/11/17/Docker%E5%AD%A6%E4%B9%A0/"
+           data-tag="docker"
+           data-author="" >
+            <span class="post-title" title="Docker学习">Docker学习</span>
+            <span class="post-date" title="2023-11-17 14:42:25">2023/11/17</span>
+        </a>
+        
+        
         <a  class="全部文章 工具 "
            href="/2023/11/15/Typora%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE/"
            data-tag="typroa"
@@ -655,7 +635,7 @@
         </a>
         
         
-        <a  class="全部文章 docker "
+        <a  class="全部文章 DevOps "
            href="/2023/07/11/idea-docker-springboot-%E9%83%A8%E7%BD%B2-%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95/"
            data-tag="docker"
            data-author="" >
@@ -727,7 +707,7 @@
         </a>
         
         
-        <a  class="全部文章 Docker "
+        <a  class="全部文章 DevOps "
            href="/2023/07/10/Docker-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/"
            data-tag="docker"
            data-author="" >
@@ -772,9 +752,9 @@
         </a>
         
         
-        <a  class="全部文章 "
+        <a  class="全部文章 DevOps "
            href="/2023/03/27/Docker%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E9%95%9C%E5%83%8F/"
-           data-tag=""
+           data-tag="docker"
            data-author="" >
             <span class="post-title" title="Docker导入导出镜像">Docker导入导出镜像</span>
             <span class="post-date" title="2023-03-27 21:48:59">2023/03/27</span>
@@ -1105,7 +1085,7 @@
         </a>
         
         
-        <a  class="全部文章 docker "
+        <a  class="全部文章 DevOps "
            href="/2022/08/19/Docker%E5%AE%89%E8%A3%85Oracle11g%E6%95%B0%E6%8D%AE%E5%BA%93/"
            data-tag="oracle,docker"
            data-author="" >
@@ -1174,12 +1154,60 @@
         </div>
     </div>
 </aside>
-<div id="post" class="index">
+<div id="post">
     <div class="pjax">
-        <article class="index">
-            <div class="toc-ref">
+        <article id="post-Linux服务器之间传输文件命令" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-Blog"><span class="toc-text">Why Blog</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E5%8D%9A%E5%AE%A2%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-text">对博客的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8ETimor"><span class="toc-text">关于Timor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E5%B9%B3%E5%8F%B0"><span class="toc-text">博客平台</span></a></li></ol></li></ol>
+        <h1 class="article-title">Linux服务器之间传输文件命令</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="运维">运维</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">linux</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2023-11-29 17:08:18'>2023-11-29 17:06</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:159</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#scp"><span class="toc-text">scp</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E5%8D%95%E6%96%87%E4%BB%B6"><span class="toc-text">1、单文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E5%A4%9A%E6%96%87%E4%BB%B6"><span class="toc-text">2、多文件</span></a></li></ol></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -1192,35 +1220,36 @@
     }
 </style>
 </div>
-            <h1 id="Why-Blog"><a href="#Why-Blog" class="headerlink" title="Why Blog"></a>Why Blog</h1><h2 id="对博客的理解"><a href="#对博客的理解" class="headerlink" title="对博客的理解"></a>对博客的理解</h2><p>喜欢写Blog的人，会经历三个阶段。</p>
-<blockquote>
-<p>第一阶段，刚接触Blog，觉得很新鲜，试着选择一个免费空间来写。</p>
-</blockquote>
-<blockquote>
-<p>第二阶段，发现免费空间限制太多，就自己购买域名和空间，搭建独立博客。</p>
-</blockquote>
-<blockquote>
-<p>第三阶段，觉得独立博客的管理太麻烦，最好在保留控制权的前提下，让别人来管，自己只负责写文章。</p>
-</blockquote>
-<p>我们每个人的在网络上产生的数据越来越多，这些信息是我们在互联网上存在过的痕迹，值得我们认真对待。但是它们被分散分布在各个网站上。很多时候我们很难将它们聚合在一起，而且各个网站的信息排布方式也没有办法自由控制，所以我们需要一个可以由自己主宰的空间——博客。</p>
-<p>通过博客，我们可以记录自己的生活和成长的轨迹。它不像 Twitter 那样碎片化，也不像 Facebook 那样关系化，它是私人的空间。</p>
-<h2 id="关于Timor"><a href="#关于Timor" class="headerlink" title="关于Timor"></a>关于Timor</h2><p><strong>Timor</strong> 是阁主（Timor）的个人站。</p>
-<p>到目前为止已经写了<code class="article_number"></code>篇文章， 共<code class="site_word_count"></code>字。</p>
-<p>本站访问人数：<code class="site_uv"></code>人次 ， 访问量：<code class="site_pv"></code>次</p>
-<h2 id="博客平台"><a href="#博客平台" class="headerlink" title="博客平台"></a>博客平台</h2><p>主要功能：</p>
-<ul>
-<li>搜索支持文章标题、标签(#标签)、作者(@作者)</li>
-<li>pad&#x2F;手机等移动端适配</li>
-<li>页面全局快捷键 <a target="_blank" rel="noopener" href='https://www.jianshu.com/u/959b0f521aeb/2017/03/24/3-hexo-shortcuts/'>3-hexo快捷键说明</a></li>
-</ul>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="scp"><a href="#scp" class="headerlink" title="scp"></a><strong>scp</strong></h2><h4 id="1、单文件"><a href="#1、单文件" class="headerlink" title="1、单文件"></a>1、单文件</h4><p><code>scp /home/test.txt    root@192.168.3.100:/home/      #把本地的test.txt文件copy到192.168.3.100机器上的/home目录下</code></p>
+<p><code>scp root@192.168.3.100:/home/test.txt   /home/    #把192.168.3.100机器上的test.txt文件copy到本地的/home 目录下</code></p>
+<p><code>scp root@192.168.3.100:/home/test.txt  root@192.168.3.200:/home/ #把192.168.3.100机器上的test.txt文件拷贝到192.168.3.200机器的/home目录下</code></p>
+<h4 id="2、多文件"><a href="#2、多文件" class="headerlink" title="2、多文件"></a>2、多文件</h4><p><code>scp -r /home/sourcedir root@192.168.3.100:/home/ #拷贝文件夹，加-r参数</code></p>
+<p><code>scp -r /home/sourcedir root@www.myhost.com:/home/ #使用主机名</code></p>
+<p><code>scp -r -v /home/sourcedir root@www.myhost.com:/home/ #显示详情，加-v参数</code></p>
 
-        </article>
-        
-        <p>
-            <a  class="dashang" onclick="dashangToggle()">赏</a>
-        </p>
-        
-        
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 362535102@qq.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">赏</a>
+</p>
+
+
+
+
+
+
+    
+
+
+
+
     </div>
     <div class="copyright">
         <p class="footer-entry">
@@ -1229,11 +1258,11 @@
 <p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
 
     </div>
-</div>
-<div class="full-toc">
-    <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
 <a class="" id="rocket" ></a>
 
+    </div>
 </div>
 
 <div class="hide_box" onclick="dashangToggle()"></div>
