@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Docker学习 | 攻城狮</title>
-  <meta name="keywords" content=" docker ">
-  <meta name="description" content="Docker学习 | 攻城狮">
+  <title>vagrant教程 | 攻城狮</title>
+  <meta name="keywords" content=" vagrant ">
+  <meta name="description" content="vagrant教程 | 攻城狮">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="一、docker离线安装1. 下载离线包 下载地址  https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;static&#x2F;stable&#x2F;x86_64&#x2F;  下载的最新版本  docker-20.10.9.tgz 2. 安装docker 上传安装包  123456# 复制docker-20.10.9.tgz到 &#x2F;usr&#x2F;bin下（usr&#x2F;bin是环境变量目录，在路径下可以直接运">
 <meta property="og:type" content="article">
@@ -1192,9 +1192,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-Docker学习" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-vagrant教程" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Docker学习</h1>
+        <h1 class="article-title">vagrant教程</h1>
     
     <div class="article-meta">
         
@@ -1212,19 +1212,19 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color2">docker</a>
+            <a class="color3">vagrant</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2023-11-22 09:49:54'>2023-11-17 14:42</time>
+            发布时间 : <time class="date" title='最后更新: 2023-12-04 17:40:52'>2023-12-04 14:30</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:1.9k</span>
+        <span>字数:310</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -1243,7 +1243,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2"><span class="toc-text">Docker安装部署</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99"><span class="toc-text">关闭防火墙</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%AD%98%E5%82%A8%E5%BA%93%E6%8B%93%E5%B1%95%E5%8C%85"><span class="toc-text">安装存储库拓展包</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AE%BE%E5%AE%9A%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-text">设定存储库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%89%E4%B8%AA%E5%8C%85"><span class="toc-text">安装三个包</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81"><span class="toc-text">验证</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%89%E8%A3%85%E4%B8%8E%E5%90%AF%E5%8A%A8"><span class="toc-text">Docker安装与启动</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-x2F-etc-x2F-sysconfig-x2F-docker"><span class="toc-text">配置文件 &#x2F;etc&#x2F;sysconfig&#x2F;docker</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">Docker常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-text">容器的命令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="toc-text">基础命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dockerfile"><span class="toc-text">Dockerfile</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%BC%E5%BC%8F"><span class="toc-text">格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="toc-text">执行顺序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4"><span class="toc-text">指令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dockerfile%E6%93%8D%E4%BD%9C%E6%B5%8B%E8%AF%95"><span class="toc-text">dockerfile操作测试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B1"><span class="toc-text">案例1</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B2"><span class="toc-text">案例2</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-text">数据持久化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80-volumes"><span class="toc-text">方式一: volumes</span></a></li></ol></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -1259,62 +1259,37 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="Docker安装部署"><a href="#Docker安装部署" class="headerlink" title="Docker安装部署"></a>Docker安装部署</h3><p>docker 常见的有 3 种安装方式，yum、rpm 包、脚本，我们采用相对简单但对各种环境比较友</p>
-<p>好的方式:(关防火墙和 selinux)。</p>
-<h5 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl status  firewalld</span><br><span class="line"></span><br><span class="line">getenforce 0</span><br></pre></td></tr></table></figure>
+        <ol>
+<li><p>添加box</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant box add  chef/centos-7</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看box list</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant box list</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">mkdir centos7</span><br><span class="line"></span><br><span class="line">cd centos7</span><br><span class="line"></span><br><span class="line">vagrant box list</span><br><span class="line"></span><br><span class="line">vagrant init centos/7</span><br><span class="line"></span><br><span class="line">#启动</span><br><span class="line">vagrant up</span><br><span class="line"></span><br><span class="line">vagrant ssh</span><br><span class="line"></span><br><span class="line">#状态</span><br><span class="line">vagrant status</span><br><span class="line"></span><br><span class="line">#关机</span><br><span class="line">vagrant halt</span><br><span class="line"></span><br><span class="line">#暂存 </span><br><span class="line">vagrant  suspend</span><br><span class="line"></span><br><span class="line">#恢复暂存状态</span><br><span class="line">vagrant resume</span><br><span class="line"></span><br><span class="line">#重启</span><br><span class="line">vagrant reload</span><br><span class="line"></span><br><span class="line">#销毁 销毁当前的</span><br><span class="line">vagrant destroy</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改文件目录</p>
+<p>Vagrantfile</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">config.cm.synced_folder &quot;../data&quot;, &quot;/vagrant_data&quot;,</span><br><span class="line">create: true, owner: &quot;root&quot;, group: &quot;root&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>network 配置完重启vagrant reload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.vm.network &quot;private_network&quot;, ip: &quot;192.168.33.10&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>共有网络 需要注释掉私有网络   共有网络为局域网自动分配的ip</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.vm.network &quot;public_network&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打包box</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">vagrant ssh</span><br><span class="line"></span><br><span class="line">sudo rm -rf /etc/udev/rules.d/70-persistent-net.rules</span><br><span class="line"></span><br><span class="line">exit</span><br><span class="line"></span><br><span class="line">vagrant package</span><br><span class="line"></span><br><span class="line">vagrant box add vim/centos7 package.box</span><br><span class="line"></span><br><span class="line">rm -rf package.box</span><br><span class="line"></span><br><span class="line">vagrant box list</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移除box</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant remove box vim/centos7</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建多个服务</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Vagrant.configure(&quot;2&quot;) do |config|</span><br><span class="line">   config.vm.box = &quot;vim/centos7&quot;</span><br><span class="line">   #配置版本, 版本是不带v的</span><br><span class="line">   #config.vm.box_version = 1905.1 </span><br><span class="line"></span><br><span class="line">   config.vm.define &quot;development&quot; do |development|</span><br><span class="line">      development.vm.network &quot;private_network&quot;, ip: &quot;192.168.33.11&quot;</span><br><span class="line">      development.vm.hostname = &quot;vim-dev&quot;</span><br><span class="line">      # development 当前文件夹下创建</span><br><span class="line">      development.vm.synced_folder &quot;development&quot;, &quot;/vagrant&quot;</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">  config.vm.define &quot;production&quot; do |production|</span><br><span class="line">      production.vm.network &quot;private_network&quot;, ip: &quot;192.168.33.22&quot;</span><br><span class="line">      production.vm.hostname = &quot;vim-prod&quot;</span><br><span class="line">      # production 当前文件夹下创建</span><br><span class="line">      production.vm.synced_folder &quot;production&quot;, &quot;/vagrant&quot;</span><br><span class="line">  end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 
-
-
-<h5 id="安装存储库拓展包"><a href="#安装存储库拓展包" class="headerlink" title="安装存储库拓展包"></a>安装存储库拓展包</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y yum-utils</span><br></pre></td></tr></table></figure>
-
-<h5 id="设定存储库"><a href="#设定存储库" class="headerlink" title="设定存储库"></a>设定存储库</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager\ --add-repo\ htts://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
-
-<h5 id="安装三个包"><a href="#安装三个包" class="headerlink" title="安装三个包"></a>安装三个包</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
-
-<h5 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker version#查询 docker 版本信息</span><br><span class="line"></span><br><span class="line">docker info#查询 docker 详细信息</span><br></pre></td></tr></table></figure>
-
-<h3 id="Docker安装与启动"><a href="#Docker安装与启动" class="headerlink" title="Docker安装与启动"></a>Docker安装与启动</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install -y epel-release</span><br><span class="line">yum install docker-io # 安装 docker</span><br></pre></td></tr></table></figure>
-
-<h5 id="配置文件-x2F-etc-x2F-sysconfig-x2F-docker"><a href="#配置文件-x2F-etc-x2F-sysconfig-x2F-docker" class="headerlink" title="配置文件 &#x2F;etc&#x2F;sysconfig&#x2F;docker"></a>配置文件 &#x2F;etc&#x2F;sysconfig&#x2F;docker</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chkconfig docker on # 加入开机启动</span><br><span class="line">service docker start # 启动 docker 服务</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">docker version # 查看 docker 的版本号，包括客户端、服务端、依赖的 Go 等</span><br><span class="line">docker info # 查看系统(docker)层面信息，包括管理的 images, containers 数等</span><br><span class="line">docker pull centos 下载</span><br><span class="line">docker images [ centos ] 查看</span><br><span class="line">docker run -i t centos /bin/bash</span><br></pre></td></tr></table></figure>
-
-<h3 id="Docker常用命令"><a href="#Docker常用命令" class="headerlink" title="Docker常用命令"></a>Docker常用命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#查询本地镜像</span><br><span class="line">docker images</span><br><span class="line">#查找镜像</span><br><span class="line">docker search[images]</span><br><span class="line">#下载镜像</span><br><span class="line">docker pull[images:tag]</span><br><span class="line">镜像的获取</span><br><span class="line"># 搜索镜像</span><br><span class="line">docker search &lt;image&gt; # 在 docker index 中搜索 image</span><br><span class="line"># 下载镜像</span><br><span class="line">docker pull &lt;image&gt; # 从 docker registry server 中下拉 image</span><br><span class="line"># 查看镜像</span><br><span class="line">docker images： # 列出 images</span><br><span class="line">docker images -a # 列出所有的 images（包含历史）</span><br><span class="line">docker rmi &lt;image ID&gt;： # 删除一个或多个 image</span><br></pre></td></tr></table></figure>
-
-<h5 id="容器的命令"><a href="#容器的命令" class="headerlink" title="容器的命令"></a>容器的命令</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"># 使用镜像创建容器</span><br><span class="line">docker run -i -t sauloal/ubuntu14.04</span><br><span class="line">docker run -i -t sauloal/ubuntu14.04 /bin/bash # 创建一个容器，让其中运行 bash 应用，</span><br><span class="line">退出后容器关闭</span><br><span class="line">-i 以交互模式运行容器</span><br><span class="line">-t 为容器成功新分配一个伪输入终端</span><br><span class="line">-itd  当容器-d启动不起来的时候 尝试用-itd启动</span><br><span class="line">docker run -itd --name centos_aways --restart=always centos</span><br><span class="line"></span><br><span class="line">#创建一个名称 centos_aways 的容器，自动重启</span><br><span class="line"># --restart 参数：always 始终重启；on-failure 退出状态非 0 时重启；默认为，no 不重启</span><br><span class="line"></span><br><span class="line"># 查看容器</span><br><span class="line">docker ps ：列出当前所有正在运行的 container</span><br><span class="line">docker ps -l ：列出最近一次启动的 container</span><br><span class="line">docker ps -a ：列出所有的 container（包含历史，即运行过的 container）</span><br><span class="line">docker ps -q ：列出最近一次运行的 container ID</span><br><span class="line"></span><br><span class="line"># 再次启动容器</span><br><span class="line">docker start/stop/restart &lt;container&gt; #：开启/停止/重启 container</span><br><span class="line">docker start [container_id] #：再次运行某个 container （包括历史 container）</span><br><span class="line"></span><br><span class="line">#进入正在运行的 docker 容器</span><br><span class="line"></span><br><span class="line">docker exec -it [container_id] /bin/bash</span><br><span class="line">docker run -i -t -p &lt;host_port:contain_port&gt; #：映射 HOST端口到容器，方便外部访问容</span><br><span class="line">器内服务，host_port 可以省略，省略表示把 container_port 映射到一个动态端口。</span><br><span class="line"># 删除容器</span><br><span class="line">docker rm &lt;container...&gt; #：删除一个或多个 container</span><br><span class="line">docker rm `docker ps -aq` #：删除所有的 container</span><br><span class="line">docker ps -aq | xargs docker rm #：同上, 删除所有的 container</span><br><span class="line">创建容器基础的命令格式。</span><br></pre></td></tr></table></figure>
-
-<h5 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#查看镜像或容器的详细信息:</span><br><span class="line">docker inspect[容器 ID/镜像名:tag]</span><br><span class="line">#给镜像添加一一个软链接并改名和标签:</span><br><span class="line">docker tag[oldname:tag][newname:tag]</span><br><span class="line"></span><br><span class="line">#删除镜像:</span><br><span class="line">docker rmi 镜像:tag/镜像 ID</span><br><span class="line"></span><br><span class="line">#容器和宿主机之间文件复制</span><br><span class="line">docker cp [文件目录容器 ID:内部路径]</span><br><span class="line">docker cp [容器 ID:内部路径文件目录]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><p><img src="/2023/11/17/Docker%E5%AD%A6%E4%B9%A0/image-20231121151715088.png" alt="image-20231121151715088"></p>
-<h4 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h4><p>​	是注释</p>
-<p>​	指令建议要大写, 内容小写</p>
-<h4 id="执行顺序"><a href="#执行顺序" class="headerlink" title="执行顺序"></a>执行顺序</h4><p>​	docker是按照Dockerfile指令顺序一次执行的, 也就是说从上到下</p>
-<h4 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h4><p> 1）<strong>FROM：底层镜像（如系统）</strong><br>这个 FROM 指令是 dockerfile 的第一个指令，然后指定了基础镜像，后面的所有指令都是运行<br>在该基础镜像环境上的 MAINTAINER 该指令是描述的维护者信息。<br>底层的系统镜像用的是什么，使用 from 指定，绝大部分情况都用的底层有个系统或者基础的环<br>境用的是什么，对 docker 不熟练使用 centos 镜像即可。<br>2）<strong>RUN：构建时容器内运行的命令。</strong><br>RUN 指令用于在容器中执行命令。我们常用来安装基础软件。<br>镜像安装软件依赖包都可以放在 run 中。<br>3）<strong>COPY：复制 docker 目录中的文件到镜像中。</strong><br>COPY 指令类似 ADD 指令，但是 ADD 指令范围更广些，ADD 能够自动解压文件，能够访问网<br>络资源，而 COPY 指令做不到。<br>非目录需要重新指定，放在目录中非常便利，属于好的一种习惯，值得推荐使用目录。<br>4）<strong>ADD：复制 docker 目录中的文件到镜像中。（过程可以解压）</strong><br>ADD 指令是用来将宿主机某个文件或目录放到（复制）容器某个目录下面。<br>官方不推荐 ADD,高级复制功能，需求不精准，推荐使用 COPY。<br>5）<strong>EXPOSE：声明开放端口。</strong><br>EXPOSE 指令用于暴露容器里的端口，我们在 3.5 里面演示过了，nginx 暴露的端口是 80，但<br>是启动容器的时候需要指定宿主机端口来映射你暴露的端口。需要暴露多个端口的话可以使用<br>多个 EXPOSE，也可以一个 EXPOSE 指令后面跟多个端口，端口之间用空格隔开。<br>声明不是变更，变更使用-p 构建容器时候使用。<br><strong>6）ENV：设置环境变量。</strong><br>ENV 指令是用于设置环境变量的 。<br>底层环境变量需要需提前设置。<br><strong>7）CMD：容器启动时执行的命令，最多只能执行一条。</strong><br>CMD 指令是你在容器启动的时候帮你运行的命令，而 RUN 这个指令是构建镜像的时候帮你运<br>行的命令。<br>容器启动时执行命令，最多执行一条。<br><strong>8）WORKDIR：声明工作目录。类似 cd。</strong><br>WORKDIR 是指下面的指令都在 WORKDIR 指定目录下面工作，这个与 linux 里面的 cd 差不<br>多。<br>切换目录使用 WORKDIR。<br>做容器轻量级最好，比较小就很好，使用一条命令就不要使用两天命令。</p>
-<h3 id="dockerfile操作测试"><a href="#dockerfile操作测试" class="headerlink" title="dockerfile操作测试"></a>dockerfile操作测试</h3><p><img src="/2023/11/17/Docker%E5%AD%A6%E4%B9%A0/image-20231121152611935.png" alt="image-20231121152611935"></p>
-<h5 id="案例1"><a href="#案例1" class="headerlink" title="案例1"></a>案例1</h5><p>1）用 dockerfile 创建并启动一个 centos 的 apache 镜像。指定自定义内容。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM centos:7</span><br><span class="line">RUN yum -y install httpd</span><br><span class="line">EXPOSE 80</span><br><span class="line">COPY index.html /usr/share/httpd/noindex/index.html</span><br><span class="line">CMD [&quot;/usr/sbin/httpd&quot;,&quot;-D&quot;,&quot;FOREGROUND&quot;]</span><br></pre></td></tr></table></figure>
-
-<p>2）构建镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@docker ~] docker build -t apache:v1 .</span><br></pre></td></tr></table></figure>
-
-<p>3）验证</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@docker ~] docker run -itd -p 345:80 apache:v1</span><br><span class="line">[root@docker ~] docker ps</span><br></pre></td></tr></table></figure>
-
-<h5 id="案例2"><a href="#案例2" class="headerlink" title="案例2"></a>案例2</h5><p>1）用 dockerfile 创建并启动一个 centos7 的 nginx 镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">FROM centos:7</span><br><span class="line">RUN?rpm?-Uvh?http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-</span><br><span class="line">0.el7.ngx.noarch.rpm</span><br><span class="line">RUN yum -y install nginx</span><br><span class="line">EXPOSE 80</span><br><span class="line">CMD [&quot;nginx&quot;,&quot;-g&quot;,&quot;daemon off;&quot;]</span><br></pre></td></tr></table></figure>
-
-<p>2）创建</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@docker nginx]docker bulid -t nginx:v1 .</span><br></pre></td></tr></table></figure>
-
-<p>3）创建容器</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@docker dockerfile] docker run -itd -p 456:80</span><br></pre></td></tr></table></figure>
-
-<p>4)验证<br>通过访问宿主机的 ip+端口，查看 Nginx，防火墙关闭。</p>
-<h3 id="数据持久化"><a href="#数据持久化" class="headerlink" title="数据持久化"></a>数据持久化</h3><p><img src="/2023/11/17/Docker%E5%AD%A6%E4%B9%A0/image-20231121164745355.png" alt="image-20231121164745355"></p>
-<h4 id="方式一-volumes"><a href="#方式一-volumes" class="headerlink" title="方式一: volumes"></a>方式一: volumes</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">docker volume create test1</span><br><span class="line">docker run -itd -p 8800:80 -v test1:/usr/share/nginx/html nginx:v1</span><br><span class="line">创建：docker volume create</span><br><span class="line">删除某个卷：docker volume rm 卷名</span><br><span class="line">删除所有未使用的卷：docker volume prune</span><br><span class="line">列出所有卷：docker volume ls</span><br><span class="line">查看某个卷的信息：docker volume inspect 卷名</span><br><span class="line">挂载到容器：-v 或–volume。如果是 Docker17.06 或更高：推荐使用–mount。（同 bind mo</span><br><span class="line">unt）</span><br><span class="line">挂载类型：key 为 type，value 为 bind、volume 或 tmpfs</span><br><span class="line">挂载源：key 为 source 或 src，对于命名卷，value 为卷名，对于匿名卷，则忽略</span><br><span class="line">容器中的挂载点：key 为 destination、dst 或 target，value 为容器中的路径</span><br><span class="line">读写类型：value 为 readonly，没有 key</span><br><span class="line">volume-opt 选项，可以出现多次。比如 volume-driver=local,volume-opt=type=nfs,…</span><br><span class="line">第一个域：对于命名卷，为卷名；匿名卷，则忽略，此时会创建匿名卷</span><br><span class="line">第二个域：容器中的挂载点</span><br><span class="line">第三个域：可选参数，由’,&#x27;隔开，如 ro</span><br><span class="line">-v 或—volume：由 3 个域组成，’:’分隔</span><br><span class="line">—mount：由多个’,’隔开的键值对组成</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2023/11/17/Docker%E5%AD%A6%E4%B9%A0/image-20231122093446380.png" alt="image-20231122093446380"></p>
-<p><img src="/2023/11/17/Docker%E5%AD%A6%E4%B9%A0/image-20231122094953268.png" alt="image-20231122094953268"></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 362535102@qq.com </span>
