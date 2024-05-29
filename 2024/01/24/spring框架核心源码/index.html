@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>spring框架核心源码 | vim</title>
+  <meta name="keywords" content=" spring , java ">
+  <meta name="description" content="spring框架核心源码 | vim">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="try、catch、finally执行顺序try块和catch块总逻辑基本相同。try中出现异常跳转到catch，若catch中出现异常则跳转到finally，try或catch正常执行若存在return则先执行return的代码并保存返回值信息（基本类型保存值信息，引用类型则保存地址信息）然后执行finally，若finally中出现异常或包含return则执行结束，若无异常且没有return则">
+<meta property="og:type" content="article">
+<meta property="og:title" content="try、catch、finally用法总结">
+<meta property="og:url" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="vim">
+<meta property="og:description" content="try、catch、finally执行顺序try块和catch块总逻辑基本相同。try中出现异常跳转到catch，若catch中出现异常则跳转到finally，try或catch正常执行若存在return则先执行return的代码并保存返回值信息（基本类型保存值信息，引用类型则保存地址信息）然后执行finally，若finally中出现异常或包含return则执行结束，若无异常且没有return则">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142037548.png">
+<meta property="og:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142713843.png">
+<meta property="og:image" content="c:/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817144139921.png">
+<meta property="article:published_time" content="2024-05-29T06:35:51.502Z">
+<meta property="article:modified_time" content="2024-01-24T01:16:55.223Z">
+<meta property="article:author" content="vim">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142037548.png">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/sublime.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>vim</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="github"
+               href="https://github.com/zhaolanzhi"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="jianshu"
+               href="http://www.jianshu.com/u/959b0f521aeb"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-jianshu"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:362535102@qq.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="qq"
+               href="http://wpa.qq.com/msgrd?v=3&uin=362535102&site=qq&menu=yes"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-qq"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(92)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="db">
+                        
+                        db
+                        <small>(7)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="design">
+                        
+                        design
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="devops">
+                        
+                        devops
+                        <small>(31)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="hexo">
+                        
+                        hexo
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="java">
+                        <i class="fold iconfont icon-right"></i>
+                        
+                        java
+                        <small>(31)</small>
+                        
+                    </div>
+                    
+                        <ul class="sub hide">
+                            
+                                <li>
+                                    <div data-rel="java<--->spring">
+                                        
+                                        spring
+                                        
+                                            <small>(5
+                                                )</small>
+                                        
+                                    </div>
+                                    
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="script">
+                        
+                        script
+                        <small>(6)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="tools">
+                        
+                        tools
+                        <small>(4)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="web">
+                        
+                        web
+                        <small>(5)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">关于</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">友链</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="92">
+<input type="hidden" id="yelog_site_word_count" value="79.6k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="https://www.jianshu.com/u/959b0f521aeb/">Timor</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>多态</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>工厂</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>管程</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>基础</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>集合</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>脚本</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>接口</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>快捷键</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>命令</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>匿名内部类</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>配置</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>日志</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>设计模式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>设置</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>数据库</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>系统时间</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>异常</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>远程</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>注解</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>字符</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>字节</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>aop</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>centos</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>centos7</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>date</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>db</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>devops</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>docker</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>docker-compose</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>es6</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>git</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>hexo</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>idea</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>java</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jdk</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jenkins</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>kubernetes</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>log</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>maven</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>mybatisplus</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>mysql</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nginx</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>node</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>npm</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nvm</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>oracle</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>redis</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>spring</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>springboot</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>sql</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ssh</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>stream</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>tar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>time</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>typroa</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>vagrant</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>vue</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>windows</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Yaml</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 java "
+           href="/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="try、catch、finally用法总结">try、catch、finally用法总结</span>
+            <span class="post-date" title="2024-05-29 14:35:51">2024/05/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2024/05/29/hello-world/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="Hello World">Hello World</span>
+            <span class="post-date" title="2024-05-29 14:35:51">2024/05/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2024/05/11/Java%E7%9A%84%E5%A4%9A%E6%80%81/"
+           data-tag="java,多态"
+           data-author="" >
+            <span class="post-title" title="Java的多态">Java的多态</span>
+            <span class="post-date" title="2024-05-11 10:43:09">2024/05/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 web "
+           href="/2024/04/30/Vue2%E5%AD%A6%E4%B9%A0/"
+           data-tag="vue"
+           data-author="" >
+            <span class="post-title" title="Vue2学习">Vue2学习</span>
+            <span class="post-date" title="2024-04-30 09:50:43">2024/04/30</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/04/07/%E3%80%90Oracle%E3%80%91CentOS7-CentOS8%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%87%8D%E5%90%AFOracle-11G-R2/"
+           data-tag="oracle,db"
+           data-author="" >
+            <span class="post-title" title="【Oracle】CentOS7/CentOS8命令行重启Oracle 11G R2">【Oracle】CentOS7/CentOS8命令行重启Oracle 11G R2</span>
+            <span class="post-date" title="2024-04-07 09:30:25">2024/04/07</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/04/07/%E3%80%90Oracle%E3%80%91CentOS7-CentOS8%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AE%89%E8%A3%85Oracle-11G-R2/"
+           data-tag="oracle,db"
+           data-author="" >
+            <span class="post-title" title="【Oracle】CentOS7/CentOS8命令行安装Oracle 11G R2">【Oracle】CentOS7/CentOS8命令行安装Oracle 11G R2</span>
+            <span class="post-date" title="2024-04-07 09:27:58">2024/04/07</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/04/01/Windows-nginx%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/"
+           data-tag="nginx,devops"
+           data-author="" >
+            <span class="post-title" title="Windows nginx启动脚本">Windows nginx启动脚本</span>
+            <span class="post-date" title="2024-04-01 14:47:28">2024/04/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/03/11/Centos7-%E5%AE%89%E8%A3%85docker%E5%92%8Cdocker-compose/"
+           data-tag="docker,centos7"
+           data-author="" >
+            <span class="post-title" title="Centos7 安装docker和docker-compose">Centos7 安装docker和docker-compose</span>
+            <span class="post-date" title="2024-03-11 16:31:12">2024/03/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/03/11/Centos%E5%AE%89%E8%A3%85tar%E5%91%BD%E4%BB%A4/"
+           data-tag="centos,tar"
+           data-author="" >
+            <span class="post-title" title="Centos安装tar命令">Centos安装tar命令</span>
+            <span class="post-date" title="2024-03-11 15:14:57">2024/03/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/03/11/Centos-%E5%AE%89%E8%A3%85jdk1-8/"
+           data-tag="jdk"
+           data-author="" >
+            <span class="post-title" title="Centos 安装jdk1.8">Centos 安装jdk1.8</span>
+            <span class="post-date" title="2024-03-11 15:07:11">2024/03/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/03/11/Centos%E5%AE%89%E8%A3%85nvm%E7%8E%AF%E5%A2%83/"
+           data-tag="nvm"
+           data-author="" >
+            <span class="post-title" title="Centos安装nvm环境">Centos安装nvm环境</span>
+            <span class="post-date" title="2024-03-11 09:21:13">2024/03/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 web "
+           href="/2024/03/05/ES6-%E6%A8%A1%E5%9D%97%E5%8C%96/"
+           data-tag="es6"
+           data-author="" >
+            <span class="post-title" title="ES6 模块化">ES6 模块化</span>
+            <span class="post-date" title="2024-03-05 14:59:26">2024/03/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 web "
+           href="/2024/03/05/ES6%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/"
+           data-tag="es6"
+           data-author="" >
+            <span class="post-title" title="ES6语法学习总结">ES6语法学习总结</span>
+            <span class="post-date" title="2024-03-05 14:25:09">2024/03/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 web "
+           href="/2024/03/04/%E8%AE%BE%E7%BD%AEnpm%E4%B8%BA%E6%B7%98%E5%AE%9D%E9%95%9C%E5%83%8F/"
+           data-tag="npm"
+           data-author="" >
+            <span class="post-title" title="设置npm为淘宝镜像">设置npm为淘宝镜像</span>
+            <span class="post-date" title="2024-03-04 11:34:00">2024/03/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 java spring "
+           href="/2024/02/05/%E6%B3%A8%E8%A7%A3-Autowired%E5%92%8C-Resource%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8/"
+           data-tag="spring,注解"
+           data-author="" >
+            <span class="post-title" title="注解@Autowired和@Resource区别和使用">注解@Autowired和@Resource区别和使用</span>
+            <span class="post-date" title="2024-02-05 14:55:55">2024/02/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2024/02/05/Java%E6%97%A5%E5%BF%97/"
+           data-tag="日志,log"
+           data-author="" >
+            <span class="post-title" title="Java日志">Java日志</span>
+            <span class="post-date" title="2024-02-05 10:37:12">2024/02/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 java spring "
+           href="/2024/01/24/spring%E6%A1%86%E6%9E%B6%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81/"
+           data-tag="spring,java"
+           data-author="" >
+            <span class="post-title" title="spring框架核心源码">spring框架核心源码</span>
+            <span class="post-date" title="2024-01-24 14:32:26">2024/01/24</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/01/24/Node%E5%92%8CNVM%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"
+           data-tag="nvm,node"
+           data-author="" >
+            <span class="post-title" title="Node和NVM环境搭建">Node和NVM环境搭建</span>
+            <span class="post-date" title="2024-01-24 09:41:12">2024/01/24</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2024/01/18/TortoiseGit-%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"
+           data-tag="git"
+           data-author="" >
+            <span class="post-title" title="TortoiseGit-使用教程">TortoiseGit-使用教程</span>
+            <span class="post-date" title="2024-01-18 11:41:36">2024/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 java spring "
+           href="/2024/01/15/XmlBeanFactory%E5%92%8CApplicationContext%E7%9A%84%E5%AF%B9%E6%AF%94/"
+           data-tag="java"
+           data-author="" >
+            <span class="post-title" title="XmlBeanFactory和ApplicationContext的对比">XmlBeanFactory和ApplicationContext的对比</span>
+            <span class="post-date" title="2024-01-15 11:37:41">2024/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 java spring "
+           href="/2024/01/15/Spring%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"
+           data-tag="spring"
+           data-author="" >
+            <span class="post-title" title="Spring环境搭建">Spring环境搭建</span>
+            <span class="post-date" title="2024-01-15 11:06:11">2024/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2024/01/15/Java%E5%AD%97%E8%8A%82%E5%92%8C%E5%AD%97%E7%AC%A6%E7%9A%84%E5%8C%BA%E5%88%AB/"
+           data-tag="字节,字符"
+           data-author="" >
+            <span class="post-title" title="Java字节和字符的区别">Java字节和字符的区别</span>
+            <span class="post-date" title="2024-01-15 09:54:47">2024/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2024/01/11/Java-8-Date-LocalDate-LocalDateTime-Instant/"
+           data-tag="date,time"
+           data-author="" >
+            <span class="post-title" title="Java 8 Date - LocalDate, LocalDateTime, Instant">Java 8 Date - LocalDate, LocalDateTime, Instant</span>
+            <span class="post-date" title="2024-01-11 15:58:05">2024/01/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/01/03/git%E6%95%99%E7%A8%8B/"
+           data-tag="git"
+           data-author="" >
+            <span class="post-title" title="git教程">git教程</span>
+            <span class="post-date" title="2024-01-03 14:23:06">2024/01/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/12/13/windows%E4%B8%8Bjdk8%E5%92%8Cjdk11%E5%88%87%E6%8D%A2%E7%9A%84%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC/"
+           data-tag="jdk,java"
+           data-author="" >
+            <span class="post-title" title="windows下jdk8和jdk11切换的批处理脚本">windows下jdk8和jdk11切换的批处理脚本</span>
+            <span class="post-date" title="2023-12-13 17:06:20">2023/12/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/12/06/Kubernetes%E5%AD%A6%E4%B9%A0/"
+           data-tag="kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes学习">Kubernetes学习</span>
+            <span class="post-date" title="2023-12-06 14:27:59">2023/12/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 tools "
+           href="/2023/12/06/%E4%BD%BF%E7%94%A8ssh%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95VirtualBox%E8%99%9A%E6%8B%9F%E6%9C%BA/"
+           data-tag="远程,ssh"
+           data-author="" >
+            <span class="post-title" title="使用ssh远程登录VirtualBox虚拟机">使用ssh远程登录VirtualBox虚拟机</span>
+            <span class="post-date" title="2023-12-06 11:34:32">2023/12/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 script "
+           href="/2023/12/06/Windows%E7%B3%BB%E7%BB%9F%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8Fexe%E6%B3%A8%E5%86%8C%E6%88%90%E6%9C%8D%E5%8A%A1/"
+           data-tag="windows"
+           data-author="" >
+            <span class="post-title" title="Windows系统应用程序exe注册成服务">Windows系统应用程序exe注册成服务</span>
+            <span class="post-date" title="2023-12-06 01:07:21">2023/12/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/12/04/vagrant%E6%95%99%E7%A8%8B/"
+           data-tag="vagrant"
+           data-author="" >
+            <span class="post-title" title="vagrant教程">vagrant教程</span>
+            <span class="post-date" title="2023-12-04 14:30:10">2023/12/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/11/29/docker-docker-compose%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/"
+           data-tag="docker,docker-compose"
+           data-author="" >
+            <span class="post-title" title="docker,docker-compose离线安装教程">docker,docker-compose离线安装教程</span>
+            <span class="post-date" title="2023-11-29 17:28:37">2023/11/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/11/29/Docker%E3%80%81Docker-compose-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"
+           data-tag="docker,docker-compose"
+           data-author="" >
+            <span class="post-title" title="Docker、Docker-compose 入门教程">Docker、Docker-compose 入门教程</span>
+            <span class="post-date" title="2023-11-29 17:17:14">2023/11/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/11/29/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E9%97%B4%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6%E5%91%BD%E4%BB%A4/"
+           data-tag="linux"
+           data-author="" >
+            <span class="post-title" title="Linux服务器之间传输文件命令">Linux服务器之间传输文件命令</span>
+            <span class="post-date" title="2023-11-29 17:06:40">2023/11/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/11/17/Docker%E5%AD%A6%E4%B9%A0/"
+           data-tag="docker"
+           data-author="" >
+            <span class="post-title" title="Docker学习">Docker学习</span>
+            <span class="post-date" title="2023-11-17 14:42:25">2023/11/17</span>
+        </a>
+        
+        
+        <a  class="全部文章 tools "
+           href="/2023/11/15/Typora%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE/"
+           data-tag="typroa"
+           data-author="" >
+            <span class="post-title" title="Typora设置图片存放位置">Typora设置图片存放位置</span>
+            <span class="post-date" title="2023-11-15 16:05:33">2023/11/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 tools "
+           href="/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"
+           data-tag="db"
+           data-author="" >
+            <span class="post-title" title="PDManer元数据使用教程">PDManer元数据使用教程</span>
+            <span class="post-date" title="2023-11-15 15:09:11">2023/11/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/10/25/java%E7%94%A8CollectionUtils%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%88%A4%E6%96%AD%E9%9B%86%E5%90%88%E6%98%AF%E5%90%A6%E4%B8%BA%E7%A9%BA/"
+           data-tag="集合"
+           data-author="" >
+            <span class="post-title" title="java用CollectionUtils工具类判断集合是否为空">java用CollectionUtils工具类判断集合是否为空</span>
+            <span class="post-date" title="2023-10-25 17:43:51">2023/10/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 db "
+           href="/2023/10/25/CentOS7-Oracle-11g-R2-%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%96%B9%E6%B3%95/"
+           data-tag="oracle"
+           data-author="" >
+            <span class="post-title" title="CentOS7 Oracle 11g R2 设置开机自启动方法">CentOS7 Oracle 11g R2 设置开机自启动方法</span>
+            <span class="post-date" title="2023-10-25 15:59:44">2023/10/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/10/25/%E6%9B%BF%E6%8D%A2lib%E4%B8%8B%E7%9A%84%E4%BE%9D%E8%B5%96jar%E5%8C%85/"
+           data-tag="jar"
+           data-author="" >
+            <span class="post-title" title="替换lib下的依赖jar包">替换lib下的依赖jar包</span>
+            <span class="post-date" title="2023-10-25 15:06:28">2023/10/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/%E6%8A%BD%E8%B1%A1%E7%B1%BB%EF%BC%88abstract-class%EF%BC%89%E5%92%8C%E6%8E%A5%E5%8F%A3%EF%BC%88interface%EF%BC%89%E7%9A%84%E5%8C%BA%E5%88%AB/"
+           data-tag="java"
+           data-author="" >
+            <span class="post-title" title="抽象类（abstract class）和接口（interface）的区别">抽象类（abstract class）和接口（interface）的区别</span>
+            <span class="post-date" title="2023-07-11 17:49:48">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/Springboot%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"
+           data-tag="java,springboot"
+           data-author="" >
+            <span class="post-title" title="Springboot项目启动内存占用过高问题解决方案">Springboot项目启动内存占用过高问题解决方案</span>
+            <span class="post-date" title="2023-07-11 17:45:31">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/07/11/idea-docker-springboot-%E9%83%A8%E7%BD%B2-%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95/"
+           data-tag="docker"
+           data-author="" >
+            <span class="post-title" title="idea docker springboot 部署+远程调试">idea docker springboot 部署+远程调试</span>
+            <span class="post-date" title="2023-07-11 17:42:58">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/Maven%E5%91%BD%E4%BB%A4install%E5%92%8Cpackage%E7%9A%84%E5%8C%BA%E5%88%AB/"
+           data-tag="maven"
+           data-author="" >
+            <span class="post-title" title="Maven命令install和package的区别">Maven命令install和package的区别</span>
+            <span class="post-date" title="2023-07-11 17:39:02">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/07/11/centos7-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8rz-sz%E5%91%BD%E4%BB%A4/"
+           data-tag="centos"
+           data-author="" >
+            <span class="post-title" title="centos7 安装使用rz/sz命令">centos7 安装使用rz/sz命令</span>
+            <span class="post-date" title="2023-07-11 17:31:40">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 script "
+           href="/2023/07/11/windows-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/"
+           data-tag="windows"
+           data-author="" >
+            <span class="post-title" title="windows 相关命令">windows 相关命令</span>
+            <span class="post-date" title="2023-07-11 17:29:25">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 db "
+           href="/2023/07/11/MySQL%E6%9F%A5%E7%9C%8B%E8%A1%A8%E6%B3%A8%E9%87%8A%E6%88%96%E5%AD%97%E6%AE%B5%E6%B3%A8%E9%87%8A/"
+           data-tag="mysql"
+           data-author="" >
+            <span class="post-title" title="MySQL查看表注释或字段注释">MySQL查看表注释或字段注释</span>
+            <span class="post-date" title="2023-07-11 17:24:58">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/Objects-equals-a-b-%E3%80%81%E2%80%9Ca-b%E2%80%9D%E5%92%8C%E2%80%9Da-equals-b-%E2%80%9D%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/"
+           data-tag="基础"
+           data-author="" >
+            <span class="post-title" title="Objects.equals(a,b)、“a==b”和”a.equals(b)”有什么区别">Objects.equals(a,b)、“a==b”和”a.equals(b)”有什么区别</span>
+            <span class="post-date" title="2023-07-11 17:21:39">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/07/11/Centos-7-%E5%AE%89%E8%A3%85/"
+           data-tag="centos"
+           data-author="" >
+            <span class="post-title" title="Centos 7 安装">Centos 7 安装</span>
+            <span class="post-date" title="2023-07-11 17:18:24">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/Spring-MVC%E6%8E%A5%E6%94%B6json%E6%95%B0%E6%8D%AE%E7%9A%844%E7%A7%8D%E6%96%B9%E5%BC%8F/"
+           data-tag="java"
+           data-author="" >
+            <span class="post-title" title="Spring MVC接收json数据的4种方式">Spring MVC接收json数据的4种方式</span>
+            <span class="post-date" title="2023-07-11 17:07:59">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/07/10/Docker-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/"
+           data-tag="docker"
+           data-author="" >
+            <span class="post-title" title="Docker 镜像加速">Docker 镜像加速</span>
+            <span class="post-date" title="2023-07-10 17:00:54">2023/07/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/06/01/JRebel-XRebel%E7%83%AD%E9%83%A8%E7%BD%B2%E5%8F%8A%E8%BF%9C%E7%A8%8B%E7%83%AD%E9%83%A8%E7%BD%B2/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="JRebel&amp;XRebel热部署及远程热部署">JRebel&amp;XRebel热部署及远程热部署</span>
+            <span class="post-date" title="2023-06-01 23:30:56">2023/06/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/05/05/Windows10%E7%B3%BB%E7%BB%9F%E5%BD%BB%E5%BA%95%E6%B0%B8%E4%B9%85%E5%85%B3%E9%97%AD%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="Windows10系统彻底永久关闭自动更新">Windows10系统彻底永久关闭自动更新</span>
+            <span class="post-date" title="2023-05-05 14:01:04">2023/05/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/03/27/Docker%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E9%95%9C%E5%83%8F/"
+           data-tag="docker"
+           data-author="" >
+            <span class="post-title" title="Docker导入导出镜像">Docker导入导出镜像</span>
+            <span class="post-date" title="2023-03-27 21:48:59">2023/03/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 tools "
+           href="/2023/02/21/idea%E6%8F%92%E4%BB%B6%E5%A4%A7%E5%85%A8/"
+           data-tag="idea,快捷键"
+           data-author="" >
+            <span class="post-title" title="idea插件大全">idea插件大全</span>
+            <span class="post-date" title="2023-02-21 16:03:10">2023/02/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/01/27/Java-%E7%AE%A1%E7%A8%8B/"
+           data-tag="管程"
+           data-author="" >
+            <span class="post-title" title="Java 管程">Java 管程</span>
+            <span class="post-date" title="2023-01-27 07:47:21">2023/01/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/01/10/java-List%EF%BC%9CMap%EF%BC%9CString-Object%EF%BC%9E%EF%BC%9E-stream-%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/"
+           data-tag="jdk,stream"
+           data-author="" >
+            <span class="post-title" title="java List＜Map＜String,Object＞＞ stream 常用操作">java List＜Map＜String,Object＞＞ stream 常用操作</span>
+            <span class="post-date" title="2023-01-10 16:46:37">2023/01/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/01/04/Linux%E5%91%BD%E4%BB%A4-%E5%AE%89%E8%A3%85cenos7%E7%B3%BB%E7%BB%9FTab%E8%A1%A5%E5%85%A8%E5%8A%9F%E8%83%BD/"
+           data-tag="centos"
+           data-author="" >
+            <span class="post-title" title="Linux命令-安装cenos7系统Tab补全功能">Linux命令-安装cenos7系统Tab补全功能</span>
+            <span class="post-date" title="2023-01-04 09:57:46">2023/01/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/01/04/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="docker"
+           data-author="" >
+            <span class="post-title" title="Docker常用命令">Docker常用命令</span>
+            <span class="post-date" title="2023-01-04 09:36:00">2023/01/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 script "
+           href="/2023/01/03/Yaml-%E8%AF%AD%E6%B3%95/"
+           data-tag="Yaml"
+           data-author="" >
+            <span class="post-title" title="Yaml 语法">Yaml 语法</span>
+            <span class="post-date" title="2023-01-03 10:31:37">2023/01/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/12/30/nginx%E4%B9%8Blocation%E8%A7%84%E5%88%99%E8%AF%A6%E8%A7%A3/"
+           data-tag="nginx"
+           data-author="" >
+            <span class="post-title" title="nginx之location规则详解">nginx之location规则详解</span>
+            <span class="post-date" title="2022-12-30 15:37:34">2022/12/30</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/12/29/nginx%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2-%E5%88%86%E5%89%B2%EF%BC%8C%E6%8C%89%E5%A4%A9%E7%94%9F%E6%88%90-%E5%AE%9A%E6%9C%9F%E5%88%A0%E9%99%A4%E6%97%A5%E5%BF%97/"
+           data-tag="nginx"
+           data-author="" >
+            <span class="post-title" title="nginx日志切割/分割，按天生成&amp;定期删除日志">nginx日志切割/分割，按天生成&amp;定期删除日志</span>
+            <span class="post-date" title="2022-12-29 15:14:48">2022/12/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 web "
+           href="/2022/12/08/VUE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"
+           data-tag="vue"
+           data-author="" >
+            <span class="post-title" title="VUE基础知识">VUE基础知识</span>
+            <span class="post-date" title="2022-12-08 16:50:15">2022/12/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/10/28/CentOS7%E4%B8%8B%E5%AE%89%E8%A3%85Redis/"
+           data-tag="redis"
+           data-author="" >
+            <span class="post-title" title="CentOS7下安装Redis">CentOS7下安装Redis</span>
+            <span class="post-date" title="2022-10-28 17:56:46">2022/10/28</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/10/28/CentOS7%E6%9F%A5%E8%AF%A2jdk%E5%AE%89%E8%A3%85%E4%BD%8D%E7%BD%AE-%E7%9B%AE%E5%BD%95/"
+           data-tag="jdk"
+           data-author="" >
+            <span class="post-title" title="CentOS7查询jdk安装位置/目录">CentOS7查询jdk安装位置/目录</span>
+            <span class="post-date" title="2022-10-28 17:50:46">2022/10/28</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/10/28/centos7%E5%8D%B8%E8%BD%BD%E8%87%AA%E5%B8%A6openjdk-%E5%AE%89%E8%A3%85%E8%87%AA%E5%B7%B1%E7%9A%84jdk/"
+           data-tag="jdk"
+           data-author="" >
+            <span class="post-title" title="centos7卸载自带openjdk,安装自己的jdk">centos7卸载自带openjdk,安装自己的jdk</span>
+            <span class="post-date" title="2022-10-28 17:46:16">2022/10/28</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/10/14/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/"
+           data-tag="java"
+           data-author="" >
+            <span class="post-title" title="Java基础知识点整理">Java基础知识点整理</span>
+            <span class="post-date" title="2022-10-14 09:43:40">2022/10/14</span>
+        </a>
+        
+        
+        <a  class="全部文章 db "
+           href="/2022/10/11/ECS%E4%B8%ADMySQL%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2/"
+           data-tag="mysql"
+           data-author="" >
+            <span class="post-title" title="ECS中MySQL快速部署">ECS中MySQL快速部署</span>
+            <span class="post-date" title="2022-10-11 16:52:46">2022/10/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/10/09/Spring%E4%B8%ADbean%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%B3%A8%E5%85%A5%E6%96%B9%E5%BC%8F/"
+           data-tag="spring"
+           data-author="" >
+            <span class="post-title" title="Spring中bean的四种注入方式">Spring中bean的四种注入方式</span>
+            <span class="post-date" title="2022-10-09 13:48:35">2022/10/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 java spring "
+           href="/2022/09/28/Spring%E7%9A%84AOP%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/"
+           data-tag="aop"
+           data-author="" >
+            <span class="post-title" title="Spring的AOP注解开发">Spring的AOP注解开发</span>
+            <span class="post-date" title="2022-09-28 11:03:03">2022/09/28</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/27/maven%E5%B0%86%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8A%A0%E5%85%A5%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/"
+           data-tag="maven"
+           data-author="" >
+            <span class="post-title" title="maven将第三方jar加入本地仓库">maven将第三方jar加入本地仓库</span>
+            <span class="post-date" title="2022-09-27 11:23:40">2022/09/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/26/windows-10-kill-%E8%BF%9B%E7%A8%8B/"
+           data-tag="命令"
+           data-author="" >
+            <span class="post-title" title="windows 10 kill 进程">windows 10 kill 进程</span>
+            <span class="post-date" title="2022-09-26 23:59:48">2022/09/26</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/24/Spring%E7%90%86%E8%A7%A3/"
+           data-tag="spring"
+           data-author="" >
+            <span class="post-title" title="Spring理解">Spring理解</span>
+            <span class="post-date" title="2022-09-24 17:16:41">2022/09/24</span>
+        </a>
+        
+        
+        <a  class="全部文章 db "
+           href="/2022/09/21/Wiwindows10%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-MySQL8-0%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/"
+           data-tag="mysql"
+           data-author="" >
+            <span class="post-title" title="windows10操作系统 MySQL8.0远程连接">windows10操作系统 MySQL8.0远程连接</span>
+            <span class="post-date" title="2022-09-21 21:35:23">2022/09/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/18/MybatisPlus/"
+           data-tag="mybatisplus"
+           data-author="" >
+            <span class="post-title" title="MybatisPlus">MybatisPlus</span>
+            <span class="post-date" title="2022-09-18 21:07:08">2022/09/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/18/%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB/"
+           data-tag="匿名内部类"
+           data-author="" >
+            <span class="post-title" title="匿名内部类">匿名内部类</span>
+            <span class="post-date" title="2022-09-18 08:18:04">2022/09/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 db "
+           href="/2022/09/13/PLSQL-Developer%E5%BF%AB%E6%8D%B7%E8%AE%BE%E7%BD%AE/"
+           data-tag="sql"
+           data-author="" >
+            <span class="post-title" title="PLSQL Developer快捷设置">PLSQL Developer快捷设置</span>
+            <span class="post-date" title="2022-09-13 16:44:52">2022/09/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/09/09/Linux%E4%BF%AE%E6%94%B9%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4/"
+           data-tag="linux,系统时间"
+           data-author="" >
+            <span class="post-title" title="Linux修改系统时间">Linux修改系统时间</span>
+            <span class="post-date" title="2022-09-09 17:29:33">2022/09/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/09/Java%E5%9F%BA%E7%A1%80/"
+           data-tag="基础"
+           data-author="" >
+            <span class="post-title" title="Java基础">Java基础</span>
+            <span class="post-date" title="2022-09-09 14:04:57">2022/09/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/09/Java%E5%BC%82%E5%B8%B8/"
+           data-tag="异常"
+           data-author="" >
+            <span class="post-title" title="Java异常">Java异常</span>
+            <span class="post-date" title="2022-09-09 10:00:33">2022/09/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/08/Autowired%E6%B3%A8%E5%85%A5%E5%AF%B9%E8%B1%A1%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%AE%9E%E7%8E%B0%E7%B1%BB%E7%9A%84%E5%8C%BA%E5%88%AB/"
+           data-tag="spring"
+           data-author="" >
+            <span class="post-title" title="Autowired注入对象接口和实现类的区别">Autowired注入对象接口和实现类的区别</span>
+            <span class="post-date" title="2022-09-08 15:41:18">2022/09/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/09/08/jenkins%E9%83%A8%E7%BD%B2/"
+           data-tag="jenkins"
+           data-author="" >
+            <span class="post-title" title="jenkins部署">jenkins部署</span>
+            <span class="post-date" title="2022-09-08 10:22:04">2022/09/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/04/%E6%8E%A5%E5%8F%A3/"
+           data-tag="接口"
+           data-author="" >
+            <span class="post-title" title="接口">接口</span>
+            <span class="post-date" title="2022-09-04 16:29:51">2022/09/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 design "
+           href="/2022/09/04/%E5%B7%A5%E5%8E%82%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+           data-tag="工厂"
+           data-author="" >
+            <span class="post-title" title="工厂设计模式">工厂设计模式</span>
+            <span class="post-date" title="2022-09-04 11:09:15">2022/09/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 design "
+           href="/2022/09/03/%E4%B8%83%E5%A4%A7%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/"
+           data-tag="设计模式"
+           data-author="" >
+            <span class="post-title" title="七大软件设计原则">七大软件设计原则</span>
+            <span class="post-date" title="2022-09-03 09:11:31">2022/09/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/02/Java%E5%A4%9A%E6%80%81%E7%90%86%E8%A7%A3/"
+           data-tag="多态"
+           data-author="" >
+            <span class="post-title" title="Java多态理解">Java多态理解</span>
+            <span class="post-date" title="2022-09-02 11:47:44">2022/09/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 hexo "
+           href="/2022/09/02/hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="hexo"
+           data-author="" >
+            <span class="post-title" title="hexo常用命令">hexo常用命令</span>
+            <span class="post-date" title="2022-09-02 10:30:24">2022/09/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 db "
+           href="/2022/08/19/Oracle%E7%9A%84%E5%B8%B8%E7%94%A8SQL/"
+           data-tag="oracle,数据库"
+           data-author="" >
+            <span class="post-title" title="Oracle的常用SQL">Oracle的常用SQL</span>
+            <span class="post-date" title="2022-08-19 10:12:15">2022/08/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/08/19/Docker%E5%AE%89%E8%A3%85Oracle11g%E6%95%B0%E6%8D%AE%E5%BA%93/"
+           data-tag="oracle,docker"
+           data-author="" >
+            <span class="post-title" title="Docker安装Oracle11g数据库">Docker安装Oracle11g数据库</span>
+            <span class="post-date" title="2022-08-19 09:45:39">2022/08/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 script "
+           href="/2022/08/19/Linux%E4%B8%ADCtrl-C%E3%80%81Kill%20-9%E5%92%8CKill%20-15/"
+           data-tag="linux"
+           data-author="" >
+            <span class="post-title" title="Linux中Ctrl+C、Kill -9和Kill -15的区别">Linux中Ctrl+C、Kill -9和Kill -15的区别</span>
+            <span class="post-date" title="2022-08-19 09:31:40">2022/08/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 script "
+           href="/2022/08/19/SpringBoot%E5%9C%A8CentOS7%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/"
+           data-tag="命令,脚本"
+           data-author="" >
+            <span class="post-title" title="SpringBoot在CentOS7后台运行">SpringBoot在CentOS7后台运行</span>
+            <span class="post-date" title="2022-08-19 08:57:46">2022/08/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 script "
+           href="/2022/08/18/windows%E7%8E%AF%E5%A2%83%E4%B8%80%E9%94%AE%E5%90%AF%E5%8A%A8jar%E8%84%9A%E6%9C%ACbat%E6%96%87%E4%BB%B6/"
+           data-tag="脚本"
+           data-author="" >
+            <span class="post-title" title="windows环境一键启动jar脚本bat文件">windows环境一键启动jar脚本bat文件</span>
+            <span class="post-date" title="2022-08-18 22:49:55">2022/08/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 db "
+           href="/2022/08/18/%E6%9F%A5%E7%9C%8Boracle%E6%95%B0%E6%8D%AE%E5%BA%93%E7%BC%96%E7%A0%81%E5%8F%8A%E4%BF%AE%E6%94%B9%E7%BC%96%E7%A0%81%E6%96%B9%E6%B3%95/"
+           data-tag="oracle,数据库"
+           data-author="" >
+            <span class="post-title" title="查看oracle数据库编码及修改编码方法">查看oracle数据库编码及修改编码方法</span>
+            <span class="post-date" title="2022-08-18 22:37:14">2022/08/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 hexo "
+           href="/2022/08/18/Hexo%E8%AE%BE%E7%BD%AE%E4%B8%8A%E4%BC%A0%E6%9C%AC%E5%9C%B0%E5%9B%BE%E7%89%87/"
+           data-tag="配置,设置"
+           data-author="" >
+            <span class="post-title" title="Hexo设置上传本地图片">Hexo设置上传本地图片</span>
+            <span class="post-date" title="2022-08-18 14:18:32">2022/08/18</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-spring框架核心源码" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">spring框架核心源码</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="java">java</a> > 
+            
+            <a  data-rel="java&lt;---&gt;spring">spring</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color2">spring</a>
+            
+            <a class="color5">java</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2024-01-26 17:57:07'>2024-01-24 14:32</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:4.5k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#XmlBeanFactory-%E7%B1%BB"><span class="toc-text">XmlBeanFactory(类)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ApplicationContext-%E6%8E%A5%E5%8F%A3"><span class="toc-text">ApplicationContext(接口)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XmlBeanFactory%E5%92%8CApplicationContext%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8C%BA%E5%88%AB"><span class="toc-text">XmlBeanFactory和ApplicationContext的主要区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Resource"><span class="toc-text">Resource</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ClassLoader"><span class="toc-text">ClassLoader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XmlBeanDefinitionReader"><span class="toc-text">XmlBeanDefinitionReader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BeanDefinition-%E6%8E%A5%E5%8F%A3"><span class="toc-text">BeanDefinition(接口)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EncodedResource"><span class="toc-text">EncodedResource</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EntityResolver"><span class="toc-text">EntityResolver</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BeanDefinitionParserDelegate"><span class="toc-text">BeanDefinitionParserDelegate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DefaultBeanDefinitionDocumentReader"><span class="toc-text">DefaultBeanDefinitionDocumentReader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GenericBeanDefinition"><span class="toc-text">GenericBeanDefinition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AnnotatedGenericBeanDefinition"><span class="toc-text">AnnotatedGenericBeanDefinition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BeanDefinitionHolder"><span class="toc-text">BeanDefinitionHolder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Autowired%E5%92%8C-Resource%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">@Autowired和@Resource的区别</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="XmlBeanFactory-类"><a href="#XmlBeanFactory-类" class="headerlink" title="XmlBeanFactory(类)"></a>XmlBeanFactory(类)</h3><ul>
+<li><p><strong>作用：</strong> <code>XmlBeanFactory</code>是Spring框架早期版本（3.1之前）提供的一个Bean工厂实现类。它通过解析XML文件来读取和管理Bean的配置信息，并实例化这些Bean。主要负责Bean的实例化和依赖注入。</p>
+</li>
+<li><p><strong>特点：</strong> <code>XmlBeanFactory</code>是一种轻量级的容器，它延迟加载Bean，即在第一次请求Bean时才进行实例化。这可能导致性能问题，因为在实例化时才会发现配置错误。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Resource</span> <span class="variable">resource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPathResource</span>(<span class="string">&quot;spring-config.xml&quot;</span>);</span><br><span class="line"><span class="type">BeanFactory</span> <span class="variable">factory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">XmlBeanFactory</span>(resource);</span><br><span class="line"><span class="type">MyBean</span> <span class="variable">myBean</span> <span class="operator">=</span> (MyBean) factory.getBean(<span class="string">&quot;myBean&quot;</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="ApplicationContext-接口"><a href="#ApplicationContext-接口" class="headerlink" title="ApplicationContext(接口)"></a>ApplicationContext(接口)</h3><ul>
+<li><p><strong>作用：</strong> <code>ApplicationContext</code>是Spring框架提供的更高级、更强大的容器。它除了提供<code>BeanFactory</code>的所有功能外，还包括了一些其他的企业级功能，如事件传播、AOP等。</p>
+</li>
+<li><p><strong>特点：</strong> <code>ApplicationContext</code>在容器初始化时就会实例化所有的Bean，这样可以在启动时就发现配置问题。它支持多种资源的加载方式，不仅限于XML，还可以通过注解、Java配置等方式进行配置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ApplicationContext</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPathXmlApplicationContext</span>(<span class="string">&quot;spring-config.xml&quot;</span>);</span><br><span class="line"><span class="type">MyBean</span> <span class="variable">myBean</span> <span class="operator">=</span> (MyBean) context.getBean(<span class="string">&quot;myBean&quot;</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="XmlBeanFactory和ApplicationContext的主要区别"><a href="#XmlBeanFactory和ApplicationContext的主要区别" class="headerlink" title="XmlBeanFactory和ApplicationContext的主要区别"></a>XmlBeanFactory和ApplicationContext的主要区别</h3><ul>
+<li><code>XmlBeanFactory</code>是一个轻量级的容器，而<code>ApplicationContext</code>是一个更加强大的容器，提供了更多的功能。</li>
+<li><code>XmlBeanFactory</code>在第一次请求Bean时才进行实例化，延迟加载，可能导致性能问题。而<code>ApplicationContext</code>在容器初始化时就会实例化所有的Bean。</li>
+<li><code>ApplicationContext</code>支持更多的配置方式，不仅限于XML，还包括注解、Java配置等。</li>
+</ul>
+<p>总的来说，如果对性能要求较高，可以选择使用<code>XmlBeanFactory</code>，但在大多数情况下，推荐使用更强大的<code>ApplicationContext</code>。在现代的Spring应用中，通常更常使用<code>ApplicationContext</code>。</p>
+<h3 id="Resource"><a href="#Resource" class="headerlink" title="Resource"></a>Resource</h3><p>在Spring框架中，<code>Resource</code>是一个抽象接口，用于表示资源，例如文件、类路径中的文件、URL等。它提供了一种统一的方式来访问各种类型的资源，而不需要关心底层资源的具体类型或位置。</p>
+<p><img src="/2024/01/24/spring%E6%A1%86%E6%9E%B6%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81/1.png" alt="img"></p>
+<p><img src="/2024/01/24/spring%E6%A1%86%E6%9E%B6%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81/1-1706080228156-3.png" alt="img"></p>
+<p>主要的<code>Resource</code>实现类包括：</p>
+<ol>
+<li><strong>FileSystemResource：</strong> 用于表示文件系统中的资源，可以通过文件路径来创建。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Resource</span> <span class="variable">resource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileSystemResource</span>(<span class="string">&quot;/path/to/file.txt&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>ClassPathResource：</strong> 用于表示类路径中的资源，可以通过相对于类路径的路径来创建。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Resource</span> <span class="variable">resource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPathResource</span>(<span class="string">&quot;classpath-file.txt&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>UrlResource：</strong> 用于表示URL资源，可以通过URL来创建。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Resource</span> <span class="variable">resource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UrlResource</span>(<span class="string">&quot;http://example.com/resource.txt&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>InputStreamResource：</strong> 用于表示输入流资源，可以通过输入流来创建。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> <span class="comment">// obtain input stream</span></span><br><span class="line"><span class="type">Resource</span> <span class="variable">resource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InputStreamResource</span>(inputStream);</span><br></pre></td></tr></table></figure>
+
+<p>这些<code>Resource</code>实现类提供了统一的方法，使得应用程序可以以一致的方式访问不同类型和位置的资源。<code>Resource</code>通常在配置文件中使用，例如在Spring的XML配置文件或Java配置中指定Bean的属性值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=<span class="string">&quot;myBean&quot;</span> class=<span class="string">&quot;com.example.MyBean&quot;</span>&gt;</span><br><span class="line">    &lt;property name=<span class="string">&quot;resource&quot;</span> value=<span class="string">&quot;classpath:config.properties&quot;</span> /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的例子中，<code>ClassPathResource</code>被用来表示类路径中的<code>config.properties</code>文件。通过使用<code>Resource</code>，Spring框架可以方便地加载、读取和处理各种资源。</p>
+<h3 id="ClassLoader"><a href="#ClassLoader" class="headerlink" title="ClassLoader"></a>ClassLoader</h3><p>在Java中，<code>ClassLoader</code>（类加载器）是负责加载 Java 类的重要组件之一。它负责将字节码文件（.class 文件）加载到 Java 虚拟机（JVM）中，并将其转换为运行时的 Java 类。<code>ClassLoader</code>采用一种层次结构，通过不同的类加载器可以实现类的动态加载、隔离和重载等功能。</p>
+<p>主要的类加载器有以下几种：</p>
+<ol>
+<li><strong>Bootstrap ClassLoader（启动类加载器）：</strong><ul>
+<li>是最顶层的类加载器，负责加载 Java 的核心类库，通常是由本地代码实现的。</li>
+<li>在JVM启动时被初始化，并且无法被Java程序直接引用。</li>
+</ul>
+</li>
+<li><strong>Extension ClassLoader（扩展类加载器）：</strong><ul>
+<li>负责加载 Java 的扩展库，位于<code>jre/lib/ext</code>目录下。</li>
+<li>通过系统属性 <code>java.ext.dirs</code> 指定的目录加载类。</li>
+</ul>
+</li>
+<li><strong>System ClassLoader（系统类加载器）：</strong><ul>
+<li>也称为应用类加载器，负责加载应用程序的类，是默认的类加载器。</li>
+<li>在启动Java应用时，通过 <code>-classpath</code> 或 <code>-cp</code> 参数指定的路径加载类。</li>
+</ul>
+</li>
+<li><strong>自定义 ClassLoader：</strong><ul>
+<li>开发者可以通过继承 <code>ClassLoader</code> 类创建自定义的类加载器，实现自定义的类加载逻辑。</li>
+<li>自定义类加载器可以用于实现类的动态加载、实现热部署等需求。</li>
+</ul>
+</li>
+</ol>
+<p>类加载器采用双亲委派模型，即当一个类加载器收到加载类的请求时，它首先会委托给其父类加载器进行加载。这样的层次结构有助于隔离不同类的命名空间，确保不同类加载器加载的类不会相互冲突。</p>
+<p>在Java中，类加载器是实现动态类加载和运行时扩展的关键机制，它为Java应用程序提供了灵活性和可扩展性。</p>
+<p>在Java中，ClassLoader主要用于加载类，而类加载器本身也是通过其他类加载器加载的，形成一个层次结构。以下是一些ClassLoader的基本用法：</p>
+<ol>
+<li><strong>获取当前ClassLoader：</strong> 可以通过<code>ClassLoader.getSystemClassLoader()</code>来获取系统类加载器（应用类加载器），或者通过<code>Thread.currentThread().getContextClassLoader()</code>获取当前线程的上下文类加载器。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ClassLoader</span> <span class="variable">systemClassLoader</span> <span class="operator">=</span> ClassLoader.getSystemClassLoader();</span><br><span class="line"><span class="type">ClassLoader</span> <span class="variable">currentClassLoader</span> <span class="operator">=</span> Thread.currentThread().getContextClassLoader();</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>自定义ClassLoader：</strong> 可以通过继承<code>ClassLoader</code>类，实现自定义的类加载器。重写<code>findClass</code>方法来定义类加载的逻辑。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomClassLoader</span> <span class="keyword">extends</span> <span class="title class_">ClassLoader</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> Class&lt;?&gt; findClass(String name) <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">        <span class="comment">// Your custom class loading logic here</span></span><br><span class="line">        <span class="type">byte</span>[] bytecode = loadClassData(name);</span><br><span class="line">        <span class="keyword">return</span> defineClass(name, bytecode, <span class="number">0</span>, bytecode.length);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">byte</span>[] loadClassData(String className) &#123;</span><br><span class="line">        <span class="comment">// Load class bytecode from somewhere (e.g., file, database)</span></span><br><span class="line">        <span class="comment">// Return the byte array representing the class bytecode</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>加载类：</strong> 使用ClassLoader的<code>loadClass</code>方法加载类。注意，这里的类名需要是类的全限定名。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ClassLoader</span> <span class="variable">customClassLoader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CustomClassLoader</span>();</span><br><span class="line">Class&lt;?&gt; myClass = customClassLoader.loadClass(<span class="string">&quot;com.example.MyClass&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>获取资源：</strong> 使用ClassLoader的<code>getResource</code>方法获取资源。资源路径可以是文件路径、类路径等。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ClassLoader</span> <span class="variable">classLoader</span> <span class="operator">=</span> Thread.currentThread().getContextClassLoader();</span><br><span class="line"><span class="type">URL</span> <span class="variable">resourceURL</span> <span class="operator">=</span> classLoader.getResource(<span class="string">&quot;myresource.txt&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这些只是ClassLoader的基本用法。在实际应用中，ClassLoader还可以用于动态加载类、实现热部署、加载外部资源等。要根据具体需求选择合适的类加载器和加载方式。在使用ClassLoader时，也要注意类加载的委托关系，了解双亲委派模型，以及如何处理不同层次的类加载器。</p>
+<h3 id="XmlBeanDefinitionReader"><a href="#XmlBeanDefinitionReader" class="headerlink" title="XmlBeanDefinitionReader"></a>XmlBeanDefinitionReader</h3><p><code>XmlBeanDefinitionReader</code>是Spring框架中的一个类，用于从XML文件中读取Bean的定义信息并注册到Spring容器中。它是<code>BeanDefinitionReader</code>接口的一个具体实现，专门负责解析XML配置文件中的Bean定义，然后将这些定义注册到Spring的<code>BeanFactory</code>或<code>ApplicationContext</code>中。</p>
+<p>主要功能包括：</p>
+<ol>
+<li><strong>读取XML配置文件：</strong> <code>XmlBeanDefinitionReader</code>可以读取包含Bean定义信息的XML文件，通常是通过<code>Resource</code>对象来表示XML文件的路径或内容。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">XmlBeanDefinitionReader</span> <span class="variable">reader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">XmlBeanDefinitionReader</span>(beanFactory);</span><br><span class="line">reader.loadBeanDefinitions(<span class="keyword">new</span> <span class="title class_">ClassPathResource</span>(<span class="string">&quot;spring-config.xml&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>解析Bean定义：</strong> 该类解析XML文件中的每个 <code>&lt;bean&gt;</code> 元素，包括Bean的ID、类路径、属性、构造函数参数等信息。</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myBean&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.example.MyBean&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;property1&quot;</span> <span class="attr">value</span>=<span class="string">&quot;value1&quot;</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Other bean configuration --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>注册Bean定义：</strong> 解析完Bean定义后，<code>XmlBeanDefinitionReader</code>会将这些定义注册到<code>BeanFactory</code>或<code>ApplicationContext</code>中。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">DefaultListableBeanFactory</span> <span class="variable">beanFactory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DefaultListableBeanFactory</span>();</span><br><span class="line"><span class="type">XmlBeanDefinitionReader</span> <span class="variable">reader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">XmlBeanDefinitionReader</span>(beanFactory);</span><br><span class="line">reader.loadBeanDefinitions(<span class="keyword">new</span> <span class="title class_">ClassPathResource</span>(<span class="string">&quot;spring-config.xml&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>支持多种资源加载方式：</strong> <code>XmlBeanDefinitionReader</code>支持从不同来源加载XML配置，包括文件系统、类路径、URL等。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">reader.loadBeanDefinitions(<span class="keyword">new</span> <span class="title class_">FileSystemResource</span>(<span class="string">&quot;/path/to/spring-config.xml&quot;</span>));</span><br><span class="line">reader.loadBeanDefinitions(<span class="keyword">new</span> <span class="title class_">ClassPathResource</span>(<span class="string">&quot;spring-config.xml&quot;</span>));</span><br><span class="line">reader.loadBeanDefinitions(<span class="keyword">new</span> <span class="title class_">UrlResource</span>(<span class="string">&quot;http://example.com/spring-config.xml&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>通过使用<code>XmlBeanDefinitionReader</code>，开发者可以将Bean的定义信息以XML形式进行配置，并通过Spring容器加载和管理这些Bean。这种方式使得应用的配置信息可以与实际的Java代码分离，提高了配置的灵活性和可维护性。</p>
+<h3 id="BeanDefinition-接口"><a href="#BeanDefinition-接口" class="headerlink" title="BeanDefinition(接口)"></a>BeanDefinition(接口)</h3><p><code>BeanDefinition</code>是Spring框架中的一个关键接口，用于描述和定义一个Bean的配置元信息。每个被Spring容器管理的Bean都有一个对应的<code>BeanDefinition</code>对象，它包含了关于该Bean的各种配置和属性信息，如类名、作用域、构造函数参数、属性值等。</p>
+<p><img src="/2024/01/24/spring%E6%A1%86%E6%9E%B6%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81/1-1706083123836-6.png" alt="img"></p>
+<p>主要属性和方法包括：</p>
+<ol>
+<li><strong>Bean的类名（Class Name）：</strong> 描述了该Bean的实现类的全限定名。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">beanClassName</span> <span class="operator">=</span> beanDefinition.getBeanClassName();</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>Bean的作用域（Scope）：</strong> 描述了Bean的生命周期和可见范围，如singleton、prototype等。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">scope</span> <span class="operator">=</span> beanDefinition.getScope();</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>是否是抽象的（Abstract）：</strong> 描述了该Bean是否是抽象的，如果是抽象的，通常不能被实例化。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">boolean</span> <span class="variable">isAbstract</span> <span class="operator">=</span> beanDefinition.isAbstract();</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>是否是懒加载（Lazy）：</strong> 描述了该Bean是否在需要时才被实例化。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">boolean</span> <span class="variable">isLazyInit</span> <span class="operator">=</span> beanDefinition.isLazyInit();</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>构造函数参数（Constructor Arguments）：</strong> 描述了构造函数的参数，以及参数值。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ConstructorArgumentValues</span> <span class="variable">constructorArgs</span> <span class="operator">=</span> beanDefinition.getConstructorArgumentValues();</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>属性值（Property Values）：</strong> 描述了Bean的属性以及对应的值。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">MutablePropertyValues</span> <span class="variable">propertyValues</span> <span class="operator">=</span> beanDefinition.getPropertyValues();</span><br></pre></td></tr></table></figure>
+
+<p>通过<code>BeanDefinition</code>，Spring容器能够了解和管理每个Bean的配置信息。在使用XML配置、注解配置或Java配置时，<code>BeanDefinition</code>对象会被相应的<code>BeanDefinitionReader</code>实现解析，并注册到Spring容器中。</p>
+<p>在底层，<code>BeanDefinition</code>的不同实现类包括<code>GenericBeanDefinition</code>和<code>RootBeanDefinition</code>等，它们提供了更具体的实现和属性设置方式。<code>BeanDefinition</code>是Spring IoC容器的核心概念之一，它使得Spring能够根据配置信息实例化和管理Bean。</p>
+<h3 id="EncodedResource"><a href="#EncodedResource" class="headerlink" title="EncodedResource"></a>EncodedResource</h3><p>在 Java 中，<code>EncodedResource</code> 是 Spring Framework 中的一个类。这个类主要用于表示已编码资源，通常在处理配置文件等场景中使用。</p>
+<p>在 Spring 中，<code>EncodedResource</code> 可以用来表示一个资源（比如一个配置文件），并指定它的字符编码。这在读取和处理配置文件时很有用，因为不同的配置文件可能使用不同的字符编码。</p>
+<p>通常，你会使用 <code>EncodedResource</code> 来包装一个普通的 <code>Resource</code>，并指定字符编码。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">EncodedResource</span> <span class="variable">encodedResource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EncodedResource</span>(<span class="keyword">new</span> <span class="title class_">ClassPathResource</span>(<span class="string">&quot;config.properties&quot;</span>), StandardCharsets.UTF_8);</span><br></pre></td></tr></table></figure>
+
+<p>这里，我们使用 <code>EncodedResource</code> 包装了一个位于类路径下的 “config.properties” 文件，并指定了 UTF-8 编码。</p>
+<p>总的来说，<code>EncodedResource</code> 是 Spring Framework 中用于处理已编码资源的一个实用工具类。</p>
+<h3 id="EntityResolver"><a href="#EntityResolver" class="headerlink" title="EntityResolver"></a>EntityResolver</h3><p><code>EntityResolver</code>是Java的SAX（Simple API for XML）解析库中的一个接口，其主要目的是解析XML文档中引用的外部实体。这些外部实体可以是DTD（Document Type Definition）或者XSD（XML Schema Definition）文件，这些文件通常存储在网络上的某个位置。当解析器在解析XML文档时，如果遇到引用外部实体的语句，就会调用<code>EntityResolver</code>的<code>resolveEntity</code>方法来获取这个外部实体的内容。</p>
+<p><code>EntityResolver</code>的实现类包括<code>DelegatingEntityResolver</code>和<code>ResourceEntityResolver</code>。<code>DelegatingEntityResolver</code>根据系统ID的扩展名来决定使用哪个实体解析器来解析该实体。例如，如果系统ID的扩展名是<code>.dtd</code>，则使用<code>BeansDtdResolver</code>；如果是<code>.xsd</code>，则使用<code>PluggableSchemaResolver</code>。<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/266778462">2</a></p>
+<p><code>ResourceEntityResolver</code>继承了<code>DelegatingEntityResolver</code>，并重写了<code>resolveEntity</code>方法。这个方法首先调用父类的<code>resolveEntity</code>方法，如果返回的<code>InputSource</code>为null，并且系统ID不为null，则尝试从本地文件系统中查找该实体。如果找到了实体，就将其转换为<code>InputSource</code>并返回；如果没有找到，则尝试从网络上获取该实体。<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/266778462">2</a></p>
+<p>在Spring框架中，<code>EntityResolver</code>的主要作用是为了避免网络带来的不良好体验，通过<code>spring.schemas</code>配置文件，将网络上的外部实体替换为本地文件，这样可以提高IO操作的稳定性。<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/266778462">2</a></p>
+<h3 id="BeanDefinitionParserDelegate"><a href="#BeanDefinitionParserDelegate" class="headerlink" title="BeanDefinitionParserDelegate"></a>BeanDefinitionParserDelegate</h3><p><code>BeanDefinitionParserDelegate</code>是Spring框架中的一个类，它负责处理XML配置文件中的bean定义。这个类是在Spring解析XML配置文件时使用的，用于创建和管理bean定义。具体来说，它的工作主要包括：</p>
+<ul>
+<li>解析XML文件中的bean元素，创建相应的BeanDefinition对象。</li>
+<li>解析XML文件中的自定义元素，处理这些元素可能需要的特殊逻辑。</li>
+<li>检查bean的名称是否唯一，确保每个bean都有一个唯一的标识符。</li>
+<li>解析XML文件中的属性元素，设置bean的属性值。</li>
+<li>解析XML文件中的构造函数参数元素，设置bean的构造函数参数。</li>
+</ul>
+<p><code>BeanDefinitionParserDelegate</code>类包含许多字段，这些字段代表了XML标签的名称，例如<code>BEAN_ELEMENT</code>、<code>ARG_TYPE_ELEMENT</code>等。这些字段在解析XML时被用到，以确定如何处理特定的元素。</p>
+<p>此外，<code>BeanDefinitionParserDelegate</code>还提供了一系列的方法，用于解析XML中的各种元素，例如<code>parseBeanDefinitionElement</code>方法用于解析<code>&lt;bean&gt;</code>元素，<code>parsePropertyElement</code>方法用于解析属性元素等。这些方法都会返回一个<code>BeanDefinitionHolder</code>对象，这个对象包含了解析出的bean定义。</p>
+<p><code>BeanDefinitionParserDelegate</code>类还有一些方法，如<code>decorateBeanDefinitionIfRequired</code>，用于装饰给定的bean定义。如果存在相应的命名空间处理程序，那么这个方法将通过它来装饰给定的bean定义。</p>
+<p>总的来说，<code>BeanDefinitionParserDelegate</code>是Spring框架中用于解析XML配置文件的关键类，它负责解析XML中的各种元素，并生成相应的bean定义。<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/xml/BeanDefinitionParserDelegate.html">1</a>, [2](<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-framework/docs/4.0.0.M1_to_4.2.0.M2/Spring">https://docs.spring.io/spring-framework/docs/4.0.0.M1_to_4.2.0.M2/Spring</a> Framework 4.2.0.M2&#x2F;org&#x2F;springframework&#x2F;beans&#x2F;factory&#x2F;xml&#x2F;BeanDefinitionParserDelegate.html), <a target="_blank" rel="noopener" href="https://www.baeldung.com/spring-beandefinitionstoreexception">4</a></p>
+<h3 id="DefaultBeanDefinitionDocumentReader"><a href="#DefaultBeanDefinitionDocumentReader" class="headerlink" title="DefaultBeanDefinitionDocumentReader"></a>DefaultBeanDefinitionDocumentReader</h3><p><code>DefaultBeanDefinitionDocumentReader</code>是Spring框架中的一个类，它实现了<code>BeanDefinitionDocumentReader</code>接口，负责解析XML文件中的bean定义。</p>
+<p><code>DefaultBeanDefinitionDocumentReader</code>类的主要功能包括：</p>
+<ul>
+<li><p><code>registerBeanDefinitions</code>方法：解析bean定义，这些定义遵循”spring-beans” XSD（或历史上的DTD）。这个方法打开一个DOM文档，初始化指定在<code>&lt;beans/&gt;</code>级别的默认设置，然后解析包含的bean定义。<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/xml/DefaultBeanDefinitionDocumentReader.html">1</a></p>
+</li>
+<li><p><code>createDelegate</code>方法：创建一个<code>BeanDefinitionParserDelegate</code>实例，这个实例负责处理XML文件中的bean定义。<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/xml/DefaultBeanDefinitionDocumentReader.html">1</a></p>
+</li>
+<li><p><code>doRegisterBeanDefinitions</code>方法：注册给定<code>&lt;beans/&gt;</code>元素中的每个bean定义。<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/xml/DefaultBeanDefinitionDocumentReader.html">1</a></p>
+</li>
+<li><p><code>extractSource</code>方法：从给定的<code>Element</code>中提取源元数据。<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/xml/DefaultBeanDefinitionDocumentReader.html">1</a></p>
+</li>
+<li><p><code>importBeanDefinitionResource</code>方法：解析”import”元素，并将给定资源中的bean定义加载到bean工厂中。<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/xml/DefaultBeanDefinitionDocumentReader.html">1</a></p>
+</li>
+<li><p><code>parseBeanDefinitions</code>方法：解析文档中的根级元素：”import”、”alias”、”bean”。<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/xml/DefaultBeanDefinitionDocumentReader.html">1</a></p>
+</li>
+<li><p><code>preProcessXml</code>和<code>postProcessXml</code>方法：允许XML可扩展，通过先处理任何自定义元素类型，然后我们开始处理bean定义，或者在我们完成处理bean定义后，最后处理任何自定义元素类型。<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/xml/DefaultBeanDefinitionDocumentReader.html">1</a></p>
+</li>
+</ul>
+<p>总的来说，<code>DefaultBeanDefinitionDocumentReader</code>类是Spring的XML解析器的关键组成部分，它负责解析XML文件中的bean定义，并将这些定义注册到Spring的BeanFactory中。</p>
+<h3 id="GenericBeanDefinition"><a href="#GenericBeanDefinition" class="headerlink" title="GenericBeanDefinition"></a>GenericBeanDefinition</h3><p>在 Spring 框架中，<code>GenericBeanDefinition</code> 是 <code>BeanDefinition</code> 接口的一个实现类，用于表示一个通用的 Bean 定义。<code>BeanDefinition</code> 用于描述 Spring 容器中的 Bean，包括 Bean 的类名、作用域、生命周期回调方法等信息。</p>
+<p><code>GenericBeanDefinition</code> 具体表示一个通用的 Bean 定义，它可以用于定义任何类型的 Bean。与其他特定类型的 BeanDefinition 子类相比，<code>GenericBeanDefinition</code> 更通用，适用于大多数场景。</p>
+<p>主要属性和方法包括：</p>
+<ol>
+<li><strong>setBeanClass(Class&lt;?&gt; beanClass):</strong> 设置 Bean 的类。</li>
+<li><strong>setScope(String scope):</strong> 设置 Bean 的作用域，如单例、原型等。</li>
+<li><strong>setAbstract(boolean abstractFlag):</strong> 设置 Bean 是否是抽象的。</li>
+<li><strong>setLazyInit(boolean lazy):</strong> 设置 Bean 是否是懒加载。</li>
+<li><strong>setInitMethodName(String initMethodName):</strong> 设置初始化方法的名称。</li>
+<li><strong>setDestroyMethodName(String destroyMethodName):</strong> 设置销毁方法的名称。</li>
+</ol>
+<p><code>GenericBeanDefinition</code> 的灵活性允许开发者以通用的方式定义 Bean，而不需要依赖于特定的 Bean 类型。这在一些动态配置的场景下很有用，允许以编程方式构建和注册 Bean 定义。</p>
+<h3 id="AnnotatedGenericBeanDefinition"><a href="#AnnotatedGenericBeanDefinition" class="headerlink" title="AnnotatedGenericBeanDefinition"></a>AnnotatedGenericBeanDefinition</h3><p><code>AnnotatedGenericBeanDefinition</code> 是 Spring 框架中的一个类，它是 <code>GenericBeanDefinition</code> 的子类。与 <code>GenericBeanDefinition</code> 类似，<code>AnnotatedGenericBeanDefinition</code> 也用于表示 Bean 的定义，但它更关注于支持注解驱动的配置。</p>
+<p>主要特点和用法包括：</p>
+<ol>
+<li><strong>支持注解元信息：</strong> <code>AnnotatedGenericBeanDefinition</code> 允许通过注解元信息来定义 Bean，这意味着你可以在类上使用注解（如 <code>@Component</code>、<code>@Service</code>、<code>@Repository</code> 等）来配置 Bean，而不必在 XML 或其他配置文件中显式定义。</li>
+<li><strong>AnnotatedElementUtils 支持：</strong> <code>AnnotatedGenericBeanDefinition</code> 利用 Spring 的 <code>AnnotatedElementUtils</code> 类，该类提供了处理 Java 注解元素的实用方法。这使得可以方便地获取和处理类上的注解信息。</li>
+<li><strong>适用于注解驱动的开发：</strong> 由于支持注解，<code>AnnotatedGenericBeanDefinition</code> 更适用于注解驱动的开发方式，使得配置更加简洁和灵活。</li>
+</ol>
+<p>示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">AnnotatedGenericBeanDefinition</span> <span class="variable">beanDefinition</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotatedGenericBeanDefinition</span>(MyComponent.class);</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>MyComponent</code> 类上的注解信息将被用来配置 <code>beanDefinition</code>，而不需要显式地设置类名、作用域等信息。</p>
+<p>总的来说，<code>AnnotatedGenericBeanDefinition</code> 是 Spring 中用于支持注解驱动的 Bean 定义的一种实现方式。</p>
+<h3 id="BeanDefinitionHolder"><a href="#BeanDefinitionHolder" class="headerlink" title="BeanDefinitionHolder"></a>BeanDefinitionHolder</h3><h3 id="Autowired和-Resource的区别"><a href="#Autowired和-Resource的区别" class="headerlink" title="@Autowired和@Resource的区别"></a>@Autowired和@Resource的区别</h3><p>在Spring框架中, @Autowired和@Resource都是用于自动装配的注解. 但是,它们之间存在一些关键的区别:</p>
+<p><strong>@Autowired</strong>: 这个注解是Spring提供的, 默认是按照类型(byType)来自动装配,它可以按照类型(byType)或者名称(byName)来进行自动装配. 如果有多个相同类型的Bean,那么会根据名称来进行选择, 此外,<strong>@Autowired</strong>还支持required属性, 如果设置为false, 那么当没有合适的Bean时,不会抛出异常</p>
+<p><strong>@Resource</strong>: 这个注解是Java提供的, 它默认按照名称(byName)来进行自动装配. 如果没有找到与名称匹配的Bean,那么会再按照类型(byType)来进行查找.此外,<strong>@Resource</strong>还支持mappedName属性, 可以指定一个名称空间</p>
+<p>总的来说,<strong>@Autowired</strong>更加强大和灵活, <strong>@Resource</strong>则更加符合Java规范.如果你希望Spring能够根据类型来进行自动装配，并且在没有合适的bean时不抛出异常，那么你应该使用<code>@Autowired</code>。如果你想要按照名称来进行自动装配，或者你想要指定一个名称空间，那么你应该使用<code>@Resource</code>。</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 362535102@qq.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">赏</a>
+</p>
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2022-2022 Timor
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>喜欢就点赞,疼爱就打赏</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ES6语法学习总结 | vim</title>
+  <meta name="keywords" content=" es6 ">
+  <meta name="description" content="ES6语法学习总结 | vim">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="try、catch、finally执行顺序try块和catch块总逻辑基本相同。try中出现异常跳转到catch，若catch中出现异常则跳转到finally，try或catch正常执行若存在return则先执行return的代码并保存返回值信息（基本类型保存值信息，引用类型则保存地址信息）然后执行finally，若finally中出现异常或包含return则执行结束，若无异常且没有return则">
+<meta property="og:type" content="article">
+<meta property="og:title" content="try、catch、finally用法总结">
+<meta property="og:url" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="vim">
+<meta property="og:description" content="try、catch、finally执行顺序try块和catch块总逻辑基本相同。try中出现异常跳转到catch，若catch中出现异常则跳转到finally，try或catch正常执行若存在return则先执行return的代码并保存返回值信息（基本类型保存值信息，引用类型则保存地址信息）然后执行finally，若finally中出现异常或包含return则执行结束，若无异常且没有return则">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142037548.png">
+<meta property="og:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142713843.png">
+<meta property="og:image" content="c:/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817144139921.png">
+<meta property="article:published_time" content="2024-05-29T06:35:51.502Z">
+<meta property="article:modified_time" content="2024-01-24T01:16:55.223Z">
+<meta property="article:author" content="vim">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142037548.png">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/sublime.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>vim</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="github"
+               href="https://github.com/zhaolanzhi"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="jianshu"
+               href="http://www.jianshu.com/u/959b0f521aeb"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-jianshu"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:362535102@qq.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="qq"
+               href="http://wpa.qq.com/msgrd?v=3&uin=362535102&site=qq&menu=yes"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-qq"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(92)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="db">
+                        
+                        db
+                        <small>(7)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="design">
+                        
+                        design
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="devops">
+                        
+                        devops
+                        <small>(31)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="hexo">
+                        
+                        hexo
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="java">
+                        <i class="fold iconfont icon-right"></i>
+                        
+                        java
+                        <small>(31)</small>
+                        
+                    </div>
+                    
+                        <ul class="sub hide">
+                            
+                                <li>
+                                    <div data-rel="java<--->spring">
+                                        
+                                        spring
+                                        
+                                            <small>(5
+                                                )</small>
+                                        
+                                    </div>
+                                    
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="script">
+                        
+                        script
+                        <small>(6)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="tools">
+                        
+                        tools
+                        <small>(4)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="web">
+                        
+                        web
+                        <small>(5)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">关于</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">友链</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="92">
+<input type="hidden" id="yelog_site_word_count" value="79.6k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="https://www.jianshu.com/u/959b0f521aeb/">Timor</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>多态</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>工厂</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>管程</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>基础</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>集合</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>脚本</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>接口</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>快捷键</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>命令</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>匿名内部类</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>配置</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>日志</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>设计模式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>设置</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>数据库</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>系统时间</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>异常</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>远程</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>注解</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>字符</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>字节</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>aop</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>centos</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>centos7</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>date</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>db</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>devops</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>docker</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>docker-compose</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>es6</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>git</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>hexo</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>idea</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>java</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jdk</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>jenkins</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>kubernetes</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>log</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>maven</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>mybatisplus</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>mysql</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nginx</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>node</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>npm</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nvm</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>oracle</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>redis</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>spring</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>springboot</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>sql</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ssh</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>stream</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>tar</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>time</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>typroa</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>vagrant</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>vue</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>windows</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Yaml</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 java "
+           href="/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="try、catch、finally用法总结">try、catch、finally用法总结</span>
+            <span class="post-date" title="2024-05-29 14:35:51">2024/05/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2024/05/29/hello-world/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="Hello World">Hello World</span>
+            <span class="post-date" title="2024-05-29 14:35:51">2024/05/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2024/05/11/Java%E7%9A%84%E5%A4%9A%E6%80%81/"
+           data-tag="java,多态"
+           data-author="" >
+            <span class="post-title" title="Java的多态">Java的多态</span>
+            <span class="post-date" title="2024-05-11 10:43:09">2024/05/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 web "
+           href="/2024/04/30/Vue2%E5%AD%A6%E4%B9%A0/"
+           data-tag="vue"
+           data-author="" >
+            <span class="post-title" title="Vue2学习">Vue2学习</span>
+            <span class="post-date" title="2024-04-30 09:50:43">2024/04/30</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/04/07/%E3%80%90Oracle%E3%80%91CentOS7-CentOS8%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%87%8D%E5%90%AFOracle-11G-R2/"
+           data-tag="oracle,db"
+           data-author="" >
+            <span class="post-title" title="【Oracle】CentOS7/CentOS8命令行重启Oracle 11G R2">【Oracle】CentOS7/CentOS8命令行重启Oracle 11G R2</span>
+            <span class="post-date" title="2024-04-07 09:30:25">2024/04/07</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/04/07/%E3%80%90Oracle%E3%80%91CentOS7-CentOS8%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AE%89%E8%A3%85Oracle-11G-R2/"
+           data-tag="oracle,db"
+           data-author="" >
+            <span class="post-title" title="【Oracle】CentOS7/CentOS8命令行安装Oracle 11G R2">【Oracle】CentOS7/CentOS8命令行安装Oracle 11G R2</span>
+            <span class="post-date" title="2024-04-07 09:27:58">2024/04/07</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/04/01/Windows-nginx%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/"
+           data-tag="nginx,devops"
+           data-author="" >
+            <span class="post-title" title="Windows nginx启动脚本">Windows nginx启动脚本</span>
+            <span class="post-date" title="2024-04-01 14:47:28">2024/04/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/03/11/Centos7-%E5%AE%89%E8%A3%85docker%E5%92%8Cdocker-compose/"
+           data-tag="docker,centos7"
+           data-author="" >
+            <span class="post-title" title="Centos7 安装docker和docker-compose">Centos7 安装docker和docker-compose</span>
+            <span class="post-date" title="2024-03-11 16:31:12">2024/03/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/03/11/Centos%E5%AE%89%E8%A3%85tar%E5%91%BD%E4%BB%A4/"
+           data-tag="centos,tar"
+           data-author="" >
+            <span class="post-title" title="Centos安装tar命令">Centos安装tar命令</span>
+            <span class="post-date" title="2024-03-11 15:14:57">2024/03/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/03/11/Centos-%E5%AE%89%E8%A3%85jdk1-8/"
+           data-tag="jdk"
+           data-author="" >
+            <span class="post-title" title="Centos 安装jdk1.8">Centos 安装jdk1.8</span>
+            <span class="post-date" title="2024-03-11 15:07:11">2024/03/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/03/11/Centos%E5%AE%89%E8%A3%85nvm%E7%8E%AF%E5%A2%83/"
+           data-tag="nvm"
+           data-author="" >
+            <span class="post-title" title="Centos安装nvm环境">Centos安装nvm环境</span>
+            <span class="post-date" title="2024-03-11 09:21:13">2024/03/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 web "
+           href="/2024/03/05/ES6-%E6%A8%A1%E5%9D%97%E5%8C%96/"
+           data-tag="es6"
+           data-author="" >
+            <span class="post-title" title="ES6 模块化">ES6 模块化</span>
+            <span class="post-date" title="2024-03-05 14:59:26">2024/03/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 web "
+           href="/2024/03/05/ES6%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/"
+           data-tag="es6"
+           data-author="" >
+            <span class="post-title" title="ES6语法学习总结">ES6语法学习总结</span>
+            <span class="post-date" title="2024-03-05 14:25:09">2024/03/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 web "
+           href="/2024/03/04/%E8%AE%BE%E7%BD%AEnpm%E4%B8%BA%E6%B7%98%E5%AE%9D%E9%95%9C%E5%83%8F/"
+           data-tag="npm"
+           data-author="" >
+            <span class="post-title" title="设置npm为淘宝镜像">设置npm为淘宝镜像</span>
+            <span class="post-date" title="2024-03-04 11:34:00">2024/03/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 java spring "
+           href="/2024/02/05/%E6%B3%A8%E8%A7%A3-Autowired%E5%92%8C-Resource%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8/"
+           data-tag="spring,注解"
+           data-author="" >
+            <span class="post-title" title="注解@Autowired和@Resource区别和使用">注解@Autowired和@Resource区别和使用</span>
+            <span class="post-date" title="2024-02-05 14:55:55">2024/02/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2024/02/05/Java%E6%97%A5%E5%BF%97/"
+           data-tag="日志,log"
+           data-author="" >
+            <span class="post-title" title="Java日志">Java日志</span>
+            <span class="post-date" title="2024-02-05 10:37:12">2024/02/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 java spring "
+           href="/2024/01/24/spring%E6%A1%86%E6%9E%B6%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81/"
+           data-tag="spring,java"
+           data-author="" >
+            <span class="post-title" title="spring框架核心源码">spring框架核心源码</span>
+            <span class="post-date" title="2024-01-24 14:32:26">2024/01/24</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/01/24/Node%E5%92%8CNVM%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"
+           data-tag="nvm,node"
+           data-author="" >
+            <span class="post-title" title="Node和NVM环境搭建">Node和NVM环境搭建</span>
+            <span class="post-date" title="2024-01-24 09:41:12">2024/01/24</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2024/01/18/TortoiseGit-%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"
+           data-tag="git"
+           data-author="" >
+            <span class="post-title" title="TortoiseGit-使用教程">TortoiseGit-使用教程</span>
+            <span class="post-date" title="2024-01-18 11:41:36">2024/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 java spring "
+           href="/2024/01/15/XmlBeanFactory%E5%92%8CApplicationContext%E7%9A%84%E5%AF%B9%E6%AF%94/"
+           data-tag="java"
+           data-author="" >
+            <span class="post-title" title="XmlBeanFactory和ApplicationContext的对比">XmlBeanFactory和ApplicationContext的对比</span>
+            <span class="post-date" title="2024-01-15 11:37:41">2024/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 java spring "
+           href="/2024/01/15/Spring%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"
+           data-tag="spring"
+           data-author="" >
+            <span class="post-title" title="Spring环境搭建">Spring环境搭建</span>
+            <span class="post-date" title="2024-01-15 11:06:11">2024/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2024/01/15/Java%E5%AD%97%E8%8A%82%E5%92%8C%E5%AD%97%E7%AC%A6%E7%9A%84%E5%8C%BA%E5%88%AB/"
+           data-tag="字节,字符"
+           data-author="" >
+            <span class="post-title" title="Java字节和字符的区别">Java字节和字符的区别</span>
+            <span class="post-date" title="2024-01-15 09:54:47">2024/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2024/01/11/Java-8-Date-LocalDate-LocalDateTime-Instant/"
+           data-tag="date,time"
+           data-author="" >
+            <span class="post-title" title="Java 8 Date - LocalDate, LocalDateTime, Instant">Java 8 Date - LocalDate, LocalDateTime, Instant</span>
+            <span class="post-date" title="2024-01-11 15:58:05">2024/01/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/01/03/git%E6%95%99%E7%A8%8B/"
+           data-tag="git"
+           data-author="" >
+            <span class="post-title" title="git教程">git教程</span>
+            <span class="post-date" title="2024-01-03 14:23:06">2024/01/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/12/13/windows%E4%B8%8Bjdk8%E5%92%8Cjdk11%E5%88%87%E6%8D%A2%E7%9A%84%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC/"
+           data-tag="jdk,java"
+           data-author="" >
+            <span class="post-title" title="windows下jdk8和jdk11切换的批处理脚本">windows下jdk8和jdk11切换的批处理脚本</span>
+            <span class="post-date" title="2023-12-13 17:06:20">2023/12/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/12/06/Kubernetes%E5%AD%A6%E4%B9%A0/"
+           data-tag="kubernetes"
+           data-author="" >
+            <span class="post-title" title="Kubernetes学习">Kubernetes学习</span>
+            <span class="post-date" title="2023-12-06 14:27:59">2023/12/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 tools "
+           href="/2023/12/06/%E4%BD%BF%E7%94%A8ssh%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95VirtualBox%E8%99%9A%E6%8B%9F%E6%9C%BA/"
+           data-tag="远程,ssh"
+           data-author="" >
+            <span class="post-title" title="使用ssh远程登录VirtualBox虚拟机">使用ssh远程登录VirtualBox虚拟机</span>
+            <span class="post-date" title="2023-12-06 11:34:32">2023/12/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 script "
+           href="/2023/12/06/Windows%E7%B3%BB%E7%BB%9F%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8Fexe%E6%B3%A8%E5%86%8C%E6%88%90%E6%9C%8D%E5%8A%A1/"
+           data-tag="windows"
+           data-author="" >
+            <span class="post-title" title="Windows系统应用程序exe注册成服务">Windows系统应用程序exe注册成服务</span>
+            <span class="post-date" title="2023-12-06 01:07:21">2023/12/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/12/04/vagrant%E6%95%99%E7%A8%8B/"
+           data-tag="vagrant"
+           data-author="" >
+            <span class="post-title" title="vagrant教程">vagrant教程</span>
+            <span class="post-date" title="2023-12-04 14:30:10">2023/12/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/11/29/docker-docker-compose%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/"
+           data-tag="docker,docker-compose"
+           data-author="" >
+            <span class="post-title" title="docker,docker-compose离线安装教程">docker,docker-compose离线安装教程</span>
+            <span class="post-date" title="2023-11-29 17:28:37">2023/11/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/11/29/Docker%E3%80%81Docker-compose-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"
+           data-tag="docker,docker-compose"
+           data-author="" >
+            <span class="post-title" title="Docker、Docker-compose 入门教程">Docker、Docker-compose 入门教程</span>
+            <span class="post-date" title="2023-11-29 17:17:14">2023/11/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/11/29/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E9%97%B4%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6%E5%91%BD%E4%BB%A4/"
+           data-tag="linux"
+           data-author="" >
+            <span class="post-title" title="Linux服务器之间传输文件命令">Linux服务器之间传输文件命令</span>
+            <span class="post-date" title="2023-11-29 17:06:40">2023/11/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/11/17/Docker%E5%AD%A6%E4%B9%A0/"
+           data-tag="docker"
+           data-author="" >
+            <span class="post-title" title="Docker学习">Docker学习</span>
+            <span class="post-date" title="2023-11-17 14:42:25">2023/11/17</span>
+        </a>
+        
+        
+        <a  class="全部文章 tools "
+           href="/2023/11/15/Typora%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE/"
+           data-tag="typroa"
+           data-author="" >
+            <span class="post-title" title="Typora设置图片存放位置">Typora设置图片存放位置</span>
+            <span class="post-date" title="2023-11-15 16:05:33">2023/11/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 tools "
+           href="/2023/11/15/PDManer%E5%85%83%E6%95%B0%E6%8D%AE%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"
+           data-tag="db"
+           data-author="" >
+            <span class="post-title" title="PDManer元数据使用教程">PDManer元数据使用教程</span>
+            <span class="post-date" title="2023-11-15 15:09:11">2023/11/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/10/25/java%E7%94%A8CollectionUtils%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%88%A4%E6%96%AD%E9%9B%86%E5%90%88%E6%98%AF%E5%90%A6%E4%B8%BA%E7%A9%BA/"
+           data-tag="集合"
+           data-author="" >
+            <span class="post-title" title="java用CollectionUtils工具类判断集合是否为空">java用CollectionUtils工具类判断集合是否为空</span>
+            <span class="post-date" title="2023-10-25 17:43:51">2023/10/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 db "
+           href="/2023/10/25/CentOS7-Oracle-11g-R2-%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%96%B9%E6%B3%95/"
+           data-tag="oracle"
+           data-author="" >
+            <span class="post-title" title="CentOS7 Oracle 11g R2 设置开机自启动方法">CentOS7 Oracle 11g R2 设置开机自启动方法</span>
+            <span class="post-date" title="2023-10-25 15:59:44">2023/10/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/10/25/%E6%9B%BF%E6%8D%A2lib%E4%B8%8B%E7%9A%84%E4%BE%9D%E8%B5%96jar%E5%8C%85/"
+           data-tag="jar"
+           data-author="" >
+            <span class="post-title" title="替换lib下的依赖jar包">替换lib下的依赖jar包</span>
+            <span class="post-date" title="2023-10-25 15:06:28">2023/10/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/%E6%8A%BD%E8%B1%A1%E7%B1%BB%EF%BC%88abstract-class%EF%BC%89%E5%92%8C%E6%8E%A5%E5%8F%A3%EF%BC%88interface%EF%BC%89%E7%9A%84%E5%8C%BA%E5%88%AB/"
+           data-tag="java"
+           data-author="" >
+            <span class="post-title" title="抽象类（abstract class）和接口（interface）的区别">抽象类（abstract class）和接口（interface）的区别</span>
+            <span class="post-date" title="2023-07-11 17:49:48">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/Springboot%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"
+           data-tag="java,springboot"
+           data-author="" >
+            <span class="post-title" title="Springboot项目启动内存占用过高问题解决方案">Springboot项目启动内存占用过高问题解决方案</span>
+            <span class="post-date" title="2023-07-11 17:45:31">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/07/11/idea-docker-springboot-%E9%83%A8%E7%BD%B2-%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95/"
+           data-tag="docker"
+           data-author="" >
+            <span class="post-title" title="idea docker springboot 部署+远程调试">idea docker springboot 部署+远程调试</span>
+            <span class="post-date" title="2023-07-11 17:42:58">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/Maven%E5%91%BD%E4%BB%A4install%E5%92%8Cpackage%E7%9A%84%E5%8C%BA%E5%88%AB/"
+           data-tag="maven"
+           data-author="" >
+            <span class="post-title" title="Maven命令install和package的区别">Maven命令install和package的区别</span>
+            <span class="post-date" title="2023-07-11 17:39:02">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/07/11/centos7-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8rz-sz%E5%91%BD%E4%BB%A4/"
+           data-tag="centos"
+           data-author="" >
+            <span class="post-title" title="centos7 安装使用rz/sz命令">centos7 安装使用rz/sz命令</span>
+            <span class="post-date" title="2023-07-11 17:31:40">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 script "
+           href="/2023/07/11/windows-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/"
+           data-tag="windows"
+           data-author="" >
+            <span class="post-title" title="windows 相关命令">windows 相关命令</span>
+            <span class="post-date" title="2023-07-11 17:29:25">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 db "
+           href="/2023/07/11/MySQL%E6%9F%A5%E7%9C%8B%E8%A1%A8%E6%B3%A8%E9%87%8A%E6%88%96%E5%AD%97%E6%AE%B5%E6%B3%A8%E9%87%8A/"
+           data-tag="mysql"
+           data-author="" >
+            <span class="post-title" title="MySQL查看表注释或字段注释">MySQL查看表注释或字段注释</span>
+            <span class="post-date" title="2023-07-11 17:24:58">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/Objects-equals-a-b-%E3%80%81%E2%80%9Ca-b%E2%80%9D%E5%92%8C%E2%80%9Da-equals-b-%E2%80%9D%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/"
+           data-tag="基础"
+           data-author="" >
+            <span class="post-title" title="Objects.equals(a,b)、“a==b”和”a.equals(b)”有什么区别">Objects.equals(a,b)、“a==b”和”a.equals(b)”有什么区别</span>
+            <span class="post-date" title="2023-07-11 17:21:39">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/07/11/Centos-7-%E5%AE%89%E8%A3%85/"
+           data-tag="centos"
+           data-author="" >
+            <span class="post-title" title="Centos 7 安装">Centos 7 安装</span>
+            <span class="post-date" title="2023-07-11 17:18:24">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/07/11/Spring-MVC%E6%8E%A5%E6%94%B6json%E6%95%B0%E6%8D%AE%E7%9A%844%E7%A7%8D%E6%96%B9%E5%BC%8F/"
+           data-tag="java"
+           data-author="" >
+            <span class="post-title" title="Spring MVC接收json数据的4种方式">Spring MVC接收json数据的4种方式</span>
+            <span class="post-date" title="2023-07-11 17:07:59">2023/07/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/07/10/Docker-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/"
+           data-tag="docker"
+           data-author="" >
+            <span class="post-title" title="Docker 镜像加速">Docker 镜像加速</span>
+            <span class="post-date" title="2023-07-10 17:00:54">2023/07/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/06/01/JRebel-XRebel%E7%83%AD%E9%83%A8%E7%BD%B2%E5%8F%8A%E8%BF%9C%E7%A8%8B%E7%83%AD%E9%83%A8%E7%BD%B2/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="JRebel&amp;XRebel热部署及远程热部署">JRebel&amp;XRebel热部署及远程热部署</span>
+            <span class="post-date" title="2023-06-01 23:30:56">2023/06/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/05/05/Windows10%E7%B3%BB%E7%BB%9F%E5%BD%BB%E5%BA%95%E6%B0%B8%E4%B9%85%E5%85%B3%E9%97%AD%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="Windows10系统彻底永久关闭自动更新">Windows10系统彻底永久关闭自动更新</span>
+            <span class="post-date" title="2023-05-05 14:01:04">2023/05/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/03/27/Docker%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E9%95%9C%E5%83%8F/"
+           data-tag="docker"
+           data-author="" >
+            <span class="post-title" title="Docker导入导出镜像">Docker导入导出镜像</span>
+            <span class="post-date" title="2023-03-27 21:48:59">2023/03/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 tools "
+           href="/2023/02/21/idea%E6%8F%92%E4%BB%B6%E5%A4%A7%E5%85%A8/"
+           data-tag="idea,快捷键"
+           data-author="" >
+            <span class="post-title" title="idea插件大全">idea插件大全</span>
+            <span class="post-date" title="2023-02-21 16:03:10">2023/02/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/01/27/Java-%E7%AE%A1%E7%A8%8B/"
+           data-tag="管程"
+           data-author="" >
+            <span class="post-title" title="Java 管程">Java 管程</span>
+            <span class="post-date" title="2023-01-27 07:47:21">2023/01/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2023/01/10/java-List%EF%BC%9CMap%EF%BC%9CString-Object%EF%BC%9E%EF%BC%9E-stream-%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/"
+           data-tag="jdk,stream"
+           data-author="" >
+            <span class="post-title" title="java List＜Map＜String,Object＞＞ stream 常用操作">java List＜Map＜String,Object＞＞ stream 常用操作</span>
+            <span class="post-date" title="2023-01-10 16:46:37">2023/01/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/01/04/Linux%E5%91%BD%E4%BB%A4-%E5%AE%89%E8%A3%85cenos7%E7%B3%BB%E7%BB%9FTab%E8%A1%A5%E5%85%A8%E5%8A%9F%E8%83%BD/"
+           data-tag="centos"
+           data-author="" >
+            <span class="post-title" title="Linux命令-安装cenos7系统Tab补全功能">Linux命令-安装cenos7系统Tab补全功能</span>
+            <span class="post-date" title="2023-01-04 09:57:46">2023/01/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2023/01/04/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="docker"
+           data-author="" >
+            <span class="post-title" title="Docker常用命令">Docker常用命令</span>
+            <span class="post-date" title="2023-01-04 09:36:00">2023/01/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 script "
+           href="/2023/01/03/Yaml-%E8%AF%AD%E6%B3%95/"
+           data-tag="Yaml"
+           data-author="" >
+            <span class="post-title" title="Yaml 语法">Yaml 语法</span>
+            <span class="post-date" title="2023-01-03 10:31:37">2023/01/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/12/30/nginx%E4%B9%8Blocation%E8%A7%84%E5%88%99%E8%AF%A6%E8%A7%A3/"
+           data-tag="nginx"
+           data-author="" >
+            <span class="post-title" title="nginx之location规则详解">nginx之location规则详解</span>
+            <span class="post-date" title="2022-12-30 15:37:34">2022/12/30</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/12/29/nginx%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2-%E5%88%86%E5%89%B2%EF%BC%8C%E6%8C%89%E5%A4%A9%E7%94%9F%E6%88%90-%E5%AE%9A%E6%9C%9F%E5%88%A0%E9%99%A4%E6%97%A5%E5%BF%97/"
+           data-tag="nginx"
+           data-author="" >
+            <span class="post-title" title="nginx日志切割/分割，按天生成&amp;定期删除日志">nginx日志切割/分割，按天生成&amp;定期删除日志</span>
+            <span class="post-date" title="2022-12-29 15:14:48">2022/12/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 web "
+           href="/2022/12/08/VUE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"
+           data-tag="vue"
+           data-author="" >
+            <span class="post-title" title="VUE基础知识">VUE基础知识</span>
+            <span class="post-date" title="2022-12-08 16:50:15">2022/12/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/10/28/CentOS7%E4%B8%8B%E5%AE%89%E8%A3%85Redis/"
+           data-tag="redis"
+           data-author="" >
+            <span class="post-title" title="CentOS7下安装Redis">CentOS7下安装Redis</span>
+            <span class="post-date" title="2022-10-28 17:56:46">2022/10/28</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/10/28/CentOS7%E6%9F%A5%E8%AF%A2jdk%E5%AE%89%E8%A3%85%E4%BD%8D%E7%BD%AE-%E7%9B%AE%E5%BD%95/"
+           data-tag="jdk"
+           data-author="" >
+            <span class="post-title" title="CentOS7查询jdk安装位置/目录">CentOS7查询jdk安装位置/目录</span>
+            <span class="post-date" title="2022-10-28 17:50:46">2022/10/28</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/10/28/centos7%E5%8D%B8%E8%BD%BD%E8%87%AA%E5%B8%A6openjdk-%E5%AE%89%E8%A3%85%E8%87%AA%E5%B7%B1%E7%9A%84jdk/"
+           data-tag="jdk"
+           data-author="" >
+            <span class="post-title" title="centos7卸载自带openjdk,安装自己的jdk">centos7卸载自带openjdk,安装自己的jdk</span>
+            <span class="post-date" title="2022-10-28 17:46:16">2022/10/28</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/10/14/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/"
+           data-tag="java"
+           data-author="" >
+            <span class="post-title" title="Java基础知识点整理">Java基础知识点整理</span>
+            <span class="post-date" title="2022-10-14 09:43:40">2022/10/14</span>
+        </a>
+        
+        
+        <a  class="全部文章 db "
+           href="/2022/10/11/ECS%E4%B8%ADMySQL%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2/"
+           data-tag="mysql"
+           data-author="" >
+            <span class="post-title" title="ECS中MySQL快速部署">ECS中MySQL快速部署</span>
+            <span class="post-date" title="2022-10-11 16:52:46">2022/10/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/10/09/Spring%E4%B8%ADbean%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%B3%A8%E5%85%A5%E6%96%B9%E5%BC%8F/"
+           data-tag="spring"
+           data-author="" >
+            <span class="post-title" title="Spring中bean的四种注入方式">Spring中bean的四种注入方式</span>
+            <span class="post-date" title="2022-10-09 13:48:35">2022/10/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 java spring "
+           href="/2022/09/28/Spring%E7%9A%84AOP%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/"
+           data-tag="aop"
+           data-author="" >
+            <span class="post-title" title="Spring的AOP注解开发">Spring的AOP注解开发</span>
+            <span class="post-date" title="2022-09-28 11:03:03">2022/09/28</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/27/maven%E5%B0%86%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8A%A0%E5%85%A5%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/"
+           data-tag="maven"
+           data-author="" >
+            <span class="post-title" title="maven将第三方jar加入本地仓库">maven将第三方jar加入本地仓库</span>
+            <span class="post-date" title="2022-09-27 11:23:40">2022/09/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/26/windows-10-kill-%E8%BF%9B%E7%A8%8B/"
+           data-tag="命令"
+           data-author="" >
+            <span class="post-title" title="windows 10 kill 进程">windows 10 kill 进程</span>
+            <span class="post-date" title="2022-09-26 23:59:48">2022/09/26</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/24/Spring%E7%90%86%E8%A7%A3/"
+           data-tag="spring"
+           data-author="" >
+            <span class="post-title" title="Spring理解">Spring理解</span>
+            <span class="post-date" title="2022-09-24 17:16:41">2022/09/24</span>
+        </a>
+        
+        
+        <a  class="全部文章 db "
+           href="/2022/09/21/Wiwindows10%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-MySQL8-0%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/"
+           data-tag="mysql"
+           data-author="" >
+            <span class="post-title" title="windows10操作系统 MySQL8.0远程连接">windows10操作系统 MySQL8.0远程连接</span>
+            <span class="post-date" title="2022-09-21 21:35:23">2022/09/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/18/MybatisPlus/"
+           data-tag="mybatisplus"
+           data-author="" >
+            <span class="post-title" title="MybatisPlus">MybatisPlus</span>
+            <span class="post-date" title="2022-09-18 21:07:08">2022/09/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/18/%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB/"
+           data-tag="匿名内部类"
+           data-author="" >
+            <span class="post-title" title="匿名内部类">匿名内部类</span>
+            <span class="post-date" title="2022-09-18 08:18:04">2022/09/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 db "
+           href="/2022/09/13/PLSQL-Developer%E5%BF%AB%E6%8D%B7%E8%AE%BE%E7%BD%AE/"
+           data-tag="sql"
+           data-author="" >
+            <span class="post-title" title="PLSQL Developer快捷设置">PLSQL Developer快捷设置</span>
+            <span class="post-date" title="2022-09-13 16:44:52">2022/09/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/09/09/Linux%E4%BF%AE%E6%94%B9%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4/"
+           data-tag="linux,系统时间"
+           data-author="" >
+            <span class="post-title" title="Linux修改系统时间">Linux修改系统时间</span>
+            <span class="post-date" title="2022-09-09 17:29:33">2022/09/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/09/Java%E5%9F%BA%E7%A1%80/"
+           data-tag="基础"
+           data-author="" >
+            <span class="post-title" title="Java基础">Java基础</span>
+            <span class="post-date" title="2022-09-09 14:04:57">2022/09/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/09/Java%E5%BC%82%E5%B8%B8/"
+           data-tag="异常"
+           data-author="" >
+            <span class="post-title" title="Java异常">Java异常</span>
+            <span class="post-date" title="2022-09-09 10:00:33">2022/09/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/08/Autowired%E6%B3%A8%E5%85%A5%E5%AF%B9%E8%B1%A1%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%AE%9E%E7%8E%B0%E7%B1%BB%E7%9A%84%E5%8C%BA%E5%88%AB/"
+           data-tag="spring"
+           data-author="" >
+            <span class="post-title" title="Autowired注入对象接口和实现类的区别">Autowired注入对象接口和实现类的区别</span>
+            <span class="post-date" title="2022-09-08 15:41:18">2022/09/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/09/08/jenkins%E9%83%A8%E7%BD%B2/"
+           data-tag="jenkins"
+           data-author="" >
+            <span class="post-title" title="jenkins部署">jenkins部署</span>
+            <span class="post-date" title="2022-09-08 10:22:04">2022/09/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/04/%E6%8E%A5%E5%8F%A3/"
+           data-tag="接口"
+           data-author="" >
+            <span class="post-title" title="接口">接口</span>
+            <span class="post-date" title="2022-09-04 16:29:51">2022/09/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 design "
+           href="/2022/09/04/%E5%B7%A5%E5%8E%82%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+           data-tag="工厂"
+           data-author="" >
+            <span class="post-title" title="工厂设计模式">工厂设计模式</span>
+            <span class="post-date" title="2022-09-04 11:09:15">2022/09/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 design "
+           href="/2022/09/03/%E4%B8%83%E5%A4%A7%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/"
+           data-tag="设计模式"
+           data-author="" >
+            <span class="post-title" title="七大软件设计原则">七大软件设计原则</span>
+            <span class="post-date" title="2022-09-03 09:11:31">2022/09/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2022/09/02/Java%E5%A4%9A%E6%80%81%E7%90%86%E8%A7%A3/"
+           data-tag="多态"
+           data-author="" >
+            <span class="post-title" title="Java多态理解">Java多态理解</span>
+            <span class="post-date" title="2022-09-02 11:47:44">2022/09/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 hexo "
+           href="/2022/09/02/hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="hexo"
+           data-author="" >
+            <span class="post-title" title="hexo常用命令">hexo常用命令</span>
+            <span class="post-date" title="2022-09-02 10:30:24">2022/09/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 db "
+           href="/2022/08/19/Oracle%E7%9A%84%E5%B8%B8%E7%94%A8SQL/"
+           data-tag="oracle,数据库"
+           data-author="" >
+            <span class="post-title" title="Oracle的常用SQL">Oracle的常用SQL</span>
+            <span class="post-date" title="2022-08-19 10:12:15">2022/08/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2022/08/19/Docker%E5%AE%89%E8%A3%85Oracle11g%E6%95%B0%E6%8D%AE%E5%BA%93/"
+           data-tag="oracle,docker"
+           data-author="" >
+            <span class="post-title" title="Docker安装Oracle11g数据库">Docker安装Oracle11g数据库</span>
+            <span class="post-date" title="2022-08-19 09:45:39">2022/08/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 script "
+           href="/2022/08/19/Linux%E4%B8%ADCtrl-C%E3%80%81Kill%20-9%E5%92%8CKill%20-15/"
+           data-tag="linux"
+           data-author="" >
+            <span class="post-title" title="Linux中Ctrl+C、Kill -9和Kill -15的区别">Linux中Ctrl+C、Kill -9和Kill -15的区别</span>
+            <span class="post-date" title="2022-08-19 09:31:40">2022/08/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 script "
+           href="/2022/08/19/SpringBoot%E5%9C%A8CentOS7%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/"
+           data-tag="命令,脚本"
+           data-author="" >
+            <span class="post-title" title="SpringBoot在CentOS7后台运行">SpringBoot在CentOS7后台运行</span>
+            <span class="post-date" title="2022-08-19 08:57:46">2022/08/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 script "
+           href="/2022/08/18/windows%E7%8E%AF%E5%A2%83%E4%B8%80%E9%94%AE%E5%90%AF%E5%8A%A8jar%E8%84%9A%E6%9C%ACbat%E6%96%87%E4%BB%B6/"
+           data-tag="脚本"
+           data-author="" >
+            <span class="post-title" title="windows环境一键启动jar脚本bat文件">windows环境一键启动jar脚本bat文件</span>
+            <span class="post-date" title="2022-08-18 22:49:55">2022/08/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 db "
+           href="/2022/08/18/%E6%9F%A5%E7%9C%8Boracle%E6%95%B0%E6%8D%AE%E5%BA%93%E7%BC%96%E7%A0%81%E5%8F%8A%E4%BF%AE%E6%94%B9%E7%BC%96%E7%A0%81%E6%96%B9%E6%B3%95/"
+           data-tag="oracle,数据库"
+           data-author="" >
+            <span class="post-title" title="查看oracle数据库编码及修改编码方法">查看oracle数据库编码及修改编码方法</span>
+            <span class="post-date" title="2022-08-18 22:37:14">2022/08/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 hexo "
+           href="/2022/08/18/Hexo%E8%AE%BE%E7%BD%AE%E4%B8%8A%E4%BC%A0%E6%9C%AC%E5%9C%B0%E5%9B%BE%E7%89%87/"
+           data-tag="配置,设置"
+           data-author="" >
+            <span class="post-title" title="Hexo设置上传本地图片">Hexo设置上传本地图片</span>
+            <span class="post-date" title="2022-08-18 14:18:32">2022/08/18</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-ES6语法学习总结" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">ES6语法学习总结</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="web">web</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color4">es6</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2024-03-05 14:59:09'>2024-03-05 14:25</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:3.9k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ES6%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93"><span class="toc-text">ES6语法学习总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%EF%BC%88let%EF%BC%89%E4%B8%8E%E5%B8%B8%E9%87%8F%E5%AE%9A%E4%B9%89%EF%BC%88const%EF%BC%89"><span class="toc-text">变量（let）与常量定义（const）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#let%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="toc-text">let的定义和使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#let%E4%B8%8D%E5%85%81%E8%AE%B8%E9%87%8D%E5%A4%8D%E5%A3%B0%E6%98%8E"><span class="toc-text">let不允许重复声明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E5%88%B6%E7%9A%84%E8%BD%AC%E5%8C%96"><span class="toc-text">进制的转化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A8%A1%E6%9D%BF"><span class="toc-text">字符串模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%88%E2%80%A6%EF%BC%89"><span class="toc-text">扩展运算符（…）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Symbol"><span class="toc-text">Symbol</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#for-of%E5%92%8Cfor-in%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">for-of和for-in的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%AE%9A%E4%B9%89"><span class="toc-text">类定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#setter%E5%92%8Cgetter"><span class="toc-text">setter和getter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set%E4%B8%8EMap"><span class="toc-text">Set与Map</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS-Map%E4%B8%8EJSON%E8%BD%AC%E6%8D%A2"><span class="toc-text">JS Map与JSON转换</span></a></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ES6语法学习总结"><a href="#ES6语法学习总结" class="headerlink" title="ES6语法学习总结"></a>ES6语法学习总结</h1><p><strong>简介：</strong> ES6分享</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">由于最近学习Vue，它的语法规范大部分使用的ES6的语法，所以来补充补充ES6知识吧，另外现在很多流行的框架都是基于ES6语法开发的，可知ES6的语法重要性。</span><br><span class="line">废话不多说，知识点走起！</span><br></pre></td></tr></table></figure>
+
+<h2 id="变量（let）与常量定义（const）"><a href="#变量（let）与常量定义（const）" class="headerlink" title="变量（let）与常量定义（const）"></a>变量（let）与常量定义（const）</h2><h3 id="let的定义和使用"><a href="#let的定义和使用" class="headerlink" title="let的定义和使用"></a>let的定义和使用</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var b =3;</span><br><span class="line">&#123;</span><br><span class="line">    //b =3 //ReferenceError: b is not defined   暂时性死区</span><br><span class="line">    let b;</span><br><span class="line">    b=4</span><br><span class="line">    console.log(b)    // 它的结果是4, </span><br><span class="line">&#125;</span><br><span class="line">console.log(b)  // 它的结果是3</span><br></pre></td></tr></table></figure>
+
+<p>什么是暂时性死区？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在一个块级作用域中，使用let/const声明变量时，只要变量还没有声明完成前就使用，就会报错，这就时暂时性死区。</span><br></pre></td></tr></table></figure>
+
+<p>暂时性死区的作用？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">它主要是为了减少运行时错误，防止在声明变量未完成之前使用。</span><br></pre></td></tr></table></figure>
+
+<h3 id="let不允许重复声明"><a href="#let不允许重复声明" class="headerlink" title="let不允许重复声明"></a>let不允许重复声明</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function check()&#123;</span><br><span class="line">    let a = 0</span><br><span class="line">    var a =0</span><br><span class="line">    console.log(a)</span><br><span class="line">&#125;</span><br><span class="line">check() // 报错</span><br><span class="line"></span><br><span class="line">//let不允许在相同作用域内，重复声明同一个变量。</span><br></pre></td></tr></table></figure>
+
+
+<p>ES6 明确规定，如果区块中存在let 和 const 命令，这个区块对这些命令声明<br>的变量，从一开始就形成了封闭作用域，凡是在声明之前就使用这些变量就会报错。</p>
+<p>### const定义和使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const Arr = 2;</span><br><span class="line">console.log(Arr);</span><br><span class="line">// Arr = 3  它会报错，常量不可以更改值，常量在定义并且赋值后，就不可以在修改值了</span><br><span class="line">const Array = [1,3,4];</span><br><span class="line">console.log(Array)</span><br><span class="line">Array[3] = 333;</span><br><span class="line">console.log(Array) // [1, 3, 4, 333]</span><br><span class="line">//Array = [22,55,88]; 它会报错， 变量本身不可以更改，但可以通过索引或这数组方法来改变元素的值</span><br><span class="line">Array.push(555);</span><br><span class="line">console.log(Array) //[1, 3, 4, 333, 555]</span><br></pre></td></tr></table></figure>
+
+<p>## 变量和对象解构赋值<br>### 解构分类：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.数组解构</span><br><span class="line">2.对象解构</span><br><span class="line">3.字符串解构</span><br><span class="line">4.函数参数解构</span><br></pre></td></tr></table></figure>
+
+<p>什么是解构赋值？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ES6 允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构（Destructuring）。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">// 字符串解构-----------字符串会被转换成一个类型数组的对象，每个对象都有length属性</span><br><span class="line">let &#123;length:len&#125; = &#x27;sayHello&#x27;</span><br><span class="line">console.log(len)// 会输出sayHello的长度   8</span><br><span class="line">// 数组赋值</span><br><span class="line">let [a,b,c] = [1,2,3]</span><br><span class="line">console.log(a,b,c)     // 1 2 3 </span><br><span class="line">console.log(&quot;------------另一种用法--------------&quot;)</span><br><span class="line">let [d,e,...other] = [1,2,3,4,5,6]</span><br><span class="line">console.log(d,e,other)// other是1，2后面的数，他们组成一个新的数组     1 2  [ 3,4 5 6]</span><br><span class="line">//对象赋值----------常用于函数传参</span><br><span class="line">let &#123;name,age&#125; = &#123;name:&quot;张三&quot;,age:20&#125;</span><br><span class="line">console.log(name,age)  //张三 20</span><br><span class="line">// 函数赋值</span><br><span class="line">function check()&#123;</span><br><span class="line">   return [100,200]</span><br><span class="line">&#125;</span><br><span class="line">let [A,B]  = check();</span><br><span class="line">console.log(A,B)  // 100 200</span><br><span class="line">//函数参数名指定</span><br><span class="line">function fun(&#123;x=1,y=2&#125;)&#123;</span><br><span class="line">   return x-y;</span><br><span class="line">&#125;</span><br><span class="line">console.log(fun(&#123;&#125;))//-1   函数不传参数时，它会指定默认值进行计算</span><br><span class="line">console.log(fun(&#123;x:22&#125;))//20   解构函数传参不限制传参个数</span><br><span class="line">console.log(fun(&#123;x:22,y:88&#125;))//-66</span><br><span class="line"></span><br><span class="line">let [ x = 1,bn=4] = [undefined,888]    //默认值生效：只要将等会右边对应的设置为undefinded,就会生效</span><br><span class="line">console.log(x+&quot;-------&quot;+bn)  // 1 888</span><br></pre></td></tr></table></figure>
+
+<p>解构赋值用途？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. 交换变量的值</span><br><span class="line">2. 交换变量的值(将它们放在数组或对象里返回)</span><br><span class="line">3. 函数参数的定义</span><br><span class="line">4. 提取 JSON 数据</span><br><span class="line">5. 函数参数的默认值</span><br><span class="line">6. 遍历 Map 结构</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2024/03/05/ES6%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/image-20240305145404333.png" alt="image-20240305145404333"></p>
+<h2 id="进制的转化"><a href="#进制的转化" class="headerlink" title="进制的转化"></a>进制的转化</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0b---------二进制</span><br><span class="line">0o---------十进制</span><br><span class="line">0x----------十六进制</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">console.log(&#x27;10的二进制&#x27;+0b10)</span><br><span class="line">console.log(&#x27;10的十进制&#x27;+0o10)</span><br><span class="line">console.log(&#x27;10的十六进制&#x27;+0x10)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let num = 20;</span><br><span class="line">console.log(num.toString(8))// 将num转换成8进制</span><br><span class="line">console.log(num.toString(14))// 将num转换成14进制</span><br><span class="line"></span><br><span class="line">// 变量数值.toString(数字)-----------数字是指定多少进制的</span><br></pre></td></tr></table></figure>
+
+<h2 id="字符串模板"><a href="#字符串模板" class="headerlink" title="字符串模板"></a>字符串模板</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let name = &#x27;小红&#x27;;</span><br><span class="line">console.log(`我是$&#123;name&#125;`)    // 字符串中嵌入变量使用  </span><br><span class="line"></span><br><span class="line">let str = `你的?爱好是啥了？   // 多行输出</span><br><span class="line">打?</span><br><span class="line">`</span><br><span class="line">console.log(str)//你的?爱好是啥了？ </span><br><span class="line">                //打?</span><br><span class="line">                </span><br></pre></td></tr></table></figure>
+
+<h2 id="扩展运算符（…）"><a href="#扩展运算符（…）" class="headerlink" title="扩展运算符（…）"></a>扩展运算符（…）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function long(...arg)&#123;</span><br><span class="line">    console.log(arg)</span><br><span class="line">&#125;</span><br><span class="line">long(1,2,3,4,5,6)</span><br><span class="line"></span><br><span class="line">// 可变长参数定义格式：  在函数参数部分 (...参数)</span><br><span class="line"> //它可以给函数参数传递多个参数，也可以传递一个值</span><br></pre></td></tr></table></figure>
+
+<p>扩展运算符的应用</p>
+<p>1.复制数组</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 以下是错误的复制数组，它只是执向同一份数据的另一个指针，修改a2,a1的值就会发生改变</span><br><span class="line">const a1 = [1, 2];</span><br><span class="line">const a2 = a1;</span><br><span class="line">a2[0] = 2;</span><br><span class="line">a1 // [2, 2]</span><br><span class="line"></span><br><span class="line">// 正确的克隆复制数组</span><br><span class="line">// 写法一</span><br><span class="line">//const a2 = [...a1];</span><br><span class="line">// 写法二</span><br><span class="line">const [...a2] = a1;</span><br><span class="line">a2[0] = 22;</span><br><span class="line">console.log(a1)   //[1, 2]</span><br><span class="line">console.log(a2)  //[22, 2]</span><br></pre></td></tr></table></figure>
+
+<p>2.合并数组</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const arr1 = [&#x27;a&#x27;, &#x27;b&#x27;];</span><br><span class="line">const arr2 = [&#x27;c&#x27;];</span><br><span class="line">const arr3 = [&#x27;d&#x27;, &#x27;e&#x27;];</span><br><span class="line"></span><br><span class="line">// ES5 的合并数组</span><br><span class="line">arr1.concat(arr2, arr3);</span><br><span class="line">// [ &#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;, &#x27;e&#x27; ]</span><br><span class="line"></span><br><span class="line">// ES6 的合并数组</span><br><span class="line">[...arr1, ...arr2, ...arr3]</span><br><span class="line">// [ &#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;, &#x27;e&#x27; ]</span><br></pre></td></tr></table></figure>
+
+<p>## 箭头函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">箭头函数相当于匿名函数，并且简化了函数定义。箭头函数有两种格式，一种只包含一个表达式，连&#123; ... &#125;和return都省略掉了。</span><br><span class="line">还有一种可以包含多条语句，这时候就不能省略&#123; ... &#125;和return：</span><br></pre></td></tr></table></figure>
+
+<p>使用格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">(参数1, 参数2, …, 参数N) =&gt; &#123; 函数声明 &#125;</span><br><span class="line">(参数1, 参数2, …, 参数N) =&gt; 表达式（单一）</span><br><span class="line">//相当于：(参数1, 参数2, …, 参数N) =&gt;&#123; return 表达式; &#125;</span><br><span class="line"></span><br><span class="line">// 当只有一个参数时，圆括号是可选的：</span><br><span class="line">(单一参数) =&gt; &#123;函数声明&#125;</span><br><span class="line">单一参数 =&gt; &#123;函数声明&#125;</span><br><span class="line"></span><br><span class="line">// 没有参数的函数应该写成一对圆括号。</span><br><span class="line">() =&gt; &#123;函数声明&#125;</span><br><span class="line"></span><br><span class="line">//加括号的函数体返回对象字面表达式：</span><br><span class="line">参数=&gt; (&#123;foo: bar&#125;)</span><br><span class="line"></span><br><span class="line">//支持剩余参数和默认参数</span><br><span class="line">(参数1, 参数2, ...rest) =&gt; &#123;函数声明&#125;</span><br><span class="line">(参数1 = 默认值1,参数2, …, 参数N = 默认值N) =&gt; &#123;函数声明&#125;</span><br><span class="line"></span><br><span class="line">//同样支持参数列表解构</span><br><span class="line">let f = ([a, b] = [1, 2], &#123;x: c&#125; = &#123;x: a + b&#125;) =&gt; a + b + c;</span><br><span class="line">f();  // 6</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 两个参数</span><br><span class="line">var add = (x,y) =&gt;&#123;</span><br><span class="line"> return x+y</span><br><span class="line">&#125;</span><br><span class="line">console.log(add(6,8))   // 14</span><br><span class="line">//没有参数</span><br><span class="line">var check = ()=&gt;&#x27;没有参数&#x27;</span><br><span class="line">console.log(check())  // 没有参数</span><br><span class="line">//可变参数</span><br><span class="line">var change = (a,b, ...c) =&gt;&#123;</span><br><span class="line"> c.forEach(function(val)&#123;</span><br><span class="line">     console.log(val)  </span><br><span class="line"> &#125;)</span><br><span class="line">&#125;</span><br><span class="line">change(5,5,6,8,10,55)  // 6，8，10，55</span><br><span class="line"></span><br><span class="line">//箭头函数也可以使用三元运算符</span><br><span class="line">var arr = [ 9,8,4,2,11]</span><br><span class="line">var s = arr.filter(newArr =&gt; newArr%2==0?newArr:0)</span><br><span class="line">console.log(s)</span><br><span class="line"></span><br><span class="line">// 箭头函数也可以使用闭包：</span><br><span class="line">var Add = (i=0) =&gt; &#123;return (() =&gt; (++i) )&#125;;</span><br><span class="line">var v = Add();</span><br><span class="line">v();           //1</span><br><span class="line">v();           //2</span><br><span class="line"></span><br><span class="line">//因为仅有一个返回，return 及括号（）也可以省略</span><br><span class="line">var Add = (i=0)=&gt; ()=&gt; (++i);</span><br></pre></td></tr></table></figure>
+
+<p>箭头函数的作用：</p>
+<p><strong>更简短的函数并且不绑定this，并且没有自己的this，arguments，super或 new.target。这些函数表达式更适用于那些本来需要匿名函数的地方，并且它们不能用作构造函数。</strong></p>
+<p>-–</p>
+<p>箭头函数使用注意：</p>
+<p>1.箭头函数不会创建自己的this,它只会从自己的作用域链的上一层继承this。<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/dongcanliang/p/7054176.html">有关this使用的说明</a></p>
+<ol>
+<li>箭头函数没有自己的this指针，通过 call() 或 apply() 方法调用一个函数时，只能传递参数（不能绑定this—译者注），他们的第一个参数会被忽略。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var adder = &#123;</span><br><span class="line">  base : 1,</span><br><span class="line">    </span><br><span class="line">  add : function(a) &#123;</span><br><span class="line">    var f = v =&gt; v + this.base;</span><br><span class="line">    return f(a);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  addThruCall: function(a) &#123;</span><br><span class="line">    var f = v =&gt; v + this.base;</span><br><span class="line">    var b = &#123;</span><br><span class="line">      base : 2</span><br><span class="line">    &#125;;</span><br><span class="line">            </span><br><span class="line">    return f.call(b, a);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">console.log(adder.add(1));         // 输出 2</span><br><span class="line">console.log(adder.addThruCall(1)); // 仍然输出 2（而不是3 ——译者注）</span><br></pre></td></tr></table></figure>
+
+<p>3.箭头函数不能用作构造器，和 new一起用会抛出错误。<br>4.箭头函数没有prototype属性。</p>
+<h2 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h2><p>什么是Symbol？：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">symbol 是一种基本数据类型，</span><br><span class="line">该类型具有静态属性和静态方法。它的静态属性会暴露几个内建的成员对象；它的静态方法会暴露全局的symbol注册</span><br></pre></td></tr></table></figure>
+
+<p><em>每个从Symbol()返回的symbol值都是唯一的。一个symbol值能作为对象属性的标识符；这是该数据类型仅有的目的</em></p>
+<p>Symbol格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Symbol([description])</span><br><span class="line">参数：可选的字符串。symbol的描述，可用于调试但不能访问symbol本身</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">// Symbol 作为常量</span><br><span class="line">const Java = Symbol();</span><br><span class="line">let a = Java;</span><br><span class="line">if(a === Java)&#123; //true</span><br><span class="line">    console.log(&quot;a 和 java相等&quot;)</span><br><span class="line">&#125;</span><br><span class="line">// Symbol作为属性</span><br><span class="line">let s1 = Symbol(&#x27;aa&#x27;)</span><br><span class="line">let s2 = Symbol(&#x27;AK47&#x27;)</span><br><span class="line">    // s1 s2 作为对象属性的标记来使用</span><br><span class="line">var arr = &#123;&#125;</span><br><span class="line">arr[s1]=&quot;nihao&quot;</span><br><span class="line">arr[s2]=&quot;Hello&quot;</span><br><span class="line">console.log(arr)</span><br><span class="line">console.log(arr[s1])</span><br><span class="line">console.log(arr[s2])</span><br><span class="line">// 半隐藏属性：特点：知道的人可以使用，不知道的不能使用</span><br><span class="line">const My = Symbol();</span><br><span class="line">class User&#123;</span><br><span class="line">    constructor(name,age,key)&#123;</span><br><span class="line">        this[My] = key;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    CheckKey(key) &#123;</span><br><span class="line">        return this[My] === key;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">let user = new User(&quot;老王&quot;,20,3333)</span><br><span class="line">// 知道有user[My] 属性才可以使用，不知道不能使用， 通过输出对象，就能知道是否有定义的Symbol半隐藏属性】</span><br><span class="line">console.log(user.name+&quot;----&quot;+user.age+&quot;-----&quot;+user[My]);</span><br><span class="line">//Object.keys()----会返回一个对象的属性数组</span><br><span class="line">//它不会返回半隐藏属性，因为隐藏了</span><br><span class="line">console.log(Object.keys(user))</span><br><span class="line">//输出对象，可以得知对象的所有属性</span><br><span class="line">console.log(user)</span><br><span class="line">console.log(user.CheckKey(222))</span><br></pre></td></tr></table></figure>
+
+<p><strong>*</strong></p>
+<p><strong>Symbol主要用来作为对象属性的标识符</strong></p>
+<p><strong>*</strong></p>
+<h2 id="for-of和for-in的区别"><a href="#for-of和for-in的区别" class="headerlink" title="for-of和for-in的区别"></a>for-of和for-in的区别</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在ES6之前，迭代元素都使用for-in去遍历，但是它有一个缺点，就是当你遍历数组时，你只想获取数组的值，它会遍历跟数组</span><br><span class="line">相关的一切属性（除了Array的length属性却不包括在内）！</span><br><span class="line">ES6的出现，for-of大大解决了这一缺点，它只会获取数组的值。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> ES6之前</span><br><span class="line">var a = [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;];</span><br><span class="line">a.name = &#x27;Hello&#x27;;</span><br><span class="line">for (var x in a) &#123;</span><br><span class="line">    console.log(x); // &#x27;0&#x27;, &#x27;1&#x27;, &#x27;2&#x27;, &#x27;name&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//2.for ... of循环则完全修复了这些问题，它只循环集合本身的元素：</span><br><span class="line">var a = [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;];</span><br><span class="line">a.name = &#x27;Hello&#x27;;</span><br><span class="line">for (var x of a) &#123;</span><br><span class="line">    console.log(x); // &#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// 不能用类实例化对象，通过    类.方法    就可以访问该方法</span><br><span class="line">class Car&#123;</span><br><span class="line">    constructor(name,price)&#123;------------构造器</span><br><span class="line">        this.name=name;</span><br><span class="line">        this.price=price;</span><br><span class="line">    &#125;</span><br><span class="line">    run()&#123;</span><br><span class="line">        console.log(`$&#123;this.name&#125;车的价格为$&#123;this.price&#125;`)</span><br><span class="line">    &#125;</span><br><span class="line">    static action()&#123;---------------------静态方法</span><br><span class="line">        // let force = (this.price&gt;100000&amp;this.price&lt;150000)?</span><br><span class="line">        // &#x27;该车的动力功能一般&#x27;:&#x27;该车的动力功能可以&#x27;;</span><br><span class="line">        // console.log(force)</span><br><span class="line">        if(`$&#123;this.price&#125;`&lt;100000)&#123;</span><br><span class="line">            console.log(&#x27;该车的动力功能一般&#x27;)</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            console.log(&#x27;该车的动力功能可以&#x27;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">let sedan = new Car(&#x27;捷达-263&#x27;,2000);</span><br><span class="line">console.log(sedan.name,sedan.price);</span><br><span class="line">console.log(sedan);</span><br><span class="line">//sedan.action();--------会报错，类实例化对象不可以访问静态方法</span><br><span class="line">sedan.run();</span><br><span class="line">Car.action();</span><br></pre></td></tr></table></figure>
+
+<h2 id="setter和getter"><a href="#setter和getter" class="headerlink" title="setter和getter"></a>setter和getter</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// setter/getter 功能相当于----------java中(set和get)设置方法中内容 取得方法中内容</span><br><span class="line">class People&#123;</span><br><span class="line">    constructor(name)&#123;</span><br><span class="line">        this.name=name</span><br><span class="line">    &#125;</span><br><span class="line">    get age()&#123;</span><br><span class="line">        return this._age;</span><br><span class="line">    &#125;</span><br><span class="line">    set age(val)&#123;</span><br><span class="line">        this._age=val;</span><br><span class="line">    &#125;</span><br><span class="line">    show()&#123;</span><br><span class="line">        console.log(`名字：$&#123;this.name&#125;,年龄：$&#123;this.age&#125;`)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">let A = new People(&#x27;People&#x27;);</span><br><span class="line">console.log(A)</span><br><span class="line">A.age=22;</span><br><span class="line">console.log(A.age)</span><br><span class="line">console.log(A)</span><br></pre></td></tr></table></figure>
+
+<p>## 类继承</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">其实JavaScript 和 Java 创建类，继承挺相似的！</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;</span><br><span class="line">    constructor(name)&#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    show()&#123;</span><br><span class="line">        console.log(`该动物是$&#123;this.name&#125;`)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Dog extends Animal&#123;</span><br><span class="line">    constructor(name,trait)&#123;</span><br><span class="line">        super(name)</span><br><span class="line">        this.trait=trait;</span><br><span class="line">    &#125;</span><br><span class="line">    type()&#123;</span><br><span class="line">        switch(this.trait)&#123;</span><br><span class="line">            case &#x27;吃肉&#x27;:</span><br><span class="line">                return &#x27;食肉动物&#x27;</span><br><span class="line">            case &#x27;吃素&#x27;:</span><br><span class="line">                return &#x27;食草动物&#x27;</span><br><span class="line">            default:</span><br><span class="line">                throw new Error(&#x27;没有该类型动物&#x27;)</span><br><span class="line">        &#125;</span><br><span class="line">     </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">let dog = new Dog(&#x27;哈士奇&#x27;,&#x27;吃肉&#x27;);</span><br><span class="line">dog.show();</span><br><span class="line">console.log(dog.type())</span><br></pre></td></tr></table></figure>
+
+<h2 id="Set与Map"><a href="#Set与Map" class="headerlink" title="Set与Map"></a>Set与Map</h2><p>什么是Set?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ES6提供了新的数据结构Set。它类似于数组，但是成员的值都是唯一的，没有重复的值。</span><br><span class="line">Set函数可以接受一个数组（或类似数组的对象）作为参数，用来初始化。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//Set 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。</span><br><span class="line">var mySet = new Set();</span><br><span class="line">mySet.add(1);</span><br><span class="line">mySet.add(&quot;foo&quot;);</span><br><span class="line">var a = new Set([11,22,33,44,55]);</span><br><span class="line">console.log([...a]) //11,22,33,44,55</span><br></pre></td></tr></table></figure>
+
+<p><strong>Set 四个方法</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">add(value)：添加某个值，返回Set结构本身</span><br><span class="line">delete(value)：删除某个值，返回一个布尔值，表示删除是否成功</span><br><span class="line">has(value)：返回一个布尔值，表示该值是否为Set的成员</span><br><span class="line">clear()：清除所有成员，没有返回值</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">mySet.size;       // 2</span><br><span class="line">mySet.has(&quot;foo&quot;); // true</span><br><span class="line"></span><br><span class="line">//mySet.clear();</span><br><span class="line"></span><br><span class="line">mySet.size;       // 0</span><br><span class="line">mySet.has(&quot;bar&quot;)  // false</span><br><span class="line"></span><br><span class="line">// 用forEach迭代</span><br><span class="line">mySet.forEach(function(value) &#123;</span><br><span class="line">    console.log(value);</span><br><span class="line">  &#125;);</span><br><span class="line">// Set和Array互换</span><br><span class="line">                //第一种方法</span><br><span class="line">mySet2 = new Set([1,2,3,4]);</span><br><span class="line">mySet2.size; // 4</span><br><span class="line">console.log([...mySet2])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                    //第二种方法</span><br><span class="line">var myArray = [&quot;value1&quot;, &quot;value2&quot;, &quot;value3&quot;];</span><br><span class="line"></span><br><span class="line">// 用Set构造器将Array转换为Set</span><br><span class="line">var mySet = new Set(myArray);</span><br><span class="line"></span><br><span class="line">mySet.has(&quot;value1&quot;); // returns true</span><br><span class="line"></span><br><span class="line">// 用...(展开操作符)操作符将Set转换为Array</span><br><span class="line">console.log([...mySet]); // 与myArray完全一致</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//Set对象去重</span><br><span class="line">console.log([...new Set([1,1,2,3,5,88,999,22,88,88,88,1111])])</span><br></pre></td></tr></table></figure>
+
+<p>Set 结构有四个遍历方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.keys()返回键名的遍历器</span><br><span class="line">2.values()返回键值的遍历器</span><br><span class="line">3.entries()返回键值对的遍历器</span><br><span class="line">4.forEach()使用回调函数遍历每个成员</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">let set = new Set([&#x27;red&#x27;, &#x27;green&#x27;, &#x27;blue&#x27;]);</span><br><span class="line"> </span><br><span class="line">for (let item of set.keys()) &#123;</span><br><span class="line">  console.log(item);</span><br><span class="line">&#125;</span><br><span class="line">// red</span><br><span class="line">// green</span><br><span class="line">// blue</span><br><span class="line"> </span><br><span class="line">for (let item of set.values()) &#123;</span><br><span class="line">  console.log(item);</span><br><span class="line">&#125;</span><br><span class="line">// red</span><br><span class="line">// green</span><br><span class="line">// blue</span><br><span class="line"> </span><br><span class="line">for (let item of set.entries()) &#123;</span><br><span class="line">  console.log(item);</span><br><span class="line">&#125;</span><br><span class="line">// [&quot;red&quot;, &quot;red&quot;]</span><br><span class="line">// [&quot;green&quot;, &quot;green&quot;]</span><br><span class="line">// [&quot;blue&quot;, &quot;blue&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>什么是Map?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ES6 提供了 Map 数据结构。它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//Map 对象保存键值对。任何值(对象或者原始值) 都可以作为一个键或一个值。</span><br><span class="line">let map  = new Map();</span><br><span class="line">map.set(&#x27;name&#x27;,&#x27;张三&#x27;)  // 通过set 添加键值对</span><br><span class="line">map.set(&#x27;age&#x27;,22)</span><br><span class="line">// 一些Map常用方法</span><br><span class="line">console.log(map.size)//-----------map的大小</span><br><span class="line">console.log(map.has(&quot;name&quot;))//------------------map对象是否包含name</span><br><span class="line">//map.clear()//-----------------------清空map对象</span><br><span class="line">console.log(map.size)  //0</span><br></pre></td></tr></table></figure>
+
+<p><strong>Map结构有四个遍历方法：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.keys()返回键名的遍历器</span><br><span class="line">2.values()返回键值的遍历器</span><br><span class="line">3.entries()返回键值对的遍历器</span><br><span class="line"></span><br><span class="line">以上3个方法都是通过  for（let  of  ）遍历</span><br><span class="line"></span><br><span class="line">4.forEach()使用回调函数遍历每个成员</span><br></pre></td></tr></table></figure>
+
+<p><strong>Map结构转数组结构，通过扩展运算符（…）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">const map = new Map([</span><br><span class="line">  [1, &#x27;one&#x27;],</span><br><span class="line">  [2, &#x27;two&#x27;],</span><br><span class="line">  [3, &#x27;three&#x27;],</span><br><span class="line">]);</span><br><span class="line"> </span><br><span class="line">[...map.keys()]</span><br><span class="line">// [1, 2, 3]</span><br><span class="line"> </span><br><span class="line">[...map.values()]</span><br><span class="line">// [&#x27;one&#x27;, &#x27;two&#x27;, &#x27;three&#x27;]</span><br><span class="line"> </span><br><span class="line">[...map.entries()]</span><br><span class="line">// [[1,&#x27;one&#x27;], [2, &#x27;two&#x27;], [3, &#x27;three&#x27;]]</span><br><span class="line"> </span><br><span class="line">[...map]</span><br><span class="line">// [[1,&#x27;one&#x27;], [2, &#x27;two&#x27;], [3, &#x27;three&#x27;]]</span><br></pre></td></tr></table></figure>
+
+<p>Map转化为数组结构后，它就可以使用数组的方法，可以实现更多的方法，例如数组的过滤filter……….</p>
+<h2 id="JS-Map与JSON转换"><a href="#JS-Map与JSON转换" class="headerlink" title="JS Map与JSON转换"></a>JS Map与JSON转换</h2><ol>
+<li>JSON数据转字符串</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">JSON</span>.<span class="title function_">stringify</span>(jsondata);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>字符串转JSON</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JSON.parse(str);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>Map转JSON,需要先将Map转化为Object（对象）</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">_strMapToObj</span>(<span class="params">strMap</span>)&#123;</span><br><span class="line">   <span class="keyword">let</span> obj= <span class="title class_">Object</span>.<span class="title function_">create</span>(<span class="literal">null</span>);</span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">let</span>[k,v] <span class="keyword">of</span> strMap) &#123;</span><br><span class="line">     obj[k] = v;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> obj;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment"> *map转换为json</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="title function_">_mapToJson</span>(<span class="params">map</span>) &#123;</span><br><span class="line"> <span class="keyword">return</span> <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(<span class="variable language_">this</span>.<span class="title function_">_strMapToObj</span>(map));</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>JSON转Map</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">_objToStrMap(obj)&#123;</span><br><span class="line">  let strMap = new Map();</span><br><span class="line">  for (let k of Object.keys(obj)) &#123;</span><br><span class="line">    strMap.set(k,obj[k]);</span><br><span class="line">  &#125;</span><br><span class="line">  return strMap;</span><br><span class="line">&#125;</span><br><span class="line"> /**</span><br><span class="line">  *json转换为map</span><br><span class="line">  */</span><br><span class="line"> _jsonToMap(jsonStr)&#123;</span><br><span class="line">    return this._objToStrMap(JSON.parse(jsonStr));</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>以上是关于ES6的知识点，可能不全，但是最常用的，平常遇到不会的知识点，可以去<a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/">阮一峰 网站去看ES6，特别不错，讲的特别细</a>。</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 362535102@qq.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">赏</a>
+</p>
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2022-2022 Timor
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>喜欢就点赞,疼爱就打赏</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
