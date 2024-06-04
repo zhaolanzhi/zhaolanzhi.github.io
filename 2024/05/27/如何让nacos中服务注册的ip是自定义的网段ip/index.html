@@ -2,25 +2,28 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Docker 镜像加速 | vim</title>
-  <meta name="keywords" content=" docker ">
-  <meta name="description" content="Docker 镜像加速 | vim">
+  <title>如何让nacos中服务注册的ip是自定义的网段ip | vim</title>
+  <meta name="keywords" content=" nacos , ip ">
+  <meta name="description" content="如何让nacos中服务注册的ip是自定义的网段ip | vim">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="try、catch、finally执行顺序try块和catch块总逻辑基本相同。try中出现异常跳转到catch，若catch中出现异常则跳转到finally，try或catch正常执行若存在return则先执行return的代码并保存返回值信息（基本类型保存值信息，引用类型则保存地址信息）然后执行finally，若finally中出现异常或包含return则执行结束，若无异常且没有return则">
+<meta name="description" content="docker 安装 FastDFS （最详细版）1.拉取镜像1docker pull delron&#x2F;fastdfs   2.使用docker镜像构建tracker容器（跟踪服务器，起到调度的作用）：1docker run -dti --network&#x3D;host --name tracker -v &#x2F;var&#x2F;fdfs&#x2F;tracker:&#x2F;var&#x2F;fdfs -v &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="try、catch、finally用法总结">
-<meta property="og:url" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:title" content="docker搭建FastDFS文件系统">
+<meta property="og:url" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="vim">
-<meta property="og:description" content="try、catch、finally执行顺序try块和catch块总逻辑基本相同。try中出现异常跳转到catch，若catch中出现异常则跳转到finally，try或catch正常执行若存在return则先执行return的代码并保存返回值信息（基本类型保存值信息，引用类型则保存地址信息）然后执行finally，若finally中出现异常或包含return则执行结束，若无异常且没有return则">
+<meta property="og:description" content="docker 安装 FastDFS （最详细版）1.拉取镜像1docker pull delron&#x2F;fastdfs   2.使用docker镜像构建tracker容器（跟踪服务器，起到调度的作用）：1docker run -dti --network&#x3D;host --name tracker -v &#x2F;var&#x2F;fdfs&#x2F;tracker:&#x2F;var&#x2F;fdfs -v &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142037548.png">
-<meta property="og:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142713843.png">
-<meta property="og:image" content="c:/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817144139921.png">
-<meta property="article:published_time" content="2024-05-29T06:35:51.502Z">
-<meta property="article:modified_time" content="2024-01-24T01:16:55.223Z">
+<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center.png">
+<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center-1717481523529-1.png">
+<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center-1717481523529-2.png">
+<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center-1717481523529-3.png">
+<meta property="article:published_time" content="2024-06-04T06:03:09.000Z">
+<meta property="article:modified_time" content="2024-06-04T06:12:27.636Z">
 <meta property="article:author" content="vim">
+<meta property="article:tag" content="fastdfs">
+<meta property="article:tag" content="文件">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142037548.png">
+<meta name="twitter:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center.png">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -142,7 +145,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(92)</small>
+                <small>(93)</small>
             
         </div>
     </li>
@@ -181,7 +184,7 @@
                     <div data-rel="devops">
                         
                         devops
-                        <small>(31)</small>
+                        <small>(30)</small>
                         
                     </div>
                     
@@ -210,7 +213,7 @@
                         <i class="fold iconfont icon-right"></i>
                         
                         java
-                        <small>(31)</small>
+                        <small>(32)</small>
                         
                     </div>
                     
@@ -272,7 +275,7 @@
                     <div data-rel="web">
                         
                         web
-                        <small>(5)</small>
+                        <small>(6)</small>
                         
                     </div>
                     
@@ -300,8 +303,8 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="92">
-<input type="hidden" id="yelog_site_word_count" value="79.6k">
+<input type="hidden" id="yelog_site_posts_number" value="93">
+<input type="hidden" id="yelog_site_word_count" value="84.5k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -375,6 +378,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>进程</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>快捷键</a>
             </li>
         
@@ -404,6 +411,10 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>数据库</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -467,6 +478,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>fastdfs</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>git</a>
             </li>
         
@@ -476,6 +491,10 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>idea</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ip</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -492,6 +511,10 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>jenkins</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>kill</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -519,6 +542,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nacos</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>nginx</a>
             </li>
         
@@ -536,6 +563,10 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>oracle</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>port</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -595,7 +626,38 @@
 </div>
 
     
+    <div id="local-search-result">
+
+    </div>
+    
     <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"
+           data-tag="fastdfs,文件"
+           data-author="" >
+            <span class="post-title" title="docker搭建FastDFS文件系统">docker搭建FastDFS文件系统</span>
+            <span class="post-date" title="2024-06-04 14:03:09">2024/06/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 web "
+           href="/2024/06/04/Vue-cli%E5%88%9B%E5%BB%BAVue%E9%A1%B9%E7%9B%AE%E5%B7%A5%E7%A8%8B%E6%AD%A5%E9%AA%A4%E8%AF%A6%E8%A7%A3/"
+           data-tag="vue"
+           data-author="" >
+            <span class="post-title" title="Vue-cli创建Vue项目工程步骤详解">Vue-cli创建Vue项目工程步骤详解</span>
+            <span class="post-date" title="2024-06-04 13:50:47">2024/06/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/06/04/%E5%AE%89%E8%A3%85node%E5%B9%B6%E4%B8%94%E9%85%8D%E7%BD%AE%E7%BC%93%E5%AD%98/"
+           data-tag="node"
+           data-author="" >
+            <span class="post-title" title="安装node并且配置缓存">安装node并且配置缓存</span>
+            <span class="post-date" title="2024-06-04 13:44:01">2024/06/04</span>
+        </a>
         
         
         <a  class="全部文章 java "
@@ -613,6 +675,15 @@
            data-author="" >
             <span class="post-title" title="Hello World">Hello World</span>
             <span class="post-date" title="2024-05-29 14:35:51">2024/05/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2024/05/27/%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%AD%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%BD%91%E6%AE%B5ip/"
+           data-tag="nacos,ip"
+           data-author="" >
+            <span class="post-title" title="如何让nacos中服务注册的ip是自定义的网段ip">如何让nacos中服务注册的ip是自定义的网段ip</span>
+            <span class="post-date" title="2024-05-27 09:59:00">2024/05/27</span>
         </a>
         
         
@@ -860,15 +931,6 @@
         
         
         <a  class="全部文章 devops "
-           href="/2023/11/29/docker-docker-compose%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/"
-           data-tag="docker,docker-compose"
-           data-author="" >
-            <span class="post-title" title="docker,docker-compose离线安装教程">docker,docker-compose离线安装教程</span>
-            <span class="post-date" title="2023-11-29 17:28:37">2023/11/29</span>
-        </a>
-        
-        
-        <a  class="全部文章 devops "
            href="/2023/11/29/Docker%E3%80%81Docker-compose-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"
            data-tag="docker,docker-compose"
            data-author="" >
@@ -1030,15 +1092,6 @@
         </a>
         
         
-        <a  class="全部文章 devops "
-           href="/2023/07/10/Docker-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/"
-           data-tag="docker"
-           data-author="" >
-            <span class="post-title" title="Docker 镜像加速">Docker 镜像加速</span>
-            <span class="post-date" title="2023-07-10 17:00:54">2023/07/10</span>
-        </a>
-        
-        
         <a  class="全部文章 "
            href="/2023/06/01/JRebel-XRebel%E7%83%AD%E9%83%A8%E7%BD%B2%E5%8F%8A%E8%BF%9C%E7%A8%8B%E7%83%AD%E9%83%A8%E7%BD%B2/"
            data-tag=""
@@ -1054,15 +1107,6 @@
            data-author="" >
             <span class="post-title" title="Windows10系统彻底永久关闭自动更新">Windows10系统彻底永久关闭自动更新</span>
             <span class="post-date" title="2023-05-05 14:01:04">2023/05/05</span>
-        </a>
-        
-        
-        <a  class="全部文章 devops "
-           href="/2023/03/27/Docker%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E9%95%9C%E5%83%8F/"
-           data-tag="docker"
-           data-author="" >
-            <span class="post-title" title="Docker导入导出镜像">Docker导入导出镜像</span>
-            <span class="post-date" title="2023-03-27 21:48:59">2023/03/27</span>
         </a>
         
         
@@ -1221,7 +1265,7 @@
         
         <a  class="全部文章 java "
            href="/2022/09/26/windows-10-kill-%E8%BF%9B%E7%A8%8B/"
-           data-tag="命令"
+           data-tag="port,进程,kill"
            data-author="" >
             <span class="post-title" title="windows 10 kill 进程">windows 10 kill 进程</span>
             <span class="post-date" title="2022-09-26 23:59:48">2022/09/26</span>
@@ -1443,9 +1487,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-Docker-镜像加速" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-如何让nacos中服务注册的ip是自定义的网段ip" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Docker 镜像加速</h1>
+        <h1 class="article-title">如何让nacos中服务注册的ip是自定义的网段ip</h1>
     
     <div class="article-meta">
         
@@ -1455,7 +1499,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="devops">devops</a>
+            <a  data-rel="java">java</a>
             
         </span>
         
@@ -1463,19 +1507,21 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color2">docker</a>
+            <a class="color1">nacos</a>
+            
+            <a class="color3">ip</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2024-03-05 13:44:44'>2023-07-10 17:00</time>
+            发布时间 : <time class="date" title='最后更新: 2024-06-04 13:55:34'>2024-05-27 09:59</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:44</span>
+        <span>字数:636</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -1494,7 +1540,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-text">问题描述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C"><span class="toc-text">查看网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nacos%E4%B8%AD%E5%8F%91%E7%8E%B0%E6%9C%8D%E5%8A%A1%EF%BC%8C%E8%BF%9B%E8%A1%8C%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E6%97%B6%E5%80%99%EF%BC%8C%E5%8F%AA%E5%8F%96eth0%E5%9C%B0%E5%9D%80"><span class="toc-text">nacos中发现服务，进行服务注册时候，只取eth0地址</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%8A%E5%AE%B9%E5%99%A8%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E6%8C%87%E5%AE%9A%E7%BD%91%E6%AE%B5%EF%BC%9F"><span class="toc-text">如何让nacos上容器注册的ip是指定网段？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80"><span class="toc-text">方式一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F2"><span class="toc-text">方式2</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -1510,8 +1556,39 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;registry-mirrors&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;https://8y7sw70a.mirror.aliyuncs.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;https://registry.docker-cn.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://hub-mirror.c.163.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;https://docker.mirrors.ustc.edu.cn&quot;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+        <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><ol>
+<li><strong>Nacos进行服务发现得时候，注册是容器得虚拟ip。docker swarm集群下，做overlay后，容器会有多个网卡。Nacos进行发现得时候，获取的ip和服务端口，存在一定问题，网关服务与其他服务可能发生不通的情况。</strong></li>
+</ol>
+<h2 id="查看网络"><a href="#查看网络" class="headerlink" title="查看网络"></a>查看网络</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">docker network <span class="built_in">ls</span></span></span><br></pre></td></tr></table></figure>
 
+<p><img src="/2024/05/27/%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%AD%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%BD%91%E6%AE%B5ip/1444147-20200422155703503-1578556229-1716775307581-27.png" alt="img"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker network inspect vonedao_net|grep Subnet</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2024/05/27/%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%AD%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%BD%91%E6%AE%B5ip/image-20240527100251367.png" alt="image-20240527100251367"></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">docker_gwbridge:172.18.0.0/16    </span></span><br><span class="line"><span class="section">ingress:10.0.0.0/24</span></span><br><span class="line"><span class="section">vonedao_net:192.168.0.0/24   该网络是我为项目而添加的</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>集群创建网络的命令：指定网段</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network <span class="built_in">create</span> <span class="comment">--driver overlay --subnet=192.168.0.0/24  --gateway=192.168.0.254  vonedao_net</span></span><br></pre></td></tr></table></figure>
+
+<p>在项目的yaml文件中会将容器增加到该网络中</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat vonedao-tenant-finance-biz.yaml </span></span><br><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.0&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">vonedao-tenant-finance-biz:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.vonedao.com/vonedao-cs/vonedao-tenant-finance-biz:3.7.0</span></span><br><span class="line">    <span class="attr">extra_hosts:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;nacos.vonedao.com:ip&quot;</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NACOS-PORT=80</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NACOS-HOST=nacos.vonedao.com</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">replicated</span></span><br><span class="line">      <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">restart_policy:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">on-failure</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">vonedao_net</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;6060:6060&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">vonedao_net:</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>查看容器网络：<br><img src="/2024/05/27/%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%AD%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%BD%91%E6%AE%B5ip/1444147-20200422155514968-1228527172-1716775409934-30.png" alt="img">容器有：eth0@if6455 、eth2@if6457、eth1@if6459 3个网卡，用于与<br>docker_gwbridge、ingress、vonedao_net三个网络进行沟通。</p>
+<h2 id="nacos中发现服务，进行服务注册时候，只取eth0地址"><a href="#nacos中发现服务，进行服务注册时候，只取eth0地址" class="headerlink" title="nacos中发现服务，进行服务注册时候，只取eth0地址"></a>nacos中发现服务，进行服务注册时候，只取eth0地址</h2><p><img src="/2024/05/27/%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%AD%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%BD%91%E6%AE%B5ip/1444147-20200422160314126-1907217328.png"><br>由于这个网卡是随机分配的3个需要的网络，不能确保eth0就一定是vonedao_net的网络，若nacos取到ingress地址，会导致网关服务出现连接超时问题，初步怀疑是ingress没有开放服务端口：<br><img src="/2024/05/27/%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%AD%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%BD%91%E6%AE%B5ip/1444147-20200422160431302-2104491478.png"><br>验证这个怀疑可以使用下面办法：<br>在网关服务这个容器中可以安装telnet命令进行检测(telnet安装方法在 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/zoujiaojiao/p/12753071.html">https://www.cnblogs.com/zoujiaojiao/p/12753071.html</a>)，eth0@if6455 、eth2@if6457、eth1@if6459 3个网卡对应的ip，和端口进行验证。<br>发现只有属于vonedao_net网络的ip和端口才能telnet通过：<br><img src="/2024/05/27/%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%AD%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%BD%91%E6%AE%B5ip/1444147-20200422161048759-609653657.png"></p>
+<p><strong>也就是说，必须保证nacos上面注册的ip是vonedao_net网络的ip</strong><br><img src="/2024/05/27/%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%AD%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%BD%91%E6%AE%B5ip/1444147-20200422160847532-854317922.png"></p>
+<h1 id="如何让nacos上容器注册的ip是指定网段？"><a href="#如何让nacos上容器注册的ip是指定网段？" class="headerlink" title="如何让nacos上容器注册的ip是指定网段？"></a>如何让nacos上容器注册的ip是指定网段？</h1><h2 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h2><ol>
+<li>在代码中的配置文件bootstrap.yml里面添加配置，这个方式需要在每个项目都加上:</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">@artifactId@</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">inetutils:</span></span><br><span class="line">      <span class="attr">ignored-interfaces:</span> <span class="string">eth.*</span></span><br><span class="line">      <span class="attr">preferred-networks:</span> <span class="number">192.168</span><span class="number">.0</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2024/05/27/%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%AD%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%BD%91%E6%AE%B5ip/1444147-20200422162018568-170409729.png"></p>
+<p>指定网络：preferred-networks: 192.168.0<br>2. 重新打包镜像，更新服务<br>3. 通过nacos检查<br><img src="/2024/05/27/%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%AD%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%BD%91%E6%AE%B5ip/1444147-20200422161450587-933315193.png"><br>4. 在网关服务中，可以看日志，是否还有连接失败的错误。<br><img src="/2024/05/27/%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%AD%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%BD%91%E6%AE%B5ip/1444147-20200422161605590-1305378607.png"><br>已经成功了。</p>
+<h2 id="方式2"><a href="#方式2" class="headerlink" title="方式2"></a>方式2</h2><ol>
+<li><p>在nacos中的公共配置文件application-dev.yml中添加，可以避免每个项目都修改一次bootstrap.yml再打镜像发布。<br><img src="/2024/05/27/%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%AD%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%BD%91%E6%AE%B5ip/1444147-20200429170359012-1387727407.png"></p>
+</li>
+<li><p>确保所有项目的代码调用application-dev.yml这个公共配置文件。</p>
+</li>
+</ol>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 362535102@qq.com </span>
@@ -1536,7 +1613,7 @@
     </div>
     <div class="copyright">
         <p class="footer-entry">
-    ©2022-2022 Timor
+    ©2022-2024 vim
 </p>
 <p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
 
@@ -1621,13 +1698,13 @@
     
     
     .nav {
-        width: 542px;
+        width: 522px;
     }
     .nav.fullscreen {
-        margin-left: -542px;
+        margin-left: -522px;
     }
     .nav-left {
-        width: 120px;
+        width: 100px;
     }
     
     

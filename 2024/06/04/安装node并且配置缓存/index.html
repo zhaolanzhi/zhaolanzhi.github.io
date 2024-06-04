@@ -2,25 +2,28 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>docker,docker-compose离线安装教程 | vim</title>
-  <meta name="keywords" content=" docker , docker-compose ">
-  <meta name="description" content="docker,docker-compose离线安装教程 | vim">
+  <title>安装node并且配置缓存 | vim</title>
+  <meta name="keywords" content=" node ">
+  <meta name="description" content="安装node并且配置缓存 | vim">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="try、catch、finally执行顺序try块和catch块总逻辑基本相同。try中出现异常跳转到catch，若catch中出现异常则跳转到finally，try或catch正常执行若存在return则先执行return的代码并保存返回值信息（基本类型保存值信息，引用类型则保存地址信息）然后执行finally，若finally中出现异常或包含return则执行结束，若无异常且没有return则">
+<meta name="description" content="docker 安装 FastDFS （最详细版）1.拉取镜像1docker pull delron&#x2F;fastdfs   2.使用docker镜像构建tracker容器（跟踪服务器，起到调度的作用）：1docker run -dti --network&#x3D;host --name tracker -v &#x2F;var&#x2F;fdfs&#x2F;tracker:&#x2F;var&#x2F;fdfs -v &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="try、catch、finally用法总结">
-<meta property="og:url" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:title" content="docker搭建FastDFS文件系统">
+<meta property="og:url" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="vim">
-<meta property="og:description" content="try、catch、finally执行顺序try块和catch块总逻辑基本相同。try中出现异常跳转到catch，若catch中出现异常则跳转到finally，try或catch正常执行若存在return则先执行return的代码并保存返回值信息（基本类型保存值信息，引用类型则保存地址信息）然后执行finally，若finally中出现异常或包含return则执行结束，若无异常且没有return则">
+<meta property="og:description" content="docker 安装 FastDFS （最详细版）1.拉取镜像1docker pull delron&#x2F;fastdfs   2.使用docker镜像构建tracker容器（跟踪服务器，起到调度的作用）：1docker run -dti --network&#x3D;host --name tracker -v &#x2F;var&#x2F;fdfs&#x2F;tracker:&#x2F;var&#x2F;fdfs -v &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142037548.png">
-<meta property="og:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142713843.png">
-<meta property="og:image" content="c:/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817144139921.png">
-<meta property="article:published_time" content="2024-05-29T06:35:51.502Z">
-<meta property="article:modified_time" content="2024-01-24T01:16:55.223Z">
+<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center.png">
+<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center-1717481523529-1.png">
+<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center-1717481523529-2.png">
+<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center-1717481523529-3.png">
+<meta property="article:published_time" content="2024-06-04T06:03:09.000Z">
+<meta property="article:modified_time" content="2024-06-04T06:12:27.636Z">
 <meta property="article:author" content="vim">
+<meta property="article:tag" content="fastdfs">
+<meta property="article:tag" content="文件">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142037548.png">
+<meta name="twitter:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center.png">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -142,7 +145,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(92)</small>
+                <small>(93)</small>
             
         </div>
     </li>
@@ -181,7 +184,7 @@
                     <div data-rel="devops">
                         
                         devops
-                        <small>(31)</small>
+                        <small>(30)</small>
                         
                     </div>
                     
@@ -210,7 +213,7 @@
                         <i class="fold iconfont icon-right"></i>
                         
                         java
-                        <small>(31)</small>
+                        <small>(32)</small>
                         
                     </div>
                     
@@ -272,7 +275,7 @@
                     <div data-rel="web">
                         
                         web
-                        <small>(5)</small>
+                        <small>(6)</small>
                         
                     </div>
                     
@@ -300,8 +303,8 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="92">
-<input type="hidden" id="yelog_site_word_count" value="79.6k">
+<input type="hidden" id="yelog_site_posts_number" value="93">
+<input type="hidden" id="yelog_site_word_count" value="84.5k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -375,6 +378,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>进程</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>快捷键</a>
             </li>
         
@@ -404,6 +411,10 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>数据库</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -467,6 +478,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>fastdfs</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>git</a>
             </li>
         
@@ -476,6 +491,10 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>idea</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ip</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -492,6 +511,10 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>jenkins</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>kill</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -519,6 +542,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nacos</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>nginx</a>
             </li>
         
@@ -536,6 +563,10 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>oracle</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>port</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -595,7 +626,38 @@
 </div>
 
     
+    <div id="local-search-result">
+
+    </div>
+    
     <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"
+           data-tag="fastdfs,文件"
+           data-author="" >
+            <span class="post-title" title="docker搭建FastDFS文件系统">docker搭建FastDFS文件系统</span>
+            <span class="post-date" title="2024-06-04 14:03:09">2024/06/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 web "
+           href="/2024/06/04/Vue-cli%E5%88%9B%E5%BB%BAVue%E9%A1%B9%E7%9B%AE%E5%B7%A5%E7%A8%8B%E6%AD%A5%E9%AA%A4%E8%AF%A6%E8%A7%A3/"
+           data-tag="vue"
+           data-author="" >
+            <span class="post-title" title="Vue-cli创建Vue项目工程步骤详解">Vue-cli创建Vue项目工程步骤详解</span>
+            <span class="post-date" title="2024-06-04 13:50:47">2024/06/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/06/04/%E5%AE%89%E8%A3%85node%E5%B9%B6%E4%B8%94%E9%85%8D%E7%BD%AE%E7%BC%93%E5%AD%98/"
+           data-tag="node"
+           data-author="" >
+            <span class="post-title" title="安装node并且配置缓存">安装node并且配置缓存</span>
+            <span class="post-date" title="2024-06-04 13:44:01">2024/06/04</span>
+        </a>
         
         
         <a  class="全部文章 java "
@@ -613,6 +675,15 @@
            data-author="" >
             <span class="post-title" title="Hello World">Hello World</span>
             <span class="post-date" title="2024-05-29 14:35:51">2024/05/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2024/05/27/%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%AD%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%BD%91%E6%AE%B5ip/"
+           data-tag="nacos,ip"
+           data-author="" >
+            <span class="post-title" title="如何让nacos中服务注册的ip是自定义的网段ip">如何让nacos中服务注册的ip是自定义的网段ip</span>
+            <span class="post-date" title="2024-05-27 09:59:00">2024/05/27</span>
         </a>
         
         
@@ -860,15 +931,6 @@
         
         
         <a  class="全部文章 devops "
-           href="/2023/11/29/docker-docker-compose%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/"
-           data-tag="docker,docker-compose"
-           data-author="" >
-            <span class="post-title" title="docker,docker-compose离线安装教程">docker,docker-compose离线安装教程</span>
-            <span class="post-date" title="2023-11-29 17:28:37">2023/11/29</span>
-        </a>
-        
-        
-        <a  class="全部文章 devops "
            href="/2023/11/29/Docker%E3%80%81Docker-compose-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"
            data-tag="docker,docker-compose"
            data-author="" >
@@ -1030,15 +1092,6 @@
         </a>
         
         
-        <a  class="全部文章 devops "
-           href="/2023/07/10/Docker-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/"
-           data-tag="docker"
-           data-author="" >
-            <span class="post-title" title="Docker 镜像加速">Docker 镜像加速</span>
-            <span class="post-date" title="2023-07-10 17:00:54">2023/07/10</span>
-        </a>
-        
-        
         <a  class="全部文章 "
            href="/2023/06/01/JRebel-XRebel%E7%83%AD%E9%83%A8%E7%BD%B2%E5%8F%8A%E8%BF%9C%E7%A8%8B%E7%83%AD%E9%83%A8%E7%BD%B2/"
            data-tag=""
@@ -1054,15 +1107,6 @@
            data-author="" >
             <span class="post-title" title="Windows10系统彻底永久关闭自动更新">Windows10系统彻底永久关闭自动更新</span>
             <span class="post-date" title="2023-05-05 14:01:04">2023/05/05</span>
-        </a>
-        
-        
-        <a  class="全部文章 devops "
-           href="/2023/03/27/Docker%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E9%95%9C%E5%83%8F/"
-           data-tag="docker"
-           data-author="" >
-            <span class="post-title" title="Docker导入导出镜像">Docker导入导出镜像</span>
-            <span class="post-date" title="2023-03-27 21:48:59">2023/03/27</span>
         </a>
         
         
@@ -1221,7 +1265,7 @@
         
         <a  class="全部文章 java "
            href="/2022/09/26/windows-10-kill-%E8%BF%9B%E7%A8%8B/"
-           data-tag="命令"
+           data-tag="port,进程,kill"
            data-author="" >
             <span class="post-title" title="windows 10 kill 进程">windows 10 kill 进程</span>
             <span class="post-date" title="2022-09-26 23:59:48">2022/09/26</span>
@@ -1443,9 +1487,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-docker-docker-compose离线安装教程" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-安装node并且配置缓存" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">docker,docker-compose离线安装教程</h1>
+        <h1 class="article-title">安装node并且配置缓存</h1>
     
     <div class="article-meta">
         
@@ -1463,21 +1507,19 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color2">docker</a>
-            
-            <a class="color5">docker-compose</a>
+            <a class="color5">node</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2024-03-05 13:44:44'>2023-11-29 17:28</time>
+            发布时间 : <time class="date" title='最后更新: 2024-06-04 13:44:57'>2024-06-04 13:44</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:710</span>
+        <span>字数:840</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -1496,7 +1538,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81docker%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85"><span class="toc-text">一、docker离线安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%8C%85"><span class="toc-text">1. 下载离线包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85docker"><span class="toc-text">2. 安装docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-docker-%E5%91%BD%E4%BB%A4"><span class="toc-text">3. docker 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81docker-compose-%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85"><span class="toc-text">二、docker-compose 离线安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%8C%85-1"><span class="toc-text">1. 下载离线包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85docker-compose"><span class="toc-text">2. 安装docker-compose</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81-docker-%E7%A6%BB%E7%BA%BF%E9%95%9C%E5%83%8F"><span class="toc-text">三、 docker 离线镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81docker%E4%B8%8Edocker-compose-%E6%95%B4%E7%90%86"><span class="toc-text">四、docker与docker-compose 整理</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#npm-%E5%85%A8%E5%B1%80%E6%A8%A1%E5%9D%97%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Acache%E7%9A%84%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE%EF%BC%8C%E9%BB%98%E8%AE%A4%E6%98%AF%E5%9C%A8-C-%E7%9B%98-%E4%B8%8B%E3%80%82%E5%9C%A8%E5%AE%89%E8%A3%85node%E7%9A%84%E5%9C%B0%E6%96%B9%E6%96%B0%E5%BB%BA%E4%B8%A4%E4%B8%AA%E6%96%87%E4%BB%B6-node-cache-node-global"><span class="toc-text">npm 全局模块存放位置以及cache的存放位置，默认是在 C 盘 下。在安装node的地方新建两个文件 node_cache node_global</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%99%84%EF%BC%9A"><span class="toc-text">附：</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -1512,69 +1554,46 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="一、docker离线安装"><a href="#一、docker离线安装" class="headerlink" title="一、docker离线安装"></a>一、docker离线安装</h3><h3 id="1-下载离线包"><a href="#1-下载离线包" class="headerlink" title="1. 下载离线包"></a>1. 下载离线包</h3><ul>
-<li>下载地址</li>
-</ul>
-<p><a href="https://link.zhihu.com/?target=https://download.docker.com/linux/static/stable/x86_64/">https://download.docker.com/linux/static/stable/x86_64&#x2F;</a></p>
-<ul>
-<li>下载的最新版本</li>
-</ul>
-<p>docker-20.10.9.tgz</p>
-<h3 id="2-安装docker"><a href="#2-安装docker" class="headerlink" title="2. 安装docker"></a>2. 安装docker</h3><ul>
-<li>上传安装包</li>
-</ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 复制docker-20.10.9.tgz到 /usr/bin下（usr/bin是环境变量目录，在路径下可以直接运行docker命令）</span><br><span class="line"># 解压</span><br><span class="line">tar xvf docker-20.10.9.tgz</span><br><span class="line"># ls -l docker</span><br><span class="line">cp docker/* /usr/bin</span><br><span class="line"># rm -rf docker docker-20.10.9.tgz</span><br></pre></td></tr></table></figure>
+        <p><strong>打开Node的官网</strong><br><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://nodejs.cn/download/">http://nodejs.cn/download/</a><br><strong>各版本安装包</strong><br><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://registry.npmmirror.com/binary.html?path=node/">https://registry.npmmirror.com/binary.html?path=node/</a><br><strong>Windows安装两种安装包：</strong><br>一种zip的node.exe直接运行即可<br>另外一种是node-v12.9.1-x64.msi方式，大多使用msi安装方式，运行后直接下一步下一步即可。<br><strong>安装完成后检查安装是否成功</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">`node -v`</span></span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>配置docker服务</li>
-</ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"># vim /etc/systemd/system/docker.service</span><br><span class="line"># 添加</span><br><span class="line">[Unit]</span><br><span class="line"></span><br><span class="line">Description=Docker Application Container Engine</span><br><span class="line"></span><br><span class="line">Documentation=https://docs.docker.com</span><br><span class="line"></span><br><span class="line">After=network-online.target firewalld.service</span><br><span class="line"></span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line"></span><br><span class="line">Type=notify</span><br><span class="line"></span><br><span class="line">ExecStart=/usr/bin/dockerd</span><br><span class="line"></span><br><span class="line">ExecReload=/bin/kill -s HUP $MAINPID</span><br><span class="line"></span><br><span class="line">LimitNOFILE=infinity</span><br><span class="line"></span><br><span class="line">LimitNPROC=infinity</span><br><span class="line"></span><br><span class="line">TimeoutStartSec=0</span><br><span class="line"></span><br><span class="line">Delegate=yes</span><br><span class="line"></span><br><span class="line">KillMode=process</span><br><span class="line"></span><br><span class="line">Restart=on-failure</span><br><span class="line"></span><br><span class="line">StartLimitBurst=3</span><br><span class="line"></span><br><span class="line">StartLimitInterval=60s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line"></span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<p><img src="/2024/06/04/%E5%AE%89%E8%A3%85node%E5%B9%B6%E4%B8%94%E9%85%8D%E7%BD%AE%E7%BC%93%E5%AD%98/image-20240124094946449-1706060989454-7.png" alt="image-20240124094946449"></p>
+<p>安装完成后配置环境变量：<br>进入系统环境变量配置PATH新加一个即可<br>E:\Node\nodejs</p>
+<p>修改模块下载位置<br>此步骤修改以后npm全局下载模块的保存位置，可根据自身情况选择是否更改。<br>查看npm默认存放位置<br>使用npm get prefix查看npm全局模块的存放路径</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">get</span> <span class="keyword">prefix</span></span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>赋执行权限</li>
-</ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /etc/systemd/system/docker.service</span><br><span class="line">systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+<p>使用npm get cache查看npm缓存默认存放路径</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">get</span> cache</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-docker-命令"><a href="#3-docker-命令" class="headerlink" title="3. docker 命令"></a>3. docker 命令</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 开机启动</span><br><span class="line">systemctl enable docker.service</span><br><span class="line"># 启动docker</span><br><span class="line">systemctl start docker</span><br><span class="line"># docker状态</span><br><span class="line">systemctl status docker</span><br><span class="line"># 重启docker服务</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
+<p>下图是配置好的</p>
+<p><img src="/2024/06/04/%E5%AE%89%E8%A3%85node%E5%B9%B6%E4%B8%94%E9%85%8D%E7%BD%AE%E7%BC%93%E5%AD%98/image-20240124095225610.png" alt="image-20240124095225610"></p>
+<h4 id="npm-全局模块存放位置以及cache的存放位置，默认是在-C-盘-下。在安装node的地方新建两个文件-node-cache-node-global"><a href="#npm-全局模块存放位置以及cache的存放位置，默认是在-C-盘-下。在安装node的地方新建两个文件-node-cache-node-global" class="headerlink" title="npm 全局模块存放位置以及cache的存放位置，默认是在 C 盘 下。在安装node的地方新建两个文件 node_cache node_global"></a>npm 全局模块存放位置以及cache的存放位置，默认是在 C 盘 下。在安装node的地方新建两个文件 node_cache node_global</h4><p>修改默认文件夹<br>设置全局模块的安装路径到 “node_global” 文件夹，命令如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="keyword">set</span> <span class="keyword">prefix</span> <span class="string">&quot;D:\vim\develop\Web<span class="subst">\n</span>ode<span class="subst">\n</span>ode_global&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="二、docker-compose-离线安装"><a href="#二、docker-compose-离线安装" class="headerlink" title="二、docker-compose 离线安装"></a>二、docker-compose 离线安装</h3><h3 id="1-下载离线包-1"><a href="#1-下载离线包-1" class="headerlink" title="1. 下载离线包"></a>1. 下载离线包</h3><ul>
-<li>下载离线包</li>
-</ul>
-<p><a href="https://link.zhihu.com/?target=https://github.com/docker/compose/releases">https://github.com/docker/compose/releases</a></p>
-<ul>
-<li>下载的最新版本（这里要展开才能看到）</li>
-</ul>
-<p>docker-compose-linux-x86_64</p>
-<h3 id="2-安装docker-compose"><a href="#2-安装docker-compose" class="headerlink" title="2. 安装docker-compose"></a>2. 安装docker-compose</h3><ul>
-<li>上传安装包</li>
-</ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 改名为docker-compose 复制到 /usr/local/bin/下</span><br><span class="line">cp -f ./docker-compose-linux-x86_64 /usr/local/bin/docker-compose</span><br><span class="line"># 赋执行权限</span><br><span class="line">chmod +x /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<p>设置缓存到 “node_cache” 文件夹</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> cache <span class="string">&quot;D:\vim\develop\Web\node\node_cache&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="三、-docker-离线镜像"><a href="#三、-docker-离线镜像" class="headerlink" title="三、 docker 离线镜像"></a>三、 docker 离线镜像</h3><ul>
-<li>在有网络的环境下下载镜像</li>
-</ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># redis 镜像</span><br><span class="line">docker pull redis:5.0.14</span><br><span class="line"># 导出镜像</span><br><span class="line">docker save redis:5.0.14 -o redis5014.tar</span><br></pre></td></tr></table></figure>
+<p>注意(系统变量)：由于 node 全局模块大多数都是可以通过命令行访问的，还要把【node_global】的路径“D:\vim\develop\Web\node\node_global”加入到【系统变量 】下的【PATH】 变量中，方便直接使用命令行运行，如下图所示：</p>
+<p>  <img src="/2024/06/04/%E5%AE%89%E8%A3%85node%E5%B9%B6%E4%B8%94%E9%85%8D%E7%BD%AE%E7%BC%93%E5%AD%98/image-20240124095856743.png" alt="image-20240124095856743"></p>
+<p>测试默认位置是否更改成功</p>
+<p> <img src="/2024/06/04/%E5%AE%89%E8%A3%85node%E5%B9%B6%E4%B8%94%E9%85%8D%E7%BD%AE%E7%BC%93%E5%AD%98/image-20240124095225610.png" alt="image-20240124095225610"></p>
+<p>经过上面的步骤，nodejs下载的模块就会自动下载到我们自定义的目录，接下来我们测试一下是否更改成功。输入下面的命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install express -g</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>上传离线环境导入镜像</li>
-</ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker load -i redis5014.tar</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install express --<span class="keyword">global</span></span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>测试安装</li>
-</ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">version: &#x27;3.8&#x27;</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  redis:</span><br><span class="line">    container_name: test_redis</span><br><span class="line">    image: redis:5.0.14</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;6379:6379&quot;</span><br><span class="line">    command: redis-server --requirepass 123456</span><br><span class="line">    restart: always</span><br></pre></td></tr></table></figure>
+<p><strong>注意：“-g”等同于“–global”，“-g” 是全局安装，不加“-g”就是默认下载到当前目录。“-g” 表示安装到之前设置的【node_global】目录下，同时nodejs会自动地在node_global文件夹下创建【node_modules】子文件夹， 即自动下载到“E:\Node\nodejs\node_global\node_modules” 路径下。</strong><br><strong>设置淘宝镜像</strong><br>1.将npm默认的registry修改为淘宝registry<br>说明：npm 默认的 registry ,也就是下载 npm 包时会从国外的服务器下载，国内下载会很慢，一般更换为淘宝镜像：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://registry.npm.taobao.org/">https://registry.npm.taobao.org</a>。<br>查看当前使用的镜像路径</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="keyword">get</span> registry</span><br></pre></td></tr></table></figure>
 
-<h3 id="四、docker与docker-compose-整理"><a href="#四、docker与docker-compose-整理" class="headerlink" title="四、docker与docker-compose 整理"></a>四、docker与docker-compose 整理</h3><ul>
-<li>一键安装</li>
-</ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"># install.sh</span><br><span class="line">#!/bin/sh</span><br><span class="line">echo &#x27;docker开始安装...&#x27;</span><br><span class="line">echo &#x27;解压tar包...&#x27;</span><br><span class="line">tar -xvf ./docker-20.10.9.tgz</span><br><span class="line">echo &#x27;将docker目录移到/usr/bin目录下...&#x27;</span><br><span class="line">cp -f ./docker/* /usr/bin</span><br><span class="line">rm -rf docker</span><br><span class="line">echo &#x27;将docker.service 移到/etc/systemd/system/ 目录...&#x27;</span><br><span class="line">cp -f ./docker.service /etc/systemd/system</span><br><span class="line">echo &#x27;添加文件权限...&#x27;</span><br><span class="line">chmod +x /etc/systemd/system/docker.service</span><br><span class="line">echo &#x27;重新加载配置文件...&#x27;</span><br><span class="line">systemctl daemon-reload</span><br><span class="line">echo &#x27;启动docker...&#x27;</span><br><span class="line">systemctl start docker</span><br><span class="line">echo &#x27;设置开机自启...&#x27;</span><br><span class="line">systemctl enable docker.service</span><br><span class="line">if ! docker -v; then</span><br><span class="line">echo &quot;docker 安装失败...&quot;</span><br><span class="line">exit -1</span><br><span class="line">fi</span><br><span class="line">echo &#x27;docker安装成功...&#x27;</span><br><span class="line"></span><br><span class="line">echo &#x27;安装docker-compose...&#x27;</span><br><span class="line">cp -f ./docker-compose-linux-x86_64 /usr/local/bin/docker-compose</span><br><span class="line">echo &#x27;添加文件执行权限...&#x27;</span><br><span class="line">chmod +x /usr/local/bin/docker-compose</span><br><span class="line">if ! docker-compose -v; then</span><br><span class="line">echo &quot;docker-compose 安装失败...&quot;</span><br><span class="line">exit -1</span><br><span class="line">fi</span><br><span class="line">echo &#x27;docker-compose 安装成功...&#x27;</span><br></pre></td></tr></table></figure>
+<p><strong>更换npm为淘宝镜像</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config set registry https:<span class="comment">//registry.npm.taobao.org/</span></span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>一键卸载</li>
-</ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># uninstall.sh</span><br><span class="line">#!/bin/sh</span><br><span class="line">echo &quot;停止所有容器服务&quot;</span><br><span class="line">docker stop $(docker ps -a -q)</span><br><span class="line">echo &quot;删除所有容器&quot;</span><br><span class="line">docker rm $(docker ps -a -q)</span><br><span class="line">echo &quot;删除docker所有镜像&quot;</span><br><span class="line">docker rmi -f $(docker images -q)</span><br><span class="line">echo &quot;停止docker服务&quot;</span><br><span class="line">systemctl stop docker</span><br><span class="line">echo &quot;删除docker.service...&quot;</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">echo &quot;删除docker文件...&quot;</span><br><span class="line">rm -rf /usr/bin/docker*</span><br><span class="line">echo &quot;重新加载配置文件&quot;</span><br><span class="line">systemctl daemon-reload</span><br><span class="line">echo &quot;卸载成功...&quot;</span><br><span class="line"></span><br><span class="line">echo &quot;删除docker-compose&quot;</span><br><span class="line">rm -rf /usr/local/bin/docker-compose</span><br><span class="line">echo &quot;卸载成功&quot;</span><br></pre></td></tr></table></figure>
-
+<h5 id="附："><a href="#附：" class="headerlink" title="附："></a>附：</h5><p>全局安装基于淘宝源的cnpm<br>说明：由于npm的服务器在海外，所以访问速度比较慢，访问不稳定 ，cnpm的服务器是由淘宝团队提供，服务器在国内，cnpm是npm镜像，一般会同步更新，相差在10分钟，所以cnpm在安装一些软件时候会比较有优势。但是cnpm一般只用于模块安装，在项目创建与卸载等相关操作时仍使用npm。<br>全局安装基于淘宝源的cnpm<br>npm install -g cnpm –registry&#x3D;<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://registry.npm.taobao.org">https://registry.npm.taobao.org</a><br>本地查看cnpm模块  </p>
+<p><img src="/2024/06/04/%E5%AE%89%E8%A3%85node%E5%B9%B6%E4%B8%94%E9%85%8D%E7%BD%AE%E7%BC%93%E5%AD%98/20688241-b7864592fe0e66d4.webp"></p>
+<p>image.png</p>
+<p>执行命令查看cnpm是否安装成功<br>cnpm -v</p>
+<p>Windows上安装npm的依赖或多或少会出现问题，建议使用npm 自己的镜像，不建议使用 taoboa的虽然速度慢了点，但是相对稳定<br>npm<br>npm install webpack -g</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 362535102@qq.com </span>
@@ -1599,7 +1618,7 @@
     </div>
     <div class="copyright">
         <p class="footer-entry">
-    ©2022-2022 Timor
+    ©2022-2024 vim
 </p>
 <p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
 
@@ -1684,13 +1703,13 @@
     
     
     .nav {
-        width: 542px;
+        width: 522px;
     }
     .nav.fullscreen {
-        margin-left: -542px;
+        margin-left: -522px;
     }
     .nav-left {
-        width: 120px;
+        width: 100px;
     }
     
     

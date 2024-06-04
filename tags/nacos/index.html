@@ -2,25 +2,28 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Docker导入导出镜像 | vim</title>
-  <meta name="keywords" content=" docker ">
-  <meta name="description" content="Docker导入导出镜像 | vim">
+  <title>vim</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="vim">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="try、catch、finally执行顺序try块和catch块总逻辑基本相同。try中出现异常跳转到catch，若catch中出现异常则跳转到finally，try或catch正常执行若存在return则先执行return的代码并保存返回值信息（基本类型保存值信息，引用类型则保存地址信息）然后执行finally，若finally中出现异常或包含return则执行结束，若无异常且没有return则">
+<meta name="description" content="docker 安装 FastDFS （最详细版）1.拉取镜像1docker pull delron&#x2F;fastdfs   2.使用docker镜像构建tracker容器（跟踪服务器，起到调度的作用）：1docker run -dti --network&#x3D;host --name tracker -v &#x2F;var&#x2F;fdfs&#x2F;tracker:&#x2F;var&#x2F;fdfs -v &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="try、catch、finally用法总结">
-<meta property="og:url" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:title" content="docker搭建FastDFS文件系统">
+<meta property="og:url" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="vim">
-<meta property="og:description" content="try、catch、finally执行顺序try块和catch块总逻辑基本相同。try中出现异常跳转到catch，若catch中出现异常则跳转到finally，try或catch正常执行若存在return则先执行return的代码并保存返回值信息（基本类型保存值信息，引用类型则保存地址信息）然后执行finally，若finally中出现异常或包含return则执行结束，若无异常且没有return则">
+<meta property="og:description" content="docker 安装 FastDFS （最详细版）1.拉取镜像1docker pull delron&#x2F;fastdfs   2.使用docker镜像构建tracker容器（跟踪服务器，起到调度的作用）：1docker run -dti --network&#x3D;host --name tracker -v &#x2F;var&#x2F;fdfs&#x2F;tracker:&#x2F;var&#x2F;fdfs -v &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142037548.png">
-<meta property="og:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142713843.png">
-<meta property="og:image" content="c:/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817144139921.png">
-<meta property="article:published_time" content="2024-05-29T06:35:51.502Z">
-<meta property="article:modified_time" content="2024-01-24T01:16:55.223Z">
+<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center.png">
+<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center-1717481523529-1.png">
+<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center-1717481523529-2.png">
+<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center-1717481523529-3.png">
+<meta property="article:published_time" content="2024-06-04T06:03:09.000Z">
+<meta property="article:modified_time" content="2024-06-04T06:12:27.636Z">
 <meta property="article:author" content="vim">
+<meta property="article:tag" content="fastdfs">
+<meta property="article:tag" content="文件">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2024/05/29/trycatch%E3%80%81finally%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/Users/timor/AppData/Roaming/Typora/typora-user-images/image-20220817142037548.png">
+<meta name="twitter:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center.png">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -60,7 +63,7 @@
 
 
 <body>
-<aside class="nav">
+<aside class="nav mobile">
     <div class="nav-left">
         <a href="/"
    class="avatar_target">
@@ -142,7 +145,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(92)</small>
+                <small>(93)</small>
             
         </div>
     </li>
@@ -181,7 +184,7 @@
                     <div data-rel="devops">
                         
                         devops
-                        <small>(31)</small>
+                        <small>(30)</small>
                         
                     </div>
                     
@@ -210,7 +213,7 @@
                         <i class="fold iconfont icon-right"></i>
                         
                         java
-                        <small>(31)</small>
+                        <small>(32)</small>
                         
                     </div>
                     
@@ -272,7 +275,7 @@
                     <div data-rel="web">
                         
                         web
-                        <small>(5)</small>
+                        <small>(6)</small>
                         
                     </div>
                     
@@ -300,8 +303,8 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="92">
-<input type="hidden" id="yelog_site_word_count" value="79.6k">
+<input type="hidden" id="yelog_site_posts_number" value="93">
+<input type="hidden" id="yelog_site_word_count" value="84.5k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -375,6 +378,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>进程</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>快捷键</a>
             </li>
         
@@ -404,6 +411,10 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>数据库</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -467,6 +478,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>fastdfs</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>git</a>
             </li>
         
@@ -476,6 +491,10 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>idea</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ip</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -492,6 +511,10 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>jenkins</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>kill</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -519,6 +542,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nacos</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>nginx</a>
             </li>
         
@@ -536,6 +563,10 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>oracle</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>port</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -595,7 +626,38 @@
 </div>
 
     
+    <div id="local-search-result">
+
+    </div>
+    
     <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"
+           data-tag="fastdfs,文件"
+           data-author="" >
+            <span class="post-title" title="docker搭建FastDFS文件系统">docker搭建FastDFS文件系统</span>
+            <span class="post-date" title="2024-06-04 14:03:09">2024/06/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 web "
+           href="/2024/06/04/Vue-cli%E5%88%9B%E5%BB%BAVue%E9%A1%B9%E7%9B%AE%E5%B7%A5%E7%A8%8B%E6%AD%A5%E9%AA%A4%E8%AF%A6%E8%A7%A3/"
+           data-tag="vue"
+           data-author="" >
+            <span class="post-title" title="Vue-cli创建Vue项目工程步骤详解">Vue-cli创建Vue项目工程步骤详解</span>
+            <span class="post-date" title="2024-06-04 13:50:47">2024/06/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/06/04/%E5%AE%89%E8%A3%85node%E5%B9%B6%E4%B8%94%E9%85%8D%E7%BD%AE%E7%BC%93%E5%AD%98/"
+           data-tag="node"
+           data-author="" >
+            <span class="post-title" title="安装node并且配置缓存">安装node并且配置缓存</span>
+            <span class="post-date" title="2024-06-04 13:44:01">2024/06/04</span>
+        </a>
         
         
         <a  class="全部文章 java "
@@ -613,6 +675,15 @@
            data-author="" >
             <span class="post-title" title="Hello World">Hello World</span>
             <span class="post-date" title="2024-05-29 14:35:51">2024/05/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 java "
+           href="/2024/05/27/%E5%A6%82%E4%BD%95%E8%AE%A9nacos%E4%B8%AD%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E7%9A%84ip%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%BD%91%E6%AE%B5ip/"
+           data-tag="nacos,ip"
+           data-author="" >
+            <span class="post-title" title="如何让nacos中服务注册的ip是自定义的网段ip">如何让nacos中服务注册的ip是自定义的网段ip</span>
+            <span class="post-date" title="2024-05-27 09:59:00">2024/05/27</span>
         </a>
         
         
@@ -860,15 +931,6 @@
         
         
         <a  class="全部文章 devops "
-           href="/2023/11/29/docker-docker-compose%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/"
-           data-tag="docker,docker-compose"
-           data-author="" >
-            <span class="post-title" title="docker,docker-compose离线安装教程">docker,docker-compose离线安装教程</span>
-            <span class="post-date" title="2023-11-29 17:28:37">2023/11/29</span>
-        </a>
-        
-        
-        <a  class="全部文章 devops "
            href="/2023/11/29/Docker%E3%80%81Docker-compose-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"
            data-tag="docker,docker-compose"
            data-author="" >
@@ -1030,15 +1092,6 @@
         </a>
         
         
-        <a  class="全部文章 devops "
-           href="/2023/07/10/Docker-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/"
-           data-tag="docker"
-           data-author="" >
-            <span class="post-title" title="Docker 镜像加速">Docker 镜像加速</span>
-            <span class="post-date" title="2023-07-10 17:00:54">2023/07/10</span>
-        </a>
-        
-        
         <a  class="全部文章 "
            href="/2023/06/01/JRebel-XRebel%E7%83%AD%E9%83%A8%E7%BD%B2%E5%8F%8A%E8%BF%9C%E7%A8%8B%E7%83%AD%E9%83%A8%E7%BD%B2/"
            data-tag=""
@@ -1054,15 +1107,6 @@
            data-author="" >
             <span class="post-title" title="Windows10系统彻底永久关闭自动更新">Windows10系统彻底永久关闭自动更新</span>
             <span class="post-date" title="2023-05-05 14:01:04">2023/05/05</span>
-        </a>
-        
-        
-        <a  class="全部文章 devops "
-           href="/2023/03/27/Docker%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E9%95%9C%E5%83%8F/"
-           data-tag="docker"
-           data-author="" >
-            <span class="post-title" title="Docker导入导出镜像">Docker导入导出镜像</span>
-            <span class="post-date" title="2023-03-27 21:48:59">2023/03/27</span>
         </a>
         
         
@@ -1221,7 +1265,7 @@
         
         <a  class="全部文章 java "
            href="/2022/09/26/windows-10-kill-%E8%BF%9B%E7%A8%8B/"
-           data-tag="命令"
+           data-tag="port,进程,kill"
            data-author="" >
             <span class="post-title" title="windows 10 kill 进程">windows 10 kill 进程</span>
             <span class="post-date" title="2022-09-26 23:59:48">2022/09/26</span>
@@ -1441,60 +1485,12 @@
         </div>
     </div>
 </aside>
-<div id="post">
+<div id="post" class="index">
     <div class="pjax">
-        <article id="post-Docker导入导出镜像" class="article article-type-post" itemscope itemprop="blogPost">
+        <article class="index">
+            <div class="toc-ref">
     
-        <h1 class="article-title">Docker导入导出镜像</h1>
-    
-    <div class="article-meta">
-        
-        
-        
-        <span class="book">
-            <i class="iconfont icon-category"></i>
-            
-            
-            <a  data-rel="devops">devops</a>
-            
-        </span>
-        
-        
-        <span class="tag">
-            <i class="iconfont icon-tag"></i>
-            
-            <a class="color2">docker</a>
-            
-        </span>
-        
-    </div>
-    <div class="article-meta">
-        
-            发布时间 : <time class="date" title='最后更新: 2024-03-05 13:44:44'>2023-03-27 21:48</time>
-        
-    </div>
-    <div class="article-meta">
-        
-        <span>字数:308</span>
-        
-        
-        <span id="busuanzi_container_page_pv">
-            阅读 :<span id="busuanzi_value_page_pv">
-                <span class="count-comment">
-                    <span class="spinner">
-                      <div class="cube1"></div>
-                      <div class="cube2"></div>
-                    </span>
-                </span>
-            </span>
-        </span>
-        
-        
-    </div>
-    
-    <div class="toc-ref">
-    
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#docker-%E5%AF%BC%E5%87%BA%E9%95%9C%E5%83%8F"><span class="toc-text">docker 导出镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#ANSWER"><span class="toc-text">ANSWER</span></a></li></ol></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-Blog"><span class="toc-text">Why Blog</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E5%8D%9A%E5%AE%A2%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-text">对博客的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Evim"><span class="toc-text">关于vim</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E5%B9%B3%E5%8F%B0"><span class="toc-text">博客平台</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -1507,52 +1503,48 @@
     }
 </style>
 </div>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="docker-导出镜像"><a href="#docker-导出镜像" class="headerlink" title="docker 导出镜像"></a>docker 导出镜像</h3><h6 id="ANSWER"><a href="#ANSWER" class="headerlink" title="ANSWER"></a>ANSWER</h6><p>要导出Docker镜像，有以下两种方法：</p>
-<p>方法一：使用docker save和docker load命令使用docker images命令查看本机所有已有的镜像，找到要导出的镜像的ID。使用docker save命令将要导出的镜像保存成一个文件，</p>
-<p>例如：<code>docker save 2f7abc88e74c &gt; save.tar</code>将保存的tar文件传输到目标机器上。</p>
-<p>在目标机器上，使用docker load命令导入tar文件，例如：<code>docker load &lt; save.tar</code></p>
-<p>方法二：使用docker export和docker import命令使用docker ps -a命令查看本机所有的容器，找到要导出的容器的ID。使用docker export命令根据容器ID将镜像导出成一个文件，</p>
-<p>例如：<code>docker export f299f501774c &gt; hangger_server.tar</code>将保存的tar文件传输到目标机器上。</p>
-<p>在目标机器上，使用docker import命令将tar文件导入为镜像，</p>
-<p>例如：<code>docker import - new_hangger_server &lt; hangger_server.tar</code></p>
-<p>注意：使用docker export导出的镜像不包含镜像的元数据，如镜像名称、标签等，因此在导入的时候需要手动指定名称和标签。而使用docker save保存的tar文件包含完整的镜像元数据，导入时不需要手动指定名称和标签。</p>
+            <h1 id="Why-Blog"><a href="#Why-Blog" class="headerlink" title="Why Blog"></a>Why Blog</h1><h2 id="对博客的理解"><a href="#对博客的理解" class="headerlink" title="对博客的理解"></a>对博客的理解</h2><p>喜欢写Blog的人，会经历三个阶段。</p>
+<blockquote>
+<p>第一阶段，刚接触Blog，觉得很新鲜，试着选择一个免费空间来写。</p>
+</blockquote>
+<blockquote>
+<p>第二阶段，发现免费空间限制太多，就自己购买域名和空间，搭建独立博客。</p>
+</blockquote>
+<blockquote>
+<p>第三阶段，觉得独立博客的管理太麻烦，最好在保留控制权的前提下，让别人来管，自己只负责写文章。</p>
+</blockquote>
+<p>我们每个人的在网络上产生的数据越来越多，这些信息是我们在互联网上存在过的痕迹，值得我们认真对待。但是它们被分散分布在各个网站上。很多时候我们很难将它们聚合在一起，而且各个网站的信息排布方式也没有办法自由控制，所以我们需要一个可以由自己主宰的空间——博客。</p>
+<p>通过博客，我们可以记录自己的生活和成长的轨迹。它不像 Twitter 那样碎片化，也不像 Facebook 那样关系化，它是私人的空间。</p>
+<h2 id="关于vim"><a href="#关于vim" class="headerlink" title="关于vim"></a>关于vim</h2><p><strong>vim</strong> 的个人站。</p>
+<p>到目前为止已经写了<code class="article_number"></code>篇文章， 共<code class="site_word_count"></code>字。</p>
+<p>本站访问人数：<code class="site_uv"></code>人次 ， 访问量：<code class="site_pv"></code>次</p>
+<h2 id="博客平台"><a href="#博客平台" class="headerlink" title="博客平台"></a>博客平台</h2><p>主要功能：</p>
+<ul>
+<li>搜索支持文章标题、标签(#标签)、作者(@作者)</li>
+<li>pad&#x2F;手机等移动端适配</li>
+<li>页面全局快捷键 <a target="_blank" rel="noopener" href='https://www.jianshu.com/u/959b0f521aeb/2017/03/24/3-hexo-shortcuts/'>3-hexo快捷键说明</a></li>
+</ul>
 
-      
-       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 362535102@qq.com </span>
-    </div>
-</article>
-
-
-<p>
-    <a  class="dashang" onclick="dashangToggle()">赏</a>
-</p>
-
-
-
-
-
-
-    
-
-
-
-
+        </article>
+        
+        <p>
+            <a  class="dashang" onclick="dashangToggle()">赏</a>
+        </p>
+        
+        
     </div>
     <div class="copyright">
         <p class="footer-entry">
-    ©2022-2022 Timor
+    ©2022-2024 vim
 </p>
 <p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
 
     </div>
-    <div class="full-toc">
-        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+</div>
+<div class="full-toc">
+    <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
 <a class="" id="rocket" ></a>
 
-    </div>
 </div>
 
 <div class="hide_box" onclick="dashangToggle()"></div>
@@ -1628,13 +1620,13 @@
     
     
     .nav {
-        width: 542px;
+        width: 522px;
     }
     .nav.fullscreen {
-        margin-left: -542px;
+        margin-left: -522px;
     }
     .nav-left {
-        width: 120px;
+        width: 100px;
     }
     
     
