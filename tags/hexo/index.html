@@ -6,24 +6,18 @@
   <meta name="keywords" content="">
   <meta name="description" content="vim">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="docker 安装 FastDFS （最详细版）1.拉取镜像1docker pull delron&#x2F;fastdfs   2.使用docker镜像构建tracker容器（跟踪服务器，起到调度的作用）：1docker run -dti --network&#x3D;host --name tracker -v &#x2F;var&#x2F;fdfs&#x2F;tracker:&#x2F;var&#x2F;fdfs -v &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;">
+<meta name="description" content="复制（CP）复制单个文件 1cp  source_file destination_path   source_file：要复制的文件的路径。  destination_path：目标位置的路径，可以是文件名（如果目标文件不存在）或目录路径（如果目标文件已存在或希望保持原文件名）。示例：   12345# 将当前目录下的file.txt复制到&#x2F;home&#x2F;user&#x2F;目录下cp file.txt &#x2F;h">
 <meta property="og:type" content="article">
-<meta property="og:title" content="docker搭建FastDFS文件系统">
-<meta property="og:url" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:title" content="Shell常用命令">
+<meta property="og:url" content="http://example.com/2024/06/04/Shell%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
 <meta property="og:site_name" content="vim">
-<meta property="og:description" content="docker 安装 FastDFS （最详细版）1.拉取镜像1docker pull delron&#x2F;fastdfs   2.使用docker镜像构建tracker容器（跟踪服务器，起到调度的作用）：1docker run -dti --network&#x3D;host --name tracker -v &#x2F;var&#x2F;fdfs&#x2F;tracker:&#x2F;var&#x2F;fdfs -v &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;">
+<meta property="og:description" content="复制（CP）复制单个文件 1cp  source_file destination_path   source_file：要复制的文件的路径。  destination_path：目标位置的路径，可以是文件名（如果目标文件不存在）或目录路径（如果目标文件已存在或希望保持原文件名）。示例：   12345# 将当前目录下的file.txt复制到&#x2F;home&#x2F;user&#x2F;目录下cp file.txt &#x2F;h">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center.png">
-<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center-1717481523529-1.png">
-<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center-1717481523529-2.png">
-<meta property="og:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center-1717481523529-3.png">
-<meta property="article:published_time" content="2024-06-04T06:03:09.000Z">
-<meta property="article:modified_time" content="2024-06-04T06:12:27.636Z">
+<meta property="article:published_time" content="2024-06-04T07:30:30.000Z">
+<meta property="article:modified_time" content="2024-06-04T09:00:46.281Z">
 <meta property="article:author" content="vim">
-<meta property="article:tag" content="fastdfs">
-<meta property="article:tag" content="文件">
+<meta property="article:tag" content="shell">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2024/06/04/docker%E6%90%AD%E5%BB%BAFastDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwOTQyNDkw,size_16,color_FFFFFF,t_70#pic_center.png">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -145,7 +139,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(93)</small>
+                <small>(94)</small>
             
         </div>
     </li>
@@ -184,7 +178,7 @@
                     <div data-rel="devops">
                         
                         devops
-                        <small>(30)</small>
+                        <small>(31)</small>
                         
                     </div>
                     
@@ -303,8 +297,8 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="93">
-<input type="hidden" id="yelog_site_word_count" value="84.5k">
+<input type="hidden" id="yelog_site_posts_number" value="94">
+<input type="hidden" id="yelog_site_word_count" value="86.1k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -574,6 +568,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>shell</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>spring</a>
             </li>
         
@@ -631,6 +629,15 @@
     </div>
     
     <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 devops "
+           href="/2024/06/04/Shell%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="shell"
+           data-author="" >
+            <span class="post-title" title="Shell常用命令">Shell常用命令</span>
+            <span class="post-date" title="2024-06-04 15:30:30">2024/06/04</span>
+        </a>
         
         
         <a  class="全部文章 devops "
